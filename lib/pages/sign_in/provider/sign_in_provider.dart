@@ -71,6 +71,7 @@ class SignInProvider extends ChangeNotifier {
           fullName: userData['name'] + " " + userData['surname'],
           username: userData['username'],
           password: password.text,
+          groupId: userData['group_id'],
           jobTitleId: userData['job_title'],
           token: result['data']['data']['token'],
         );

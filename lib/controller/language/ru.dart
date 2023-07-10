@@ -32,8 +32,9 @@ const Map<String, String> ru = {
   "return": "Возврат",
   "add_order": "Добавить",
   "profile": "Профиль",
+
   "new": "Новые",
-  "performed": "Выполняются",
+  "performed": "Все",
   "save": "Сохранить",
 
   //Xushnudbek added
@@ -45,6 +46,10 @@ const Map<String, String> ru = {
   "add_location": "Добавить локацию",
   "location_added": "Локация добавлена",
   "no_location": "Нет локации добавленной",
+
+  //connection
+  "no_connection": "Нет подключения к интернету",
+  "check_connection": "Проверьте подключение\nк интернету",
 
   //chat
   "type_message": "Напишите сообщение",

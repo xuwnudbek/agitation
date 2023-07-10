@@ -1,5 +1,9 @@
+import 'package:agitation/models/message.dart';
 import 'package:agitation/pages/chat/provider/chat_provider.dart';
 import 'package:agitation/utils/hex_to_color.dart';
+import 'package:agitation/utils/widget/circlar_progress_indicator.dart';
+import 'package:agitation/utils/widget/loading_indicator.dart';
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
@@ -12,8 +16,6 @@ class ChatPage extends StatelessWidget {
     return ChangeNotifierProvider<ChatProvider>(
         create: (_) => ChatProvider(),
         builder: (context, snapshot) {
-          var _scaffoldKey = GlobalKey<ScaffoldState>();
-
           return Consumer<ChatProvider>(builder: (ctx, provider, _) {
             return Scaffold(
               resizeToAvoidBottomInset: true,
@@ -32,37 +34,45 @@ class ChatPage extends StatelessWidget {
               floatingActionButton: _buildBottomForm(provider),
               floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
               body: Container(
-                padding: EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 70),
-                child: SingleChildScrollView(
-                  child: Column(
-                    children: provider.messages.map((e) {
-                      return _buildMsgCard(e);
-                    }).toList(),
-                  ),
-                ),
+                alignment: Alignment.center,
+                padding: EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 75),
+                child: provider.isMsgUploading
+                    ? CPIndicator()
+                    : SingleChildScrollView(
+                        reverse: true,
+                        dragStartBehavior: DragStartBehavior.down,
+                        controller: ScrollController(
+                          initialScrollOffset: 0,
+                        ),
+                        child: Column(
+                          children: provider.messages.map((e) {
+                            return _buildMsgCard(e);
+                          }).toList(),
+                        ),
+                      ),
               ),
             );
           });
         });
   }
 
-  Widget _buildMsgCard(Map msg) {
+  Widget _buildMsgCard(Message msg) {
     return Align(
-      alignment: msg["isAdmin"] ? Alignment.topLeft : Alignment.topRight,
+      alignment: msg.isAdmin == 1 ? Alignment.topLeft : Alignment.topRight,
       child: Container(
         decoration: BoxDecoration(
-          color: msg["isAdmin"] ? Colors.blue : HexToColor.fontBorderColor,
+          color: msg.isAdmin == 1 ? Colors.blue : HexToColor.fontBorderColor,
           borderRadius: BorderRadius.only(
             topLeft: Radius.circular(10),
             topRight: Radius.circular(10),
-            bottomLeft: Radius.circular(msg["isAdmin"] ? 0 : 10),
-            bottomRight: Radius.circular(msg["isAdmin"] ? 10 : 0),
+            bottomLeft: Radius.circular(msg.isAdmin == 1 ? 0 : 10),
+            bottomRight: Radius.circular(msg.isAdmin == 1 ? 10 : 0),
           ),
         ),
         margin: EdgeInsets.only(bottom: 10),
         padding: EdgeInsets.all(7),
         child: Text(
-          "${msg["message"]}",
+          "${msg.text}",
           style: TextStyle(color: Colors.white, fontSize: 16),
         ),
       ),
@@ -84,6 +94,7 @@ class ChatPage extends StatelessWidget {
             child: TextFormField(
               controller: provider.msgController,
               style: TextStyle(color: Colors.white, fontSize: 16),
+              autofocus: true,
               decoration: InputDecoration(
                 hintText: "type_message".tr,
                 hintStyle: TextStyle(color: Colors.white.withOpacity(.8)),
@@ -92,13 +103,18 @@ class ChatPage extends StatelessWidget {
               ),
             ),
           ),
-          IconButton(
-            icon: Icon(Icons.send),
-            color: Colors.white,
-            onPressed: () {
-              provider.addMsg();
-            },
-          ),
+          provider.isLoading
+              ? Padding(
+                  padding: EdgeInsets.all(8.0),
+                  child: LoadingIndicator(color: Colors.white, size: 20),
+                )
+              : IconButton(
+                  icon: Icon(Icons.send),
+                  color: Colors.white,
+                  onPressed: () {
+                    provider.addMsg();
+                  },
+                ),
         ],
       ),
     );

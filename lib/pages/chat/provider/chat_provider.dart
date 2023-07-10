@@ -1,31 +1,21 @@
 import 'dart:convert';
 
+import 'package:agitation/controller/https/https.dart';
+import 'package:agitation/models/message.dart';
 import 'package:flutter/material.dart';
-import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
 
 class ChatProvider extends ChangeNotifier {
   TextEditingController msgController = TextEditingController();
+  bool isLoading = false;
+  bool isMsgUploading = false;
 
-  List messages = [
-    {
-      "id": 12,
-      "message": "Hello, can u help me?",
-      "time": "12:00",
-      "isAdmin": false,
-    },
-    {
-      "id": 15,
-      "message": "Hello, how can i help u?",
-      "time": "12:01",
-      "isAdmin": true,
-    }
-  ];
-
+  List<Message> messages = [];
   var user;
 
   ChatProvider() {
     onInit();
+    getAllMessages();
   }
 
   onInit() async {
@@ -36,27 +26,51 @@ class ChatProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  addMsg() {
-    var msg = msgController.text;
-    if (msg.isEmpty) return;
+  addMsg() async {
+    isLoading = true;
+    notifyListeners();
 
-    messages.add({
-      "id": user["id"],
-      "message": msg,
-      "time": "12:00",
-      "isAdmin": false,
-    });
+    var msg = msgController.text;
+    if (msg.isEmpty) { 
+      isLoading = false;
+      notifyListeners();
+      return;
+    }
+
+    var result = await HttpService.POST(HttpService.message, {"text": msg});
     msgController.clear();
     notifyListeners();
 
-    Future.delayed(Duration(milliseconds: 500), () {
-      messages.add({
-        "id": 15,
-        "message": "Hello, how can i help u?",
-        "time": "12:01",
-        "isAdmin": true,
-      });
+    if (result['status'] == HttpConnection.data) {
+      messages.clear();
+
+      for (var msg in result['data']['data']) {
+        messages.add(Message.fromJson(msg));
+        notifyListeners();
+      }
+      messages = messages.reversed.toList();
       notifyListeners();
-    });
+    }
+    isLoading = false;
+    notifyListeners();
+  }
+
+  getAllMessages() async {
+    isMsgUploading = true;
+    notifyListeners();
+
+    var result = await HttpService.GET(HttpService.message);
+
+    if (result['status'] == HttpConnection.data) {
+      messages.clear();
+
+      for (var msg in result['data']['data']) {
+        messages.add(Message.fromJson(msg));
+        notifyListeners();
+      }
+      notifyListeners();
+    }
+    isMsgUploading = false;
+    notifyListeners();
   }
 }

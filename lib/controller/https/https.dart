@@ -29,6 +29,7 @@ class HttpService {
   static String task = "${additional}task";
 
   static String image = "http://$mainUrl/images";
+  static String message = "${additional}message";
 
   static String newOrder = "${additional}tickets";
   static String progress = "${additional}tickets/progress";
@@ -104,7 +105,7 @@ class HttpService {
         var data = {'status': HttpConnection.error, 'data': jsonDecode(response.body)};
         return data;
       }
-    } on HttpException catch (e) {
+    } on HttpException {
       var data = {
         'status': HttpConnection.none,
         'data': {'message': "internet_error".tr}
@@ -134,7 +135,7 @@ class HttpService {
 
         return data;
       }
-    } on HttpException catch (e) {
+    } on HttpException {
       var data = {
         'status': HttpConnection.none,
         'data': {'message': "internet_error".tr}

@@ -39,7 +39,7 @@ const Map<String, String> uz = {
   "profile": "Profil",
 
   "new": "Yangi",
-  "performed": "Jarayonda",
+  "performed": "Hammasi",
   "save": "Saqlash",
 
   //Xushnudbek added
@@ -51,6 +51,10 @@ const Map<String, String> uz = {
   "add_location": "Joylashuv qo'shish",
   "location_added": "Joylashuv qo'shildi",
   "no_location": "Joylashuv qo'shilmadi",
+
+  //connection
+  "no_connection": "Internetga ulanish yo'q",
+  "check_connection": "Internetga ulanishni\ntekshiring",
 
   //chat
   "type_message": "Xabar yozing",
