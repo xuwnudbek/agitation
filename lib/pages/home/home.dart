@@ -36,21 +36,17 @@ class Home extends StatelessWidget {
       builder: (context, child) {
         return Consumer<HomeProvider>(builder: (context, provider, child) {
           return Consumer<ModerationProvider>(builder: (ctx, moderationProvider, _) {
-            return !moderationProvider.isModerated || moderationProvider.isLoading
-                ? moderationProvider.isLoading
-                    ? LoadingPage(color: Colors.white)
-                    : ModerationPage()
-                : WillPopScope(
+            return moderationProvider.isModerated && !moderationProvider.isLoading
+                ? WillPopScope(
                     onWillPop: provider.onWillPop,
                     child: Scaffold(
                       body: selectedPage[provider.indexItem],
-                      // body: ProfilePage(),
-                      // body: OrderPage(),
                       bottomNavigationBar: MainButtonNavigationBar(
                         onSelected: (value) => provider.onTab(value),
                       ),
                     ),
-                  );
+                  )
+                : ModerationPage();
           });
         });
       },

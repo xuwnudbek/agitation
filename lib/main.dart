@@ -9,6 +9,7 @@ import 'package:agitation/pages/connection/provider/connection_provider.dart';
 import 'package:agitation/pages/home/home.dart';
 import 'package:agitation/pages/lock_page/lock_page.dart';
 import 'package:agitation/pages/main_page/main_page.dart';
+import 'package:agitation/pages/moderation/provider/moderation_provider.dart';
 import 'package:agitation/utils/hex_to_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -19,28 +20,15 @@ import 'package:provider/provider.dart';
 import 'controller/language/language.dart';
 
 void main() async {
-  await WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await Hive.initFlutter();
   await init();
   await SystemChrome.setPreferredOrientations([
     DeviceOrientation.portraitUp,
     DeviceOrientation.portraitDown,
   ]);
-  runZoned(
-    () => runApp(MyApp()),
-    onError: (error, stacktrace) {
-      print("__________________________Error: $error");
-    },
-  );
 
   runApp(MyApp());
-
-  // runZonedGuarded(() {
-
-  //   );
-  // }, (error, stacktrace) {
-  //   print("__________________________Error: $error");
-  // });
 }
 
 Future init() async {
@@ -85,6 +73,7 @@ class MyApp extends StatelessWidget {
       home: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => ConnectionProvider()),
+          ChangeNotifierProvider(create: (_) => ModerationProvider()),
         ],
         builder: (context, child) {
           return Consumer<ConnectionProvider>(
@@ -92,7 +81,7 @@ class MyApp extends StatelessWidget {
               return !provider.isConnected
                   ? ConnectionPage()
                   : StreamBuilder<BoxEvent>(
-                      stream: Hive.box("db").watch(),
+                      stream: Hive.box("db").watch(key: "user"),
                       builder: (context, snapshot) {
                         //if user data is null
                         var userHive = Hive.box("db").get("user");

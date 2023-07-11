@@ -45,7 +45,6 @@ class LockProvider extends ChangeNotifier {
       print(phone['fingerprint']);
       if (phone['fingerprint'] ?? false) {
         var res = await authenticate();
-
         if (res ?? true) Get.offAll(() => Home());
       }
     }

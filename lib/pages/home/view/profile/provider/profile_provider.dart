@@ -11,6 +11,7 @@ import 'package:agitation/controller/https/https.dart';
 import 'package:agitation/models/lock_indicator.dart';
 import 'package:agitation/pages/lock_page/lock_page.dart';
 import 'package:agitation/utils/snack_bar/main_snack_bar.dart';
+import 'package:local_auth/local_auth.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
 class ProfileProvider extends ChangeNotifier {
@@ -83,7 +84,7 @@ class ProfileProvider extends ChangeNotifier {
     if (result['status'] == HttpConnection.data) {
       var data = result['data']['data'];
       workman = Workman.fromJson(data);
-      var finishedTasks = data['tasks'].where((element) => element["status"] == 0).toList();
+      var finishedTasks = data['tasks'].where((element) => element["status"] == 1).toList();
 
       workman?.setAllFinishedTasks = finishedTasks.length;
       workman?.setTodayFinishedTasks = finishedTasks.where((element) => MainFunctions().isTodayFinished(element["date"])).toList().length;
@@ -91,6 +92,9 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   void onNotificationChange(value) async {
+    if (value == false) return;
+    if (value == true) return;
+
     Box box = await Hive.openBox("db");
     String? dataPhone = await box.get("phone");
     var phone = {};
@@ -105,30 +109,66 @@ class ProfileProvider extends ChangeNotifier {
 
   void onFingerPrintChange(value) async {
     if (value) {
-      var pin = Hive.box("db").get("pin");
-      if (pin == null) {
+      var lock = jsonDecode(Hive.box("db").get("lock") ?? "null" );
+
+      if (lock == null) {
         MainSnackBar.error("must_pin".tr);
         return;
       }
-    }
 
-    Box box = await Hive.openBox("db");
-    String? dataPhone = await box.get("phone");
-    var phone = {};
-    if (dataPhone != null) {
-      phone = jsonDecode(dataPhone);
-    }
-    phone['fingerprint'] = value;
-    fingerprint = value;
-    await box.put("phone", jsonEncode(phone));
-    notifyListeners();
+      var isBla = await authenticate();
+      if (isBla != true) return;
+      print(await isBla);
 
-    print(fingerprint);
+      Box box = await Hive.openBox("db");
+      String? dataPhone = await box.get("phone");
+      var phone = {};
+      if (dataPhone != null) {
+        phone = jsonDecode(dataPhone);
+      }
+      phone['fingerprint'] = value;
+      fingerprint = value;
+      await box.put("phone", jsonEncode(phone));
+      notifyListeners();
+      print("fingerprint: $value");
+    } else {
+      Box box = await Hive.openBox("db");
+      String? dataPhone = await box.get("phone");
+      var phone = {};
+      if (dataPhone != null) {
+        phone = jsonDecode(dataPhone);
+      }
+      phone['fingerprint'] = value;
+      fingerprint = value;
+      await box.put("phone", jsonEncode(phone));
+      notifyListeners();
+      print("fingerprint: $value");
+    }
+  }
+
+  Future<bool> authenticate() async {
+    try {
+      final LocalAuthentication auth = LocalAuthentication();
+      var res = await auth.canCheckBiometrics;
+      if (res) {
+        return await auth.authenticate(
+          options: AuthenticationOptions(biometricOnly: true),
+          localizedReason: 'use_finger'.tr,
+        );
+      }
+    } catch (e) {
+      return false;
+    }
+    return false;
   }
 
   void onPinChange(value) async {
     if (value) {
       var check = await Get.to(LockPage(indicator: LockIndicator.EDIT));
+
+      if (check == null) return;
+      if (check == false) return;
+
       if (check ?? false) onPin(true);
 
       if (check ?? false) {
@@ -147,6 +187,7 @@ class ProfileProvider extends ChangeNotifier {
       }
     } else {
       onPin(value);
+      onFingerPrintChange(false);
     }
   }
 

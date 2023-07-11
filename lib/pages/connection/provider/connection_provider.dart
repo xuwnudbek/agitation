@@ -2,7 +2,7 @@ import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:flutter/material.dart';
 
 class ConnectionProvider extends ChangeNotifier {
-  bool isConnected = false;
+  bool isConnected = true;
 
   ConnectionProvider() {
     onInit();

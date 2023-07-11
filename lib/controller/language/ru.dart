@@ -39,7 +39,6 @@ const Map<String, String> ru = {
 
   //Xushnudbek added
   "fin_orders": "Выполненные Заявки",
-  "not_moderated": "Не прошедшие\nмодерацию",
   "refresh": "Обновить",
 
   "client_added": "Клиент добавлен",
@@ -55,6 +54,7 @@ const Map<String, String> ru = {
   "type_message": "Напишите сообщение",
 
   //client tr
+  "added": "добавлено",
   "add_client": "Добавить клиента",
   "no_client": "Нет клиентов",
   "add_photo": "Добавить фото",
@@ -74,6 +74,17 @@ const Map<String, String> ru = {
 
   "logout": "Выйти",
   "logout_msg": "Вы действительно хотите выйти?",
+
+  "group_not_found": "Группа не найдена",
+
+  //moderation
+  "check_moderation": "Проверка модерации",
+  "moderated": "Модерация пройдена",
+  "not_moderated": "Модерация не пройдена",
+
+  "message": "Сообщение",
+
+  "super_admin": "Супер Админ",
 
   // "client": "Клиент",
   // "date_create": "Дата создания договора",

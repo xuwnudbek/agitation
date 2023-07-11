@@ -14,8 +14,7 @@ class PusherService {
       apiKey: "4fce81fd8f05f8290139",
       cluster: "ap2",
       onConnectionStateChange: (currentState, previousState) {
-        print("__________________________PusherPCState: $previousState");
-        print("__________________________PusherCCState: $currentState");
+        print("$channelName __________________________: $currentState");
       },
       onEvent: (event) => _showNotifcation(event),
     );
@@ -28,30 +27,51 @@ class PusherService {
     pusher.connect();
   }
 
-  _showNotifcation(PusherEvent event) {
-    print("__________________________Pusher:\nEventName: ${event.eventName} \ndata: ${event.data}");
+  PusherService.listen(this.channelName, {required Function(dynamic event) onEvent}) {
+    pusher.init(
+      apiKey: "4fce81fd8f05f8290139",
+      cluster: "ap2",
+      onConnectionStateChange: (currentState, previousState) {
+        print("$channelName _________________________: $currentState");
+      },
+      onEvent: (event) => _showNotifcation(event),
+    );
 
+    pusher.subscribe(
+      channelName: channelName,
+      onEvent: (event) => onEvent(event),
+    );
+    pusher.connect();
+  }
+
+  _showNotifcation(PusherEvent event) {
     if (event.eventName == "pusher:subscription_succeeded") return;
 
-    var eventData = jsonDecode(event.data);
+    // var eventData = event.data;
     var notiService = NotificationService();
+    print("_______________________________________${event.eventName}");
+    switch (event.eventName) {
+      case "workers":
+        notiService.showNotification(
+          title: "super_admin".tr,
+          body: "${jsonDecode(event.data)['data']['text']}",
+          isMsg: true,
+        );
+        break;
 
-    if (event.eventName == "message") {
-      Get.currentRoute == "/chat"
-          ? null
-          : notiService.showNotification(
-              id: 1,
-              title: "Super Admin",
-              body: "${eventData["data"]["text"] ?? "Unknown Body"}",
-              isMsg: true,
-            );
-    } else if (event.eventName == "alert") {
-      notiService.showNotification(
-        id: 1,
-        title: "Yangi organizatsiya",
-        body: "${eventData['data']['company']["title"] ?? "Unknown Body"}",
-        isMsg: false,
-      );
+      case "message":
+        Get.currentRoute == "/ChatPage"
+            ? null
+            : notiService.showNotification(
+                id: 1,
+                title: "Super Admin",
+                body: "${jsonDecode(event.data)['data']['text'] ?? "Unknown Body"}",
+                isMsg: true,
+              );
+        break;
+
+      default:
+        break;
     }
   }
 }

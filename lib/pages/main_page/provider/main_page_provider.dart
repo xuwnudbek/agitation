@@ -21,6 +21,7 @@ class MainProvider extends ChangeNotifier {
       Permission.storage,
       Permission.camera,
       Permission.microphone,
+      Permission.notification,
       // Permission.requestInstallPackages,
     ].request();
     print(statuses[Permission.location]);

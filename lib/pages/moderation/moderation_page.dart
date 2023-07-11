@@ -23,11 +23,12 @@ class ModerationPage extends StatelessWidget {
                     mainAxisSize: MainAxisSize.min,
                     children: [
                       SvgPicture.asset(
-                        "assets/images/cross.svg",
+                        "assets/images/${provider.isLoading ? "check" : provider.isModerated ? "check" : "cross"}.svg",
                         width: 100,
                       ),
                       Text(
-                        "not_moderated".tr,
+                        "${provider.isLoading ? "check_moderation" : provider.isModerated ? "moderated" : "not_moderated"}"
+                            .tr,
                         textAlign: TextAlign.center,
                         style: TextStyle(
                           fontSize: 20,

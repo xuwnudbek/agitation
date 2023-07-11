@@ -51,25 +51,6 @@ class MainFunctions {
           ),
           actionsAlignment: MainAxisAlignment.spaceEvenly,
           actions: [
-            ElevatedButton(
-              style: ButtonStyle(
-                backgroundColor: MaterialStateProperty.all(HexToColor.fontBorderColor),
-                elevation: MaterialStatePropertyAll(2),
-                shape: MaterialStateProperty.all(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
-                  ),
-                ),
-              ),
-              onPressed: () {
-                onConfirm();
-                // Get.back();
-              },
-              child: Text(
-                "yes".tr,
-                style: TextStyle(),
-              ),
-            ),
             TextButton(
               onPressed: () => Get.back(),
               style: ButtonStyle(
@@ -84,6 +65,25 @@ class MainFunctions {
                 style: TextStyle(
                   color: HexToColor.fontBorderColor,
                 ),
+              ),
+            ),
+            ElevatedButton(
+              style: ButtonStyle(
+                backgroundColor: MaterialStateProperty.all(HexToColor.fontBorderColor),
+                elevation: MaterialStatePropertyAll(2),
+                shape: MaterialStateProperty.all(
+                  RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                ),
+              ),
+              onPressed: () {
+                onConfirm();
+                Get.back();
+              },
+              child: Text(
+                "yes".tr,
+                style: TextStyle(),
               ),
             ),
           ],

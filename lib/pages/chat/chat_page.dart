@@ -34,17 +34,18 @@ class ChatPage extends StatelessWidget {
               floatingActionButton: _buildBottomForm(provider),
               floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
               body: Container(
-                alignment: Alignment.center,
+                alignment: provider.isMsgUploading ? Alignment.center : Alignment.topCenter,
                 padding: EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 75),
                 child: provider.isMsgUploading
                     ? CPIndicator()
                     : SingleChildScrollView(
                         reverse: true,
-                        dragStartBehavior: DragStartBehavior.down,
+                        dragStartBehavior: DragStartBehavior.start,
                         controller: ScrollController(
-                          initialScrollOffset: 0,
+                          initialScrollOffset: -10000,
                         ),
                         child: Column(
+                          // mainAxisAlignment: MainAxisAlignment.start,
                           children: provider.messages.map((e) {
                             return _buildMsgCard(e);
                           }).toList(),
@@ -60,6 +61,7 @@ class ChatPage extends StatelessWidget {
     return Align(
       alignment: msg.isAdmin == 1 ? Alignment.topLeft : Alignment.topRight,
       child: Container(
+        constraints: BoxConstraints(maxWidth: Get.width * .8),
         decoration: BoxDecoration(
           color: msg.isAdmin == 1 ? Colors.blue : HexToColor.fontBorderColor,
           borderRadius: BorderRadius.only(
@@ -72,7 +74,8 @@ class ChatPage extends StatelessWidget {
         margin: EdgeInsets.only(bottom: 10),
         padding: EdgeInsets.all(7),
         child: Text(
-          "${msg.text}",
+          "${msg.text.trim()}",
+          textAlign: msg.isAdmin == 1 ? TextAlign.start : TextAlign.end,
           style: TextStyle(color: Colors.white, fontSize: 16),
         ),
       ),

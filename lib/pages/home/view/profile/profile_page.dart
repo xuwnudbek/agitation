@@ -33,301 +33,306 @@ class ProfilePage extends StatelessWidget {
                 ? Center(
                     child: LoadingIndicator(color: HexToColor.fontBorderColor),
                   )
-                : Column(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      SingleChildScrollView(
-                        child: Column(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.symmetric(vertical: 20),
-                              child: Row(
-                                // crossAxisAlignment: CrossAxisAlignment.center,
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Column(
+                : Padding(
+                    padding: EdgeInsets.only(bottom: 10.0),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Expanded(
+                          child: SingleChildScrollView(
+                            child: Column(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(vertical: 20),
+                                  child: Row(
+                                    // crossAxisAlignment: CrossAxisAlignment.center,
+                                    mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
-                                      CircleAvatar(
-                                        backgroundColor: HexToColor.fontBorderColor,
-                                        child: Text(
-                                          "${provider.workman?.todayFinishedTasks ?? 0}",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.white,
-                                          ),
-                                        ),
-                                      ),
-                                      Text(
-                                        "today_finished".tr,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 12, color: HexToColor.fontBorderColor, fontWeight: FontWeight.w600),
-                                      )
-                                    ],
-                                  ),
-                                  Padding(
-                                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                                    child: InkWell(
-                                      borderRadius: BorderRadius.circular(50),
-                                      onTap: () {
-                                        _selectCameraOrGallery(context, provider);
-                                      },
-                                      child: Stack(
+                                      Column(
                                         children: [
-                                          ClipRRect(
-                                            borderRadius: BorderRadius.circular(50.0),
-                                            child: provider.workman!.image == null
-                                                ? Image.asset(
-                                                    "assets/images/image_person.png",
-                                                    height: 100,
-                                                    width: 100,
-                                                    fit: BoxFit.cover,
-                                                  )
-                                                : Image.network(
-                                                    "${HttpService.image}/${provider.workman!.image!}",
-                                                    height: 100.0,
-                                                    width: 100.0,
-                                                    frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                                                      return child;
-                                                    },
-                                                    loadingBuilder: (context, child, loadingProgress) {
-                                                      return loadingProgress == null ? child : CPIndicator(color: HexToColor.fontBorderColor);
-                                                    },
-                                                  ),
-                                          ),
-                                          Positioned(
-                                            bottom: 0,
-                                            child: Stack(
-                                              children: [
-                                                MyArc(
-                                                  diameter: 100,
-                                                ),
-                                                Positioned(
-                                                    bottom: 5,
-                                                    left: 0,
-                                                    right: 0,
-                                                    child: Icon(
-                                                      Icons.camera_alt,
-                                                      color: Colors.white,
-                                                      size: 18,
-                                                    ))
-                                              ],
+                                          CircleAvatar(
+                                            backgroundColor: HexToColor.fontBorderColor,
+                                            child: Text(
+                                              "${provider.workman?.todayFinishedTasks ?? 0}",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.white,
+                                              ),
                                             ),
+                                          ),
+                                          Text(
+                                            "today_finished".tr,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 12, color: HexToColor.fontBorderColor, fontWeight: FontWeight.w600),
                                           )
                                         ],
                                       ),
-                                    ),
-                                  ),
-                                  Column(
-                                    children: [
-                                      CircleAvatar(
-                                        backgroundColor: HexToColor.detailsColor,
-                                        child: Text(
-                                          "${provider.workman?.allFinishedTasks ?? 0}",
-                                          style: TextStyle(
-                                            fontWeight: FontWeight.w500,
-                                            color: Colors.white,
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                                        child: InkWell(
+                                          borderRadius: BorderRadius.circular(50),
+                                          onTap: () {
+                                            _selectCameraOrGallery(context, provider);
+                                          },
+                                          child: Stack(
+                                            children: [
+                                              ClipRRect(
+                                                borderRadius: BorderRadius.circular(50.0),
+                                                child: provider.workman!.image == null
+                                                    ? Image.asset(
+                                                        "assets/images/image_person.png",
+                                                        height: 100,
+                                                        width: 100,
+                                                        fit: BoxFit.cover,
+                                                      )
+                                                    : Image.network(
+                                                        "${HttpService.image}/${provider.workman!.image!}",
+                                                        height: 100.0,
+                                                        width: 100.0,
+                                                        frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                                                          return child;
+                                                        },
+                                                        loadingBuilder: (context, child, loadingProgress) {
+                                                          return loadingProgress == null ? child : CPIndicator(color: HexToColor.fontBorderColor);
+                                                        },
+                                                      ),
+                                              ),
+                                              Positioned(
+                                                bottom: 0,
+                                                child: Stack(
+                                                  children: [
+                                                    MyArc(
+                                                      diameter: 100,
+                                                    ),
+                                                    Positioned(
+                                                        bottom: 5,
+                                                        left: 0,
+                                                        right: 0,
+                                                        child: Icon(
+                                                          Icons.camera_alt,
+                                                          color: Colors.white,
+                                                          size: 18,
+                                                        ))
+                                                  ],
+                                                ),
+                                              )
+                                            ],
                                           ),
                                         ),
                                       ),
-                                      Text(
-                                        "month_finished".tr,
-                                        textAlign: TextAlign.center,
-                                        style: TextStyle(fontSize: 12, color: HexToColor.detailsColor, fontWeight: FontWeight.w600),
-                                      )
+                                      Column(
+                                        children: [
+                                          CircleAvatar(
+                                            backgroundColor: HexToColor.detailsColor,
+                                            child: Text(
+                                              "${provider.workman?.allFinishedTasks ?? 0}",
+                                              style: TextStyle(
+                                                fontWeight: FontWeight.w500,
+                                                color: Colors.white,
+                                              ),
+                                            ),
+                                          ),
+                                          Text(
+                                            "month_finished".tr,
+                                            textAlign: TextAlign.center,
+                                            style: TextStyle(fontSize: 12, color: HexToColor.detailsColor, fontWeight: FontWeight.w600),
+                                          )
+                                        ],
+                                      ),
                                     ],
                                   ),
-                                ],
-                              ),
-                            ),
-                            Text(
-                              "${provider.workman?.name ?? "unknown"}".toUpperCase(),
-                              style: TextStyle(
-                                fontWeight: FontWeight.w600,
-                                fontSize: 16,
-                              ),
-                            ),
-                            Text(
-                              "job".tr,
-                              style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: HexToColor.detailsColor),
-                            ),
-                            Container(
-                              constraints: BoxConstraints.expand(
-                                width: Get.size.width * 0.2,
-                                height: 25,
-                              ),
-                              alignment: Alignment.center,
-                              margin: const EdgeInsets.all(5),
-                              padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
-                              decoration: BoxDecoration(color: HexToColor.detailsColor, borderRadius: BorderRadius.circular(50)),
-                              child: Text(
-                                "${provider.isAdmin ? "admin".tr : "workman".tr}".toUpperCase(),
-                                style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: Colors.white),
-                              ),
-                            ),
-                            ListTile(
-                              onTap: () => provider.onNotificationChange(!provider.notification),
-                              title: Text(
-                                "notification".tr,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
                                 ),
-                              ),
-                              leading: Icon(
-                                Icons.notifications_outlined,
-                                color: Colors.black,
-                              ),
-                              trailing: Switch(
-                                value: provider.notification,
-                                onChanged: provider.onNotificationChange,
-                                activeColor: HexToColor.detailsColor,
-                              ),
-                            ),
-                            ListTile(
-                              onTap: () async {
-                                var res = await Get.to(LockPage(indicator: LockIndicator.EDIT));
-                                if (res ?? false) provider.onPin(true);
-                              },
-                              title: Text(
-                                "pin_code".tr,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                                Text(
+                                  "${provider.workman?.name ?? "unknown"}".toUpperCase(),
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                  ),
                                 ),
-                              ),
-                              leading: Icon(
-                                Icons.lock_outline_rounded,
-                                color: Colors.black87,
-                              ),
-                              trailing: Switch(
-                                value: provider.pin,
-                                onChanged: provider.onPinChange,
-                                activeColor: HexToColor.detailsColor,
-                              ),
-                            ),
-                            ListTile(
-                              onTap: () => provider.onFingerPrintChange(!provider.fingerprint),
-                              title: Text(
-                                "finger".tr,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                                Text(
+                                  "job".tr,
+                                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: HexToColor.detailsColor),
                                 ),
-                              ),
-                              leading: SvgPicture.asset("assets/images/fingerprint.svg"),
-                              trailing: Switch(
-                                value: provider.fingerprint,
-                                onChanged: provider.onFingerPrintChange,
-                                activeColor: HexToColor.detailsColor,
-                              ),
-                            ),
-                            ListTile(
-                              onTap: () async {
-                                await Get.to(EditOtherPage(workman: provider.workman!))!.then((value) {
-                                  if (value != null) {
-                                    provider.onInit();
-                                  }
-                                });
-                              },
-                              title: Text(
-                                "edit_data".tr,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                                Container(
+                                  constraints: BoxConstraints.expand(
+                                    width: Get.size.width * 0.2,
+                                    height: 25,
+                                  ),
+                                  alignment: Alignment.center,
+                                  margin: const EdgeInsets.all(5),
+                                  padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 10),
+                                  decoration: BoxDecoration(color: HexToColor.detailsColor, borderRadius: BorderRadius.circular(50)),
+                                  child: Text(
+                                    "${provider.isAdmin ? "admin".tr : "workman".tr}".toUpperCase(),
+                                    style: TextStyle(fontWeight: FontWeight.w600, fontSize: 12, color: Colors.white),
+                                  ),
                                 ),
-                              ),
-                              leading: SvgPicture.asset("assets/images/icon_user_edit.svg"),
-                              trailing: Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                color: Colors.black,
-                                size: 15,
-                              ),
-                            ),
-                            ListTile(
-                              onTap: () async {
-                                await Get.to(EditPasswordPage(workman: provider.workman!))!.then((value) {
-                                  if (value != null) provider.onInit();
-                                });
-                              },
-                              title: Text(
-                                "edit_password".tr,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                                ListTile(
+                                  onTap: () => provider.onNotificationChange(!provider.notification),
+                                  title: Text(
+                                    "notification".tr,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  leading: Icon(
+                                    Icons.notifications_outlined,
+                                    color: Colors.black,
+                                  ),
+                                  trailing: Switch(
+                                    value: provider.notification,
+                                    onChanged: provider.onNotificationChange,
+                                    activeColor: HexToColor.detailsColor,
+                                  ),
                                 ),
-                              ),
-                              leading: SvgPicture.asset("assets/images/icon_edit.svg"),
-                              trailing: Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                color: Colors.black,
-                                size: 15,
-                              ),
-                            ),
-                            ListTile(
-                              onTap: () async {
-                                await Get.to(SelectLanguage())?.then((value) {
-                                  if (value != null) {
-                                    provider.onInit();
-                                  }
-                                });
-                              },
-                              title: Text(
-                                "edit_language".tr,
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                                ListTile(
+                                  onTap: () async {
+                                    var res = await Get.to(LockPage(indicator: LockIndicator.EDIT));
+                                    if (res ?? false) provider.onPin(true);
+                                  },
+                                  title: Text(
+                                    "pin_code".tr,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  leading: Icon(
+                                    Icons.lock_outline_rounded,
+                                    color: Colors.black87,
+                                  ),
+                                  trailing: Switch(
+                                    value: provider.pin,
+                                    onChanged: provider.onPinChange,
+                                    activeColor: HexToColor.detailsColor,
+                                  ),
                                 ),
-                              ),
-                              subtitle: Text(provider.language),
-                              leading: Icon(
-                                Icons.language,
-                                color: Colors.black87,
-                              ),
-                              trailing: Icon(
-                                Icons.arrow_forward_ios_rounded,
-                                color: Colors.black,
-                                size: 15,
-                              ),
-                            ),
-                            ListTile(
-                              title: Text(
-                                "Version",
-                                style: TextStyle(
-                                  fontSize: 16,
-                                  fontWeight: FontWeight.w600,
+                                ListTile(
+                                  onTap: () => provider.onFingerPrintChange(provider.fingerprint),
+                                  title: Text(
+                                    "finger".tr,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  leading: SvgPicture.asset("assets/images/fingerprint.svg"),
+                                  trailing: Switch(
+                                    value: provider.fingerprint,
+                                    onChanged: provider.onFingerPrintChange,
+                                    activeColor: HexToColor.detailsColor,
+                                  ),
                                 ),
-                              ),
-                              subtitle: Text(provider.version),
-                              leading: Icon(
-                                Icons.verified_sharp,
-                                color: Colors.black54,
-                              ),
+                                ListTile(
+                                  onTap: () async {
+                                    await Get.to(EditOtherPage(workman: provider.workman!))!.then((value) {
+                                      if (value != null) {
+                                        provider.onInit();
+                                      }
+                                    });
+                                  },
+                                  title: Text(
+                                    "edit_data".tr,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  leading: SvgPicture.asset("assets/images/icon_user_edit.svg"),
+                                  trailing: Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    color: Colors.black,
+                                    size: 15,
+                                  ),
+                                ),
+                                ListTile(
+                                  onTap: () async {
+                                    await Get.to(EditPasswordPage(workman: provider.workman!))!.then((value) {
+                                      if (value != null) provider.onInit();
+                                    });
+                                  },
+                                  title: Text(
+                                    "edit_password".tr,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  leading: SvgPicture.asset("assets/images/icon_edit.svg"),
+                                  trailing: Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    color: Colors.black,
+                                    size: 15,
+                                  ),
+                                ),
+                                ListTile(
+                                  onTap: () async {
+                                    await Get.to(SelectLanguage())?.then((value) {
+                                      if (value != null) {
+                                        provider.onInit();
+                                      }
+                                    });
+                                  },
+                                  title: Text(
+                                    "edit_language".tr,
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  subtitle: Text(provider.language),
+                                  leading: Icon(
+                                    Icons.language,
+                                    color: Colors.black87,
+                                  ),
+                                  trailing: Icon(
+                                    Icons.arrow_forward_ios_rounded,
+                                    color: Colors.black,
+                                    size: 15,
+                                  ),
+                                ),
+                                ListTile(
+                                  title: Text(
+                                    "Version",
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      fontWeight: FontWeight.w600,
+                                    ),
+                                  ),
+                                  subtitle: Text(provider.version),
+                                  leading: Icon(
+                                    Icons.verified_sharp,
+                                    color: Colors.black54,
+                                  ),
+                                ),
+                              ],
                             ),
-                          ],
+                          ),
                         ),
-                      ),
-                      Padding(
-                        padding: EdgeInsets.only(bottom: 20, left: 10, right: 10),
-                        child: InkWell(
-                          onTap: () => _buildDialog(context).then((value) => value ? provider.logout() : null),
-                          borderRadius: BorderRadius.circular(10),
-                          child: Padding(
-                            padding: EdgeInsets.symmetric(vertical: 10),
-                            child: Center(
-                              child: Text(
-                                "logout".tr,
-                                style: TextStyle(
-                                  color: Colors.red,
-                                  fontWeight: FontWeight.w600,
-                                  fontSize: 16,
+                        Padding(
+                          padding: EdgeInsets.only(bottom: 20, left: 10, right: 10),
+                          child: InkWell(
+                            onTap: () => _buildDialog(context).then((value) => value ? provider.logout() : null),
+                            borderRadius: BorderRadius.circular(10),
+                            child: Padding(
+                              padding: EdgeInsets.symmetric(vertical: 10),
+                              child: Center(
+                                child: Text(
+                                  "logout".tr,
+                                  style: TextStyle(
+                                    color: Colors.red,
+                                    fontWeight: FontWeight.w600,
+                                    fontSize: 16,
+                                  ),
                                 ),
                               ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
           ),
         );

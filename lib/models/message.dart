@@ -1,56 +1,46 @@
 class Message {
-  int id;
   int isAdmin;
   String text;
-  String chatId;
-  String? deletedAt;
-  String createdAt;
-  String updatedAt;
+  int chatId;
 
   Message({
-    required this.id,
     required this.isAdmin,
     required this.text,
     required this.chatId,
-    required this.createdAt,
-    required this.updatedAt,
-    this.deletedAt = null,
   });
 
   factory Message.fromJson(Map<String, dynamic> data) {
+    print(data['is_admin'].runtimeType.runtimeType);
+
+    checkIsAdmin(isAdmin) {
+      if (isAdmin.runtimeType == int) return isAdmin;
+      if (isAdmin.runtimeType == bool) return isAdmin ? 1 : 0;
+    }
+
     return Message(
-      id: data['id'],
-      isAdmin: data['is_admin'],
+      isAdmin: checkIsAdmin(data['is_admin']),
       text: data['text'],
-      chatId: data['chat_id'],
-      deletedAt: data['deleted_at'],
-      createdAt: data['created_at'],
-      updatedAt: data['updated_at'],
+      chatId: data['chat_id'].runtimeType != int ? int.parse(data['chat_id']) : data['chat_id'],
     );
   }
 
   Map<String, dynamic> toMap() {
     return {
-      "id": id,
       "is_admin": isAdmin,
       "text": text,
       "chat_id": chatId,
-      "deleted_at": deletedAt,
-      "created_at": createdAt,
-      "updated_at": updatedAt,
     };
   }
 }
 
+
 /*
 {
-  "id": 425,
-  "is_admin": 0,
-  "text": "xuwnudbek266",
-  "chat_id": "6",
-  "deleted_at": null,
-  "created_at": "2023-07-10T11:12:57.000000Z",
-  "updated_at": "2023-07-10T11:12:57.000000Z"
-},
-
+  "data": {
+    "text": "asdasdasdasd 123123123",
+    "is_admin": 1,
+    "chat_id": 1,
+    "worker_id": 1
+  }
+}
 */

@@ -98,6 +98,11 @@ class OrganizationProvider extends ChangeNotifier {
     });
   }
 
+  removeImage(int index) {
+    images.removeAt(index);
+    notifyListeners();
+  }
+
   //Refresh\
   void refresh() async {
     getAllActiveTasks();

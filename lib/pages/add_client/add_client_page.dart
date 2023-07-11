@@ -28,7 +28,10 @@ class AddClientPage extends StatelessWidget {
             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
             child: MainMaterialButton(
               onPressed: () {
-                provider.addClient(taskId);
+                var id = provider.addClient(taskId);
+                if (id != null) {
+                  Get.back(result: id);
+                }
               },
               color: HexToColor.fontBorderColor,
               text: "save".tr,

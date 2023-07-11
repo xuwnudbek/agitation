@@ -12,14 +12,13 @@ class SelectLanguage extends StatelessWidget {
   Widget build(BuildContext context) {
     return ChangeNotifierProvider(
       create: (context) => SelectLanguageProvider(),
-      child:
-          Consumer<SelectLanguageProvider>(builder: (context, provider, child) {
+      child: Consumer<SelectLanguageProvider>(builder: (context, provider, child) {
         return Scaffold(
           body: SafeArea(
             child: provider.isLoading
                 ? Center(
                     child: CircularProgressIndicator(
-                      color: HexToColor.mainColor,
+                      color: HexToColor.fontBorderColor,
                     ),
                   )
                 : Column(
@@ -81,8 +80,7 @@ class ButtonMainMaterial extends StatelessWidget {
       height: 48,
       margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
       width: double.infinity,
-      decoration: BoxDecoration(
-          color: HexToColor.mainColor, borderRadius: BorderRadius.circular(10)),
+      decoration: BoxDecoration(color: HexToColor.fontBorderColor, borderRadius: BorderRadius.circular(10)),
       child: InkWell(
         onTap: () => onPressed(),
         borderRadius: BorderRadius.circular(10),

@@ -18,7 +18,7 @@ class LockPage extends StatelessWidget {
       create: (context) => LockProvider(indicator),
       child: Consumer<LockProvider>(builder: (context, provider, child) {
         return Scaffold(
-          backgroundColor: HexToColor.mainColor,
+          backgroundColor: HexToColor.fontBorderColor,
           body: SafeArea(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -140,7 +140,7 @@ class LockPage extends StatelessWidget {
                       ),
                     ),
                     NumberPanel(
-                        backgroundColor: HexToColor.mainColor,
+                        backgroundColor: HexToColor.fontBorderColor,
                         textColor: Colors.white,
                         onPressed: (value) {
                           if (value == "-") {

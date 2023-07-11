@@ -44,9 +44,8 @@ const Map<String, String> uz = {
 
   //Xushnudbek added
   "fin_orders": "Bajarilgan buyurtmalar",
-  "not_moderated": "Moderatsiyadan\no'tmagan",
   "refresh": "Yangilash",
-
+  "added": "qo'shildi",
   "client_added": "Mijoz qo'shildi",
   "add_location": "Joylashuv qo'shish",
   "location_added": "Joylashuv qo'shildi",
@@ -79,6 +78,18 @@ const Map<String, String> uz = {
 
   "logout": "Chiqish",
   "logout_msg": "Haqiqatdan ham tizimdan chiqishni xohlaysizmi?",
+
+  "group_not_found": "Guruh topilmadi",
+
+  "not_moderated": "Sizning ma'lumotlaringiz\nmoderatsiyadan o'tmagan",
+  "check_moderation": "Ma'lumotlaringizni\nmoderatsiyadan o'tkazilmoqda",
+  "moderated": "Sizning ma'lumotlaringiz\nmoderatsiyadan o'tdi",
+
+  "no_tasks": "Topshiriqlar yo'q",
+
+  "message": "Xabar",
+  "super_admin": "Super Admin",
+
 
   // "date_create":"Shartnoma tuzilgan sana",
   // "accepted":"Qabul qildim",

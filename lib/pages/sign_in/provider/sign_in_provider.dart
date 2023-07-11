@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:agitation/models/user.dart';
 import 'package:agitation/pages/home/home.dart';
+import 'package:agitation/pages/moderation/moderation_page.dart';
 import 'package:agitation/pages/verification/verification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -72,6 +73,7 @@ class SignInProvider extends ChangeNotifier {
           username: userData['username'],
           password: password.text,
           groupId: userData['group_id'],
+          status: userData['status'],
           jobTitleId: userData['job_title'],
           token: result['data']['data']['token'],
         );
@@ -81,7 +83,13 @@ class SignInProvider extends ChangeNotifier {
 
         MainSnackBar.successful("success".tr);
         await Future.delayed(const Duration(milliseconds: 100));
-        Get.offAll(() => Home(), transition: Transition.fadeIn);
+
+        user.status == 1
+            ? Get.offAll(() => Home(), transition: Transition.fadeIn)
+            : Get.offAll(
+                () => ModerationPage(),
+                transition: Transition.fadeIn,
+              );
       } else {
         MainSnackBar.error(result['data']['data']);
       }

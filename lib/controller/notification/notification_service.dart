@@ -1,3 +1,5 @@
+import 'dart:typed_data';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -23,11 +25,27 @@ class NotificationService {
     notiPlugin.initialize(initSettings);
   }
 
-  showNotification({required int id, required String title, required String body, required bool isMsg}) async {
-    var android = AndroidNotificationDetails("channel_Id", "channel_Name", importance: Importance.max, priority: Priority.high, playSound: true, enableVibration: true, enableLights: true, color: Colors.blue);
+  showNotification({int? id, required String title, required String body, required bool isMsg}) async {
+    var android = AndroidNotificationDetails(
+      "channel_Id",
+      "channel_Name",
+      importance: Importance.max,
+      priority: Priority.high,
+      playSound: true,
+      enableVibration: true,
+      enableLights: true,
+      color: Colors.blue,
+      vibrationPattern: Int64List.fromList([0, 1000, 500, 1000]),
+      timeoutAfter: 1000 * 3600,
+    );
     var iOS = DarwinNotificationDetails();
     var notiDetails = NotificationDetails(android: android, iOS: iOS);
 
-    await notiPlugin.show(id, "$title", "$body", notiDetails);
+    await notiPlugin.show(
+      id ?? DateTime.now().millisecond,
+      "$title",
+      "$body",
+      notiDetails,
+    );
   }
 }

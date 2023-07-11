@@ -66,7 +66,7 @@ class CreateOrganization extends StatelessWidget {
                               "Добавить организацию",
                               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                             ),
-                            const SizedBox(height: 10),
+                            SizedBox(height: 10),
                             Expanded(
                               child: SingleChildScrollView(
                                 child: Column(
@@ -184,19 +184,36 @@ class CreateOrganization extends StatelessWidget {
                                               itemBuilder: (BuildContext context, int index) {
                                                 var image = provider.images[index];
 
-                                                return Container(
-                                                  height: 80,
-                                                  width: 80,
-                                                  margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
-                                                  decoration: BoxDecoration(
-                                                    color: HexToColor.disableColor,
-                                                    borderRadius: BorderRadius.circular(10),
-                                                    image: DecorationImage(
-                                                      image: FileImage(File(image.path)),
-                                                      fit: BoxFit.cover,
+                                                return Stack(children: [
+                                                  Container(
+                                                    height: 80,
+                                                    width: 80,
+                                                    margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
+                                                    decoration: BoxDecoration(
+                                                      color: HexToColor.disableColor,
+                                                      borderRadius: BorderRadius.circular(10),
+                                                      image: DecorationImage(
+                                                        image: FileImage(File(image.path)),
+                                                        fit: BoxFit.cover,
+                                                      ),
                                                     ),
                                                   ),
-                                                );
+                                                  Positioned(
+                                                    top: -0.5,
+                                                    right: 0.0,
+                                                    child: GestureDetector(
+                                                      onTap: () {
+                                                        provider.removeImage(index);
+                                                      },
+                                                      child: SvgPicture.asset(
+                                                        "assets/images/cross.svg",
+                                                        color: Colors.red,
+                                                        height: 25,
+                                                        width: 205,
+                                                      ),
+                                                    ),
+                                                  ),
+                                                ]);
                                               },
                                             ),
                                     ),

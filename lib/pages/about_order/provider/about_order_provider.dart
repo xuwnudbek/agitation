@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:math';
 
 import 'package:agitation/controller/https/https.dart';
 import 'package:agitation/models/task/location.dart';
@@ -7,11 +6,11 @@ import 'package:agitation/models/task/status.dart';
 import 'package:agitation/models/task/task.dart';
 import 'package:agitation/models/client.dart';
 import 'package:agitation/models/workman.dart';
-import 'package:agitation/pages/main_page/main_page.dart';
 import 'package:agitation/utils/functions/main_functions.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter/widgets.dart';
 import 'package:agitation/models/task/image.dart' as image;
+import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
 import 'package:image_picker/image_picker.dart';
 
@@ -222,10 +221,12 @@ class AboutOrderProvider extends ChangeNotifier {
     if (result['status'] == HttpConnection.data) {
       isLoading = false;
       notifyListeners();
+      Get.back(result: true);
       return true;
     } else {
       isLoading = false;
       notifyListeners();
+      Get.back();
       return false;
     }
   }

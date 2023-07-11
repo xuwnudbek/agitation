@@ -75,12 +75,13 @@ class AddClientProvider extends ChangeNotifier {
 
     if (result['status'] == HttpConnection.data) {
       MainSnackBar.successful("client_added".tr);
-      Get.offAll(() => AboutOrderPage(id: taskId));
     } else {
       print(result['data']['message']);
     }
 
     isClientLoading = false;
     notifyListeners();
+
+    return true;
   }
 }

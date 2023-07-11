@@ -1,9 +1,13 @@
+import 'dart:convert';
+
 import 'package:agitation/controller/https/https.dart';
 import 'package:agitation/models/workman.dart';
 import 'package:flutter/material.dart';
+import 'package:hive_flutter/adapters.dart';
 
 class OrderProvider extends ChangeNotifier {
   List<Workman> teamWorkers = [];
+  bool isNull = false;
   var allTasks = [];
   var newTasks = [];
   var progTasks = [];
@@ -12,7 +16,8 @@ class OrderProvider extends ChangeNotifier {
 
   bool isLoading = false;
 
-  OrderProvider() {
+  OrderProvider({Function? moderation}) {
+    moderation?.call();
     onInit();
   }
 
@@ -27,6 +32,8 @@ class OrderProvider extends ChangeNotifier {
     var result = await HttpService.GET(HttpService.home);
 
     if (result["status"] == HttpConnection.data) {
+      result['data']['data'] == null ? isNull = true : isNull = false;
+
       allTasks = result["data"]['data']?["tasks"] ?? [];
       var workers = result["data"]['data']?["workers"] ?? [];
 

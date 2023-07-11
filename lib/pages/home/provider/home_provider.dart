@@ -19,8 +19,13 @@ class HomeProvider extends ChangeNotifier {
     print("__________________________group_id: $group_id");
 
     //initialize pushers
-    PusherService.init("channel_$group_id");
+
     PusherService.init("chat_$user_id");
+
+    PusherService.init("notification_w");
+    PusherService.init("notification_l");
+    PusherService.init("notification_g");
+    
   }
 
   DateTime? currentBackPressTime;

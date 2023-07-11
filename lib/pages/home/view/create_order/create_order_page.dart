@@ -43,7 +43,7 @@ class CreateOrderPage extends StatelessWidget {
                             const SizedBox(width: 20),
                             Text(
                               // "${provider.countTotal}",
-                              "s",
+                              "${orderProvider.tasks.length}",
                               style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: HexToColor.fontBorderColor),
                             ),
                           ],

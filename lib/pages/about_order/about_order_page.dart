@@ -49,8 +49,10 @@ class AboutOrderPage extends StatelessWidget {
                               var res = await provider.finishTask(id);
                               if (res) {
                                 MainSnackBar.successful("${provider.task!.company!.title} task_finished".tr);
+                                Get.back(result: true);
                               } else {
                                 MainSnackBar.error("task_dont_finished".tr);
+                                Get.back();
                               }
                             },
                           );
@@ -340,8 +342,13 @@ class AboutOrderPage extends StatelessWidget {
                                         children: [
                                           Expanded(
                                             child: MainMaterialButton(
-                                                onPressed: () {
-                                                  var status = Get.to(() => AddClientPage(taskId: id));
+                                                onPressed: () async {
+                                                  var status = await Get.to(() => AddClientPage(taskId: id));
+                                                  if (status != null) {
+                                                    provider.onInit();
+                                                  } else {
+                                                    print(12312312);
+                                                  }
                                                 },
                                                 color: HexToColor.fontBorderColor,
                                                 text: "add_client".tr),
