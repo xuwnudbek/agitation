@@ -2,6 +2,7 @@ import 'dart:convert';
 
 import 'package:agitation/controller/https/https.dart';
 import 'package:agitation/controller/pusher/pusher_service.dart';
+import 'package:agitation/models/admin.dart';
 import 'package:agitation/models/message.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -14,11 +15,21 @@ class ChatProvider extends ChangeNotifier {
 
   List<Message> messages = [];
   var user;
+  Admin? admin;
+
+  Set<DateTime> dateSets = {};
+  DateTime currentDate = DateTime.parse(DateTime.now().toString().split(" ")[0]);
 
   ChatProvider() {
     onInit();
     getAllMessages();
     onMsg();
+  }
+
+  addToDateSets(DateTime date) {
+    date = DateTime.parse(date.toString().split(" ")[0]);
+    dateSets.add(date);
+    notifyListeners();
   }
 
   onInit() async {
@@ -42,39 +53,35 @@ class ChatProvider extends ChangeNotifier {
     }
 
     var result = await HttpService.POST(HttpService.message, {"text": msg});
+
     msgController.clear();
     notifyListeners();
 
-    if (result['status'] == HttpConnection.data) {
-      messages.clear();
+    getAllMessages();
 
-      for (var msg in result['data']['data']) {
-        messages.add(Message.fromJson(msg));
-        notifyListeners();
-      }
-      messages = messages.reversed.toList();
-      notifyListeners();
-    }
     isLoading = false;
     notifyListeners();
   }
 
   getAllMessages() async {
-    isMsgUploading = true;
-    notifyListeners();
-
     var result = await HttpService.GET(HttpService.message);
 
     if (result['status'] == HttpConnection.data) {
       messages.clear();
 
       for (var msg in result['data']['data']) {
-        messages.add(Message.fromJson(msg));
+        Message message = Message.fromJson(msg);
+        addToDateSets(message.createdAt!);
+        messages.add(message);
+        if (message.admin != null) {
+          admin = message.admin;
+        }
         notifyListeners();
       }
-      notifyListeners();
     }
-    isMsgUploading = false;
+
+    print(messages.length);
+
     notifyListeners();
   }
 
@@ -86,37 +93,11 @@ class ChatProvider extends ChangeNotifier {
       event = event as PusherEvent;
       if (event.eventName == "pusher:subscription_succeeded") return;
       if (event.eventName != "message") return;
-
-      print("___________________RuntimeType: ${event.data.runtimeType}");
-
-      // var eventData = jsonDecode(event.data);
-      print("___________________msgLength 1: ${messages.length}");
-
-      // messages.add(Message.fromJson(eventData["data"]));
-
       /////////////////////////////////////////
 
-      print("___________________msgLength 1: ${000000000000000000}");
-
-      var result = await HttpService.GET(HttpService.message);
-      msgController.clear();
-      notifyListeners();
-
-      if (result['status'] == HttpConnection.data) {
-        messages.clear();
-
-        for (var msg in result['data']['data']) {
-          messages.add(Message.fromJson(msg));
-          notifyListeners();
-        }
-        // messages = messages.reversed.toList();
-        notifyListeners();
-      }
-
+      getAllMessages();
       /////////////////////////////////////////
-
       notifyListeners();
-      print("___________________msgLength 2: ${messages.length}");
     });
   }
 }

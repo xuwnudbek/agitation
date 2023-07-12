@@ -1,6 +1,7 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:agitation/controller/pusher/pusher_service.dart';
 import 'package:agitation/models/workman.dart';
 import 'package:agitation/pages/main_page/main_page.dart';
 import 'package:agitation/utils/functions/main_functions.dart';
@@ -11,6 +12,7 @@ import 'package:agitation/controller/https/https.dart';
 import 'package:agitation/models/lock_indicator.dart';
 import 'package:agitation/pages/lock_page/lock_page.dart';
 import 'package:agitation/utils/snack_bar/main_snack_bar.dart';
+import 'package:image_picker/image_picker.dart';
 import 'package:local_auth/local_auth.dart';
 import 'package:package_info_plus/package_info_plus.dart';
 
@@ -109,7 +111,7 @@ class ProfileProvider extends ChangeNotifier {
 
   void onFingerPrintChange(value) async {
     if (value) {
-      var lock = jsonDecode(Hive.box("db").get("lock") ?? "null" );
+      var lock = jsonDecode(Hive.box("db").get("lock") ?? "null");
 
       if (lock == null) {
         MainSnackBar.error("must_pin".tr);
@@ -205,12 +207,22 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   void onSaveImage(path) async {
-    //
-    if (3 > 2) {
-      MainSnackBar.successful("succes");
-      // await refresh();
-    } else {
-      MainSnackBar.error("error");
+    XFile file = XFile(path);
+
+    var result = await HttpService.uploadImage(workman!.id, file);
+
+    if (result['status'] == HttpConnection.data) {
+      var user = await Hive.box("db").get("user");
+      if (user != null) {
+        user = jsonDecode(user);
+        user['image'] = result['data']['data']['image'];
+        await Hive.box("db").put("user", jsonEncode(user));
+        notifyListeners();
+      }
+
+      workman!.image = result['data']['data']['image'];
+      notifyListeners();
+      MainSnackBar.successful("image_updated".tr);
     }
   }
 
@@ -236,6 +248,8 @@ class ProfileProvider extends ChangeNotifier {
     await Hive.box("language").clear();
     await Hive.box("fcmToken").clear();
 
+    Get.back();
+    await Future.delayed(Duration(milliseconds: 500));
     Get.offAll(() => MainPage());
   }
 }

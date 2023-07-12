@@ -83,13 +83,17 @@ const Map<String, String> uz = {
 
   "not_moderated": "Sizning ma'lumotlaringiz\nmoderatsiyadan o'tmagan",
   "check_moderation": "Ma'lumotlaringizni\nmoderatsiyadan o'tkazilmoqda",
-  "moderated": "Sizning ma'lumotlaringiz\nmoderatsiyadan o'tdi",
+  "moderated": "Sizning ma'lumotlaringiz\nmoderatsiyadan o'tgan",
 
   "no_tasks": "Topshiriqlar yo'q",
 
   "message": "Xabar",
   "super_admin": "Super Admin",
   "reply": "Javob yozish",
+
+  "select_image": "Avatar uchun rasm\ntanlang",
+  "image_updated": "Rasm muvoffaqyatli yangilandi",
+  
 
   // "date_create":"Shartnoma tuzilgan sana",
   // "accepted":"Qabul qildim",

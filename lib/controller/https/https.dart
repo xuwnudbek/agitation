@@ -144,6 +144,31 @@ class HttpService {
       return data;
     }
   }
+
+  static uploadImage(int userId, XFile image) async {
+    Map<String, String>? headers = await getHeaders();
+    var request = http.MultipartRequest(
+      'POST',
+      Uri.http(HttpService.mainUrl, HttpService.profile + "/$userId"),
+    );
+
+    request.headers.addAll(headers!);
+    request.fields['_method'] = "PUT";
+    request.files.add(await http.MultipartFile.fromPath('image', image.path));
+
+    var response = await request.send();
+
+    if (response.statusCode < 299) {
+      var data = {'status': HttpConnection.data, 'data': jsonDecode(await response.stream.bytesToString())};
+      print("status: ${response.statusCode} => ${data}");
+      return data;
+    } else {
+      var data = {'status': HttpConnection.error, 'data': jsonDecode(await response.stream.bytesToString())};
+      print("status: ${response.statusCode} => ${data}");
+
+      return data;
+    }
+  }
 }
 
 enum HttpConnection { data, none, error }

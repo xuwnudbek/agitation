@@ -1,15 +1,12 @@
 import 'dart:async';
 import 'dart:convert';
-import 'package:agitation/controller/notification/notification_service.dart';
-import 'package:agitation/controller/pusher/pusher_service.dart';
-import 'package:agitation/firebase_options.dart';
 import 'package:agitation/models/lock_indicator.dart';
+import 'package:agitation/pages/chat/chat_page.dart';
 import 'package:agitation/pages/connection/connection_page.dart';
 import 'package:agitation/pages/connection/provider/connection_provider.dart';
 import 'package:agitation/pages/home/home.dart';
 import 'package:agitation/pages/lock_page/lock_page.dart';
 import 'package:agitation/pages/main_page/main_page.dart';
-import 'package:agitation/pages/moderation/provider/moderation_provider.dart';
 import 'package:agitation/utils/hex_to_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -44,14 +41,14 @@ Future init() async {
 class MyApp extends StatelessWidget {
   MyApp({super.key});
 
-  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
-
-
   @override
   Widget build(BuildContext context) {
     // context.read<CenterProvider>().onInit();
     return GetMaterialApp(
-      navigatorKey: navigatorKey,
+      routes: {
+        "/Home": (context) => Home(),
+        "/Chat": (context) => ChatPage(),
+      },
       // builder: EasyLoading.init(),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: [
@@ -77,7 +74,6 @@ class MyApp extends StatelessWidget {
       home: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => ConnectionProvider()),
-          ChangeNotifierProvider(create: (_) => ModerationProvider()),
         ],
         builder: (context, child) {
           return Consumer<ConnectionProvider>(

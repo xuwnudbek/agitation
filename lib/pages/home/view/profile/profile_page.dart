@@ -90,6 +90,7 @@ class ProfilePage extends StatelessWidget {
                                                         "${HttpService.image}/${provider.workman!.image!}",
                                                         height: 100.0,
                                                         width: 100.0,
+                                                        fit: BoxFit.cover,
                                                         frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
                                                           return child;
                                                         },
@@ -394,9 +395,23 @@ class ProfilePage extends StatelessWidget {
             // HexToColor.mainColor.withOpacity(0.7),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
             contentPadding: EdgeInsets.only(top: 10.0),
+            title: Row(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Text(
+                  "select_image".tr,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    color: Colors.white,
+                    fontSize: 18,
+                    fontWeight: FontWeight.w600,
+                  ),
+                ),
+              ],
+            ),
             content: Container(
               width: Get.size.width * 0.8,
-              height: Get.size.height * 0.2,
+              height: Get.size.width * 0.4,
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                 // crossAxisAlignment: CrossAxisAlignment.stretch,
@@ -407,10 +422,10 @@ class ProfilePage extends StatelessWidget {
                     margin: const EdgeInsets.all(25),
                     decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), boxShadow: [
                       BoxShadow(
-                        color: Colors.amber.withOpacity(0.2),
+                        color: Colors.blueGrey.withOpacity(0.2),
                         spreadRadius: 2,
                         blurRadius: 4,
-                        offset: Offset(0, 3), // changes position of shadow
+                        offset: Offset(0, 3),
                       ),
                     ]),
                     child: InkWell(
@@ -431,7 +446,7 @@ class ProfilePage extends StatelessWidget {
                     margin: const EdgeInsets.all(25),
                     decoration: BoxDecoration(color: Colors.white, borderRadius: BorderRadius.circular(10), boxShadow: [
                       BoxShadow(
-                        color: Colors.amber.withOpacity(0.2),
+                        color: Colors.blueGrey.withOpacity(0.2),
                         spreadRadius: 2,
                         blurRadius: 4,
                         offset: Offset(0, 3), // changes position of shadow

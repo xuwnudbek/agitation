@@ -152,7 +152,11 @@ class OrderPage extends StatelessWidget {
                                                 dataSource: orderProvider.isLoading
                                                     ? []
                                                     : orderProvider.allTasks.length == orderProvider.finTasks.length
-                                                        ? [_PieData("aa", 1, "100%", HexToColor.greenColor)]
+                                                        ? orderProvider.allTasks.length == 0
+                                                            ? []
+                                                            : [
+                                                                _PieData("aa", 1, "100%", HexToColor.greenColor),
+                                                              ]
                                                         : [
                                                             _PieData(
                                                               "aa",

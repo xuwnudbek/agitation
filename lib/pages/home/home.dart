@@ -4,13 +4,14 @@ import 'package:agitation/pages/home/view/order/order_page.dart';
 import 'package:agitation/pages/home/view/profile/profile_page.dart';
 import 'package:agitation/pages/moderation/moderation_page.dart';
 import 'package:agitation/pages/moderation/provider/moderation_provider.dart';
-import 'package:agitation/utils/widget/circlar_progress_indicator.dart';
 import 'package:agitation/utils/widget/loading_page.dart';
 import 'package:flutter/material.dart';
 import 'package:agitation/pages/home/provider/home_provider.dart';
 
 import 'package:agitation/utils/widget/main_button_navigation_bar/main_button_navigation_bar.dart';
 import 'package:provider/provider.dart';
+
+import 'package:move_to_background/move_to_background.dart';
 
 class Home extends StatelessWidget {
   const Home({super.key});
@@ -26,19 +27,20 @@ class Home extends StatelessWidget {
 
     return MultiProvider(
       providers: [
-        ChangeNotifierProvider<HomeProvider>(
-          create: (context) => HomeProvider(),
-        ),
-        ChangeNotifierProvider<ModerationProvider>(
-          create: (context) => ModerationProvider(),
-        ),
+        ChangeNotifierProvider(create: (_) => HomeProvider()),
+        ChangeNotifierProvider(create: (_) => ModerationProvider()),
       ],
       builder: (context, child) {
         return Consumer<HomeProvider>(builder: (context, provider, child) {
           return Consumer<ModerationProvider>(builder: (ctx, moderationProvider, _) {
-            return moderationProvider.isModerated && !moderationProvider.isLoading
+            print(moderationProvider.isModerated);
+            return moderationProvider.isModerated ?? false
                 ? WillPopScope(
-                    onWillPop: provider.onWillPop,
+                    onWillPop: () async {
+                      await MoveToBackground.moveTaskToBack();
+                      print("Back Pressed");
+                      return provider.onWillPop();
+                    },
                     child: Scaffold(
                       body: selectedPage[provider.indexItem],
                       bottomNavigationBar: MainButtonNavigationBar(

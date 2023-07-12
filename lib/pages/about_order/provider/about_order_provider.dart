@@ -91,8 +91,6 @@ class AboutOrderProvider extends ChangeNotifier {
 
     List<String> images = await Future.wait(pickedImages.map((e) async => await MainFunctions.base64Encoder(e!)));
 
-    print(images.length);
-    print(images[0].runtimeType);
 
     var data = {
       "worker_id": "$workerId",

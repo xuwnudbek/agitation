@@ -12,51 +12,48 @@ class ModerationPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return ChangeNotifierProvider<ModerationProvider>(
-        create: (context) => ModerationProvider(),
-        builder: (context, snapshot) {
-          return Consumer<ModerationProvider>(builder: (ctx, provider, _) {
-            return Scaffold(
-              body: SafeArea(
-                child: Center(
-                  child: Column(
-                    mainAxisSize: MainAxisSize.min,
-                    children: [
-                      SvgPicture.asset(
-                        "assets/images/${provider.isLoading ? "check" : provider.isModerated ? "check" : "cross"}.svg",
-                        width: 100,
-                      ),
-                      Text(
-                        "${provider.isLoading ? "check_moderation" : provider.isModerated ? "moderated" : "not_moderated"}"
-                            .tr,
-                        textAlign: TextAlign.center,
-                        style: TextStyle(
-                          fontSize: 20,
-                          fontWeight: FontWeight.bold,
-                        ),
-                      ),
-                      SizedBox(height: 7),
-                      InkWell(
-                        borderRadius: BorderRadius.circular(50),
-                        onTap: () {
-                          provider.checkModerationStatus();
-                        },
-                        child: ClipRRect(
-                          borderRadius: BorderRadius.circular(50),
-                          child: SizedBox.square(
-                            dimension: 100,
-                            child: Center(
-                              child: provider.isLoading ? LoadingIndicator(color: HexToColor.fontBorderColor) : Text("refresh".tr),
-                            ),
-                          ),
-                        ),
-                      ),
-                    ],
+    return Consumer<ModerationProvider>(builder: (ctx, provider, _) {
+      print("ModerationPage: ${provider.isModerated}");
+      return Scaffold(
+        body: SafeArea(
+          child: Center(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                SvgPicture.asset(
+                  "assets/images/${provider.isLoading ? "check" : provider.isModerated ?? false ? "check" : "cross"}.svg",
+                  width: 100,
+                ),
+                Text(
+                  "${provider.isLoading ? "check_moderation" : provider.isModerated ?? false ? "moderated" : "not_moderated"}"
+                      .tr,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(
+                    fontSize: 20,
+                    fontWeight: FontWeight.bold,
                   ),
                 ),
-              ),
-            );
-          });
-        });
+                SizedBox(height: 7),
+                InkWell(
+                  borderRadius: BorderRadius.circular(50),
+                  onTap: () async {
+                    await provider.checkModerationStatus();
+                  },
+                  child: ClipRRect(
+                    borderRadius: BorderRadius.circular(50),
+                    child: SizedBox.square(
+                      dimension: 100,
+                      child: Center(
+                        child: provider.isLoading ? LoadingIndicator(color: HexToColor.fontBorderColor) : Text("refresh".tr),
+                      ),
+                    ),
+                  ),
+                ),
+              ],
+            ),
+          ),
+        ),
+      );
+    });
   }
 }

@@ -29,7 +29,7 @@ class NotificationService {
     notiPlugin.initialize(
       initSettings,
       onDidReceiveNotificationResponse: (details) {
-        print("onDidReceiveLocalNotification: $details");
+        Get.toNamed("${details.payload}");
       },
     );
   }
@@ -46,21 +46,6 @@ class NotificationService {
       color: Colors.blue,
       timeoutAfter: 1000 * 3600,
       showWhen: true,
-      actions: [
-        if (isMsg)
-          AndroidNotificationAction(
-            "${DateTime.now().millisecond}",
-            "reply".tr,
-            inputs: [
-              AndroidNotificationActionInput(
-                allowFreeFormInput: true,
-                choices: [],
-                allowedMimeTypes: ["unknown"].toSet(),
-                label: "Label",
-              ),
-            ],
-          ),
-      ],
     );
     var iOS = DarwinNotificationDetails();
     var notiDetails = NotificationDetails(android: android, iOS: iOS);
@@ -70,6 +55,7 @@ class NotificationService {
       "$title",
       "$body",
       notiDetails,
+      payload: isMsg ? "/Chat" : "/Home",
     );
   }
 }
