@@ -89,7 +89,7 @@ const Map<String, String> uz = {
 
   "message": "Xabar",
   "super_admin": "Super Admin",
-
+  "reply": "Javob yozish",
 
   // "date_create":"Shartnoma tuzilgan sana",
   // "accepted":"Qabul qildim",

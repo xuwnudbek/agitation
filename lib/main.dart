@@ -42,12 +42,16 @@ Future init() async {
 }
 
 class MyApp extends StatelessWidget {
-  const MyApp({super.key});
+  MyApp({super.key});
+
+  final GlobalKey<NavigatorState> navigatorKey = GlobalKey<NavigatorState>();
+
 
   @override
   Widget build(BuildContext context) {
     // context.read<CenterProvider>().onInit();
     return GetMaterialApp(
+      navigatorKey: navigatorKey,
       // builder: EasyLoading.init(),
       debugShowCheckedModeBanner: false,
       localizationsDelegates: [

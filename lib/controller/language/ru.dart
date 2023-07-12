@@ -83,8 +83,8 @@ const Map<String, String> ru = {
   "not_moderated": "Модерация не пройдена",
 
   "message": "Сообщение",
-
   "super_admin": "Супер Админ",
+  "reply": "Ответить на сообщение",
 
   // "client": "Клиент",
   // "date_create": "Дата создания договора",

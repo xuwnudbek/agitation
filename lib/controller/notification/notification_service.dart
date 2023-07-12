@@ -1,7 +1,9 @@
 import 'dart:typed_data';
 
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 class NotificationService {
@@ -18,31 +20,53 @@ class NotificationService {
     }
 
     var initSettings = InitializationSettings(
-      android: AndroidInitializationSettings("@drawable/notification"),
+      android: AndroidInitializationSettings(
+        "@drawable/notification",
+      ),
       iOS: DarwinInitializationSettings(),
     );
 
-    notiPlugin.initialize(initSettings);
+    notiPlugin.initialize(
+      initSettings,
+      onDidReceiveNotificationResponse: (details) {
+        print("onDidReceiveLocalNotification: $details");
+      },
+    );
   }
 
   showNotification({int? id, required String title, required String body, required bool isMsg}) async {
     var android = AndroidNotificationDetails(
-      "channel_Id",
-      "channel_Name",
+      "channel_Id_${DateTime.now().millisecond}",
+      "channel_Name_${DateTime.now().millisecond}",
       importance: Importance.max,
       priority: Priority.high,
       playSound: true,
       enableVibration: true,
       enableLights: true,
       color: Colors.blue,
-      vibrationPattern: Int64List.fromList([0, 1000, 500, 1000]),
       timeoutAfter: 1000 * 3600,
+      showWhen: true,
+      actions: [
+        if (isMsg)
+          AndroidNotificationAction(
+            "${DateTime.now().millisecond}",
+            "reply".tr,
+            inputs: [
+              AndroidNotificationActionInput(
+                allowFreeFormInput: true,
+                choices: [],
+                allowedMimeTypes: ["unknown"].toSet(),
+                label: "Label",
+              ),
+            ],
+          ),
+      ],
     );
     var iOS = DarwinNotificationDetails();
     var notiDetails = NotificationDetails(android: android, iOS: iOS);
 
     await notiPlugin.show(
-      id ?? DateTime.now().millisecond,
+      1,
       "$title",
       "$body",
       notiDetails,

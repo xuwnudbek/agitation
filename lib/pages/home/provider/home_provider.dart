@@ -15,17 +15,18 @@ class HomeProvider extends ChangeNotifier {
     var group_id = user["group_id"];
     var user_id = user["id"];
 
+    print(user);
+
     print("__________________________user_id: $user_id");
     print("__________________________group_id: $group_id");
 
     //initialize pushers
 
-    PusherService.init("chat_$user_id");
+    if (user['job_title'] == 1) PusherService.init("notification_l");
 
+    PusherService.init("chat_$user_id");
     PusherService.init("notification_w");
-    PusherService.init("notification_l");
-    PusherService.init("notification_g");
-    
+    PusherService.init("notification_$group_id");
   }
 
   DateTime? currentBackPressTime;
