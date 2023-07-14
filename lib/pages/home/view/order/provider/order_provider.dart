@@ -1,9 +1,7 @@
-import 'dart:convert';
-
 import 'package:agitation/controller/https/https.dart';
+import 'package:agitation/controller/notification/notification_service.dart';
 import 'package:agitation/models/workman.dart';
 import 'package:flutter/material.dart';
-import 'package:hive_flutter/adapters.dart';
 
 class OrderProvider extends ChangeNotifier {
   List<Workman> teamWorkers = [];
@@ -14,6 +12,10 @@ class OrderProvider extends ChangeNotifier {
   var finTasks = [];
   var countTotal;
 
+  String? groupName;
+
+  var lengthActiveNotification = 0;
+
   bool isLoading = false;
 
   OrderProvider({Function? moderation}) {
@@ -22,22 +24,31 @@ class OrderProvider extends ChangeNotifier {
   }
 
   void onInit() async {
+    Stream stream = await NotificationService().notiPlugin.getActiveNotifications().asStream();
+
+    stream.listen((event) {
+      lengthActiveNotification = event.length;
+      notifyListeners();
+    });
+
     getOrders();
   }
 
   //get orders from server
   getOrders() async {
+    print(":getOrders");
     isLoading = true;
     notifyListeners();
     var result = await HttpService.GET(HttpService.home);
 
     if (result["status"] == HttpConnection.data) {
+      print("result: ${result['data']['data']}");
       result['data']['data'] == null ? isNull = true : isNull = false;
 
       allTasks = result["data"]['data']?["tasks"] ?? [];
       var workers = result["data"]['data']?["workers"] ?? [];
 
-      print("AllTasks Count: ${allTasks.length}");
+      groupName = result["data"]['data']?["title"] ?? null;
 
       getSeparateTasks(allTasks);
       getSeparateWorkers(workers);
@@ -55,7 +66,7 @@ class OrderProvider extends ChangeNotifier {
     for (var worker in data ?? []) {
       teamWorkers.add(Workman.fromJson(worker));
     }
-    notifyListeners();
+    // notifyListeners();
   }
 
   getSeparateTasks(List? data) {
@@ -69,7 +80,7 @@ class OrderProvider extends ChangeNotifier {
         isDateToday(task["created_at"]) ? newTasks.add(task) : progTasks.add(task);
       }
     }
-    notifyListeners();
+    // notifyListeners();
   }
 
   //check task's date and return true if it is today
@@ -88,10 +99,5 @@ class OrderProvider extends ChangeNotifier {
     getOrders();
 
     await Future.delayed(Duration(milliseconds: 400));
-  }
-
-  @override
-  void dispose() {
-    super.dispose();
   }
 }

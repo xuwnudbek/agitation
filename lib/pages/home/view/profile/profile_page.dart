@@ -77,27 +77,40 @@ class ProfilePage extends StatelessWidget {
                                           },
                                           child: Stack(
                                             children: [
-                                              ClipRRect(
-                                                borderRadius: BorderRadius.circular(50.0),
-                                                child: provider.workman!.image == null
-                                                    ? Image.asset(
-                                                        "assets/images/image_person.png",
-                                                        height: 100,
-                                                        width: 100,
-                                                        fit: BoxFit.cover,
-                                                      )
-                                                    : Image.network(
-                                                        "${HttpService.image}/${provider.workman!.image!}",
-                                                        height: 100.0,
-                                                        width: 100.0,
-                                                        fit: BoxFit.cover,
-                                                        frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
-                                                          return child;
-                                                        },
-                                                        loadingBuilder: (context, child, loadingProgress) {
-                                                          return loadingProgress == null ? child : CPIndicator(color: HexToColor.fontBorderColor);
-                                                        },
-                                                      ),
+                                              CircleAvatar(
+                                                maxRadius: 50,
+                                                backgroundColor: HexToColor.fontBorderColor,
+                                                child: Padding(
+                                                  padding: EdgeInsets.all(5.0),
+                                                  child: ClipRRect(
+                                                    borderRadius: BorderRadius.circular(50.0),
+                                                    child: provider.workman!.image == null
+                                                        ? Image.asset(
+                                                            "assets/images/image_person.png",
+                                                            height: 100,
+                                                            width: 100,
+                                                            fit: BoxFit.cover,
+                                                          )
+                                                        : Image.network(
+                                                            "${HttpService.image}/${provider.workman!.image!}",
+                                                            height: 100.0,
+                                                            width: 100.0,
+                                                            fit: BoxFit.cover,
+                                                            frameBuilder: (context, child, frame, wasSynchronouslyLoaded) {
+                                                              return child;
+                                                            },
+                                                            loadingBuilder: (context, child, loadingProgress) {
+                                                              return loadingProgress == null
+                                                                  ? child
+                                                                  : SizedBox(
+                                                                      width: 100,
+                                                                      height: 100,
+                                                                      child: CPIndicator(color: HexToColor.fontBorderColor),
+                                                                    );
+                                                            },
+                                                          ),
+                                                  ),
+                                                ),
                                               ),
                                               Positioned(
                                                 bottom: 0,
@@ -391,7 +404,7 @@ class ProfilePage extends StatelessWidget {
         context: context,
         builder: (BuildContext context) {
           return AlertDialog(
-            backgroundColor: Colors.grey,
+            backgroundColor: HexToColor.fontBorderColor,
             // HexToColor.mainColor.withOpacity(0.7),
             shape: RoundedRectangleBorder(borderRadius: BorderRadius.all(Radius.circular(20.0))),
             contentPadding: EdgeInsets.only(top: 10.0),
@@ -437,7 +450,7 @@ class ProfilePage extends StatelessWidget {
                           child: Icon(
                         Icons.image,
                         size: Get.size.height * 0.08,
-                        color: Colors.grey.shade600,
+                        color: HexToColor.fontBorderColor,
                       )),
                     ),
                   )),
@@ -461,7 +474,7 @@ class ProfilePage extends StatelessWidget {
                           child: Icon(
                         Icons.camera_alt,
                         size: Get.size.height * 0.08,
-                        color: Colors.grey.shade600,
+                        color: HexToColor.fontBorderColor,
                       )),
                     ),
                   )),

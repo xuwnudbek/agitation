@@ -12,7 +12,8 @@ class TabBarWidget extends StatelessWidget {
     required this.textFirstTab,
     required this.textSecondTab,
     required this.selectItem,
-    this.count = 0,
+    this.count1 = 0,
+    this.count2 = 0,
   });
   Function onSelected;
   Color colorFirstTab;
@@ -20,7 +21,8 @@ class TabBarWidget extends StatelessWidget {
   String textFirstTab;
   String textSecondTab;
   int selectItem;
-  int count;
+  int count1;
+  int count2;
 
   @override
   Widget build(BuildContext context) {
@@ -61,7 +63,7 @@ class TabBarWidget extends StatelessWidget {
                                 ),
                               )
                             : Text(
-                                count > 5 ? "5+" : "$count",
+                                count1 > 5 ? "5+" : "$count1",
                                 style: TextStyle(fontSize: 12, color: selectItem == 0 ? colorFirstTab : Colors.white, fontWeight: FontWeight.w500),
                               ),
                       ),
@@ -88,6 +90,27 @@ class TabBarWidget extends StatelessWidget {
                       color: selectItem != 1 ? colorSecondTab : Colors.white,
                     ),
                   ),
+                  Consumer<OrderProvider>(
+                    builder: (context, value, child) => Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 0),
+                      child: CircleAvatar(
+                        backgroundColor: selectItem != 1 ? colorFirstTab : Colors.white,
+                        child: value.isLoading
+                            ? SizedBox(
+                                width: 10,
+                                height: 10,
+                                child: CircularProgressIndicator(
+                                  strokeWidth: 2,
+                                  color: Colors.blueGrey,
+                                ),
+                              )
+                            : Text(
+                                count2 > 5 ? "5+" : "$count2",
+                                style: TextStyle(fontSize: 12, color: selectItem == 1 ? colorFirstTab : Colors.white, fontWeight: FontWeight.w500),
+                              ),
+                      ),
+                    ),
+                  )
                 ],
               ),
             )

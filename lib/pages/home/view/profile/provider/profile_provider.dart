@@ -1,7 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
 
-import 'package:agitation/controller/pusher/pusher_service.dart';
 import 'package:agitation/models/workman.dart';
 import 'package:agitation/pages/main_page/main_page.dart';
 import 'package:agitation/utils/functions/main_functions.dart';
@@ -248,8 +246,6 @@ class ProfileProvider extends ChangeNotifier {
     await Hive.box("language").clear();
     await Hive.box("fcmToken").clear();
 
-    Get.back();
-    await Future.delayed(Duration(milliseconds: 500));
     Get.offAll(() => MainPage());
   }
 }

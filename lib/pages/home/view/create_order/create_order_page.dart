@@ -2,7 +2,7 @@ import 'package:agitation/models/task/task.dart';
 import 'package:agitation/pages/create_order/create_organization.dart';
 import 'package:agitation/pages/create_order/provider/organization_provider.dart';
 import 'package:agitation/pages/finished_order_info/finished_order_info.dart';
-import 'package:agitation/pages/home/view/order/provider/order_provider.dart';
+import 'package:agitation/pages/notification/notification_page.dart';
 import 'package:agitation/utils/hex_to_color.dart';
 import 'package:agitation/utils/widget/circlar_progress_indicator.dart';
 import 'package:agitation/utils/widget/main_card_to_title.dart';
@@ -59,7 +59,7 @@ class CreateOrderPage extends StatelessWidget {
                               left: 10,
                               child: InkWell(
                                 onTap: () {
-                                  // Get.to(const NotificationPage());
+                                  Get.to(const NotificationPage());
                                 },
                                 child: CircleAvatar(
                                   backgroundColor: HexToColor.detailsColor,
@@ -71,7 +71,7 @@ class CreateOrderPage extends StatelessWidget {
                               ),
                             ),
                             Visibility(
-                              visible: true,
+                              visible: false,
                               // context
                               //         .watch<CenterProvider>()
                               //         .sum !=
@@ -102,7 +102,7 @@ class CreateOrderPage extends StatelessWidget {
                   Padding(
                     padding: const EdgeInsets.all(8.0),
                     child: Text(
-                      "Добавить новую организацию",
+                      "add_new_org".tr,
                       style: TextStyle(
                         fontSize: 17,
                         fontWeight: FontWeight.w600,
@@ -117,15 +117,20 @@ class CreateOrderPage extends StatelessWidget {
                     child: Center(
                       child: GestureDetector(
                         onTap: () async {
-                          await Get.to(() => CreateOrganization());
-                          orderProvider.refresh();
+                          if (orderProvider.hasGroup) {
+                            await Get.to(() => CreateOrganization());
+                            orderProvider.refresh();
+                          }
                         },
                         child: Container(
                           padding: const EdgeInsets.all(2),
-                          decoration: BoxDecoration(color: HexToColor.fontBorderColor, borderRadius: BorderRadius.circular(50)),
+                          decoration: BoxDecoration(
+                            color: orderProvider.hasGroup ? HexToColor.fontBorderColor : HexToColor.fontBorderColor.withOpacity(0.5),
+                            borderRadius: BorderRadius.circular(50),
+                          ),
                           child: Icon(
                             Icons.add_circle_outline_outlined,
-                            color: Colors.white,
+                            color: orderProvider.hasGroup ? Colors.white : Colors.white.withOpacity(0.5),
                             size: 35,
                           ),
                         ),

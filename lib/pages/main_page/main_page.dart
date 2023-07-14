@@ -2,7 +2,6 @@ import 'package:agitation/pages/main_page/provider/main_page_provider.dart';
 import 'package:agitation/utils/widget/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
-import 'package:hive_flutter/adapters.dart';
 
 import 'package:provider/provider.dart';
 

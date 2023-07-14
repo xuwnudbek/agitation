@@ -3,7 +3,6 @@ import 'dart:ui';
 import 'package:agitation/controller/https/https.dart';
 import 'package:agitation/models/workman.dart';
 import 'package:agitation/pages/home/view/profile/provider/profile_provider.dart';
-import 'package:dropdown_button2/dropdown_button2.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/get_utils.dart';

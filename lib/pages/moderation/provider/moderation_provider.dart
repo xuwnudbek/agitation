@@ -2,7 +2,6 @@ import 'dart:convert';
 
 import 'package:agitation/controller/https/https.dart';
 import 'package:flutter/widgets.dart';
-import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
 
 class ModerationProvider extends ChangeNotifier {
@@ -10,13 +9,10 @@ class ModerationProvider extends ChangeNotifier {
   bool isLoading = false;
 
   ModerationProvider() {
-    print("ModerationProvider init");
     onInit();
   }
 
   void onInit() {
-    print("ModerationProvider init func");
-
     checkModerationStatus();
   }
 
@@ -31,6 +27,7 @@ class ModerationProvider extends ChangeNotifier {
     var res = await HttpService.GET(HttpService.profile);
 
     if (res['status'] == HttpConnection.data) {
+      print("ModerationProvider:: ${res['data']['data']}");
       var status = res['data']['data']['status'] ?? 0;
       user['status'] = status;
       user['group_id'] = res['data']['data']['group_id'];
@@ -42,7 +39,10 @@ class ModerationProvider extends ChangeNotifier {
     var userTest = Hive.box("db").get("user");
     if (userTest == null) return;
     userTest = jsonDecode(userTest);
-    print(userTest);
+
+    print("111111111 ${isModerated}");
+    print(userTest['status'].runtimeType);
+    print("111111111 ${isModerated}");
 
     isModerated = userTest['status'] == 1;
 

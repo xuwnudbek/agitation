@@ -84,7 +84,7 @@ class SignUpPage extends StatelessWidget {
                         Padding(
                           padding: const EdgeInsets.symmetric(horizontal: 10, vertical: 5),
                           child: MainTextField(
-                            title: "Username",
+                            title: "username".tr,
                             hintText: "username",
                             controller: provider.username,
                           ),

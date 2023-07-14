@@ -1,8 +1,5 @@
 import 'dart:convert';
-import 'dart:io';
-import 'package:agitation/pages/home/home.dart';
 import 'package:agitation/pages/sign_in/sign_in_page.dart';
-import 'package:agitation/pages/verification/verification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:hive/hive.dart';

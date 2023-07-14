@@ -1,6 +1,5 @@
 import 'dart:convert';
 import 'dart:io';
-import 'package:agitation/utils/functions/main_functions.dart';
 import 'package:agitation/utils/snack_bar/main_snack_bar.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -9,8 +8,8 @@ import 'package:image_picker/image_picker.dart';
 
 class HttpService {
   // static String mainUrl = "shop-bot.orzugrand.uz";
-  // static String mainUrl = "192.168.0.116:8000";
-  static String mainUrl = "192.168.0.125:2004";
+  // static String mainUrl = "192.168.0.125:2004";
+  static String mainUrl = "agetation.orzugrand.uz";
   static String additional = "api/";
 
   static String profile = "${additional}worker";
@@ -28,7 +27,7 @@ class HttpService {
   static String changeTaskStatus = "${additional}changeTask";
   static String task = "${additional}task";
 
-  static String image = "http://$mainUrl/images";
+  static String image = Uri.http(mainUrl, "/images").toString();
   static String message = "${additional}message";
 
   static String newOrder = "${additional}tickets";
@@ -64,12 +63,13 @@ class HttpService {
     try {
       Map<String, String>? headers = await getHeaders();
 
-      // Uri.https(HttpService.mainUrl, url, params),
-      var response = await http.post(
-        Uri.http(HttpService.mainUrl, url, params),
-        headers: headers,
-        body: jsonEncode(body),
-      );
+      var response = await http
+          .post(
+            Uri.http(HttpService.mainUrl, url, params),
+            headers: headers,
+            body: jsonEncode(body),
+          )
+          .timeout(Duration(minutes: 10));
       if (response.statusCode < 299) {
         var data = {'status': HttpConnection.data, 'data': jsonDecode(response.body)};
         return data;
@@ -122,11 +122,14 @@ class HttpService {
       Map<String, String>? headers = await getHeaders();
 
       // Uri.https(HttpService.mainUrl, url, params),
-      var response = await http.patch(
-        Uri.http(HttpService.mainUrl, url, params),
-        headers: headers,
-        body: jsonEncode(body),
-      );
+      var response = await http
+          .patch(
+            Uri.http(HttpService.mainUrl, url, params),
+            headers: headers,
+            body: jsonEncode(body),
+          )
+          .timeout(Duration(minutes: 10));
+      ;
       if (response.statusCode < 299) {
         var data = {'status': HttpConnection.data, 'data': jsonDecode(response.body)};
         return data;
@@ -165,6 +168,42 @@ class HttpService {
     } else {
       var data = {'status': HttpConnection.error, 'data': jsonDecode(await response.stream.bytesToString())};
       print("status: ${response.statusCode} => ${data}");
+
+      return data;
+    }
+  }
+
+  static postWithFile(url, data, images) async {
+    //upload images as file not base64
+    try {
+      Map<String, String>? headers = await getHeaders();
+
+      var request = http.MultipartRequest(
+        'POST',
+        Uri.http(HttpService.mainUrl, url),
+      );
+
+      request.headers.addAll(headers!);
+      request.fields.addAll(data);
+
+      for (var image in images) {
+        request.files.add(await http.MultipartFile.fromPath('images[]', image.path));
+      }
+
+      var response = await request.send();
+
+      if (response.statusCode < 299) {
+        var data = {'status': HttpConnection.data, 'data': jsonDecode(await response.stream.bytesToString())};
+        return data;
+      } else {
+        var data = {'status': HttpConnection.error, 'data': jsonDecode(await response.stream.bytesToString())};
+        return data;
+      }
+    } on HttpException {
+      var data = {
+        'status': HttpConnection.none,
+        'data': {'message': "internet_error".tr}
+      };
 
       return data;
     }

@@ -1,4 +1,3 @@
-import 'dart:io';
 
 import 'package:agitation/controller/https/https.dart';
 import 'package:agitation/models/admin.dart';
@@ -37,187 +36,134 @@ class ChatPage extends StatelessWidget {
               ),
               floatingActionButton: _buildBottomForm(provider),
               floatingActionButtonLocation: FloatingActionButtonLocation.miniCenterDocked,
-              body: Container(
-                alignment: provider.isMsgUploading ? Alignment.center : Alignment.topCenter,
-                padding: EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 75),
-                child: provider.isMsgUploading
-                    ? CPIndicator()
-                    : SingleChildScrollView(
-                        reverse: true,
-                        dragStartBehavior: DragStartBehavior.start,
-                        controller: ScrollController(
-                          initialScrollOffset: -1000000,
-                        ),
-                        child: Column(
-                          // mainAxisAlignment: MainAxisAlignment.start,
-                          children: provider.messages.fold(
-                            <Widget>[],
-                            (previousValue, element) => previousValue
-                              ..addAll(
-                                _buildMsgCard(element, provider),
-                              ),
-                          ),
-                        ),
+              body: !provider.isLoading && provider.messages.isEmpty
+                  ? Center(
+                      child: Text(
+                        "no_message".tr,
                       ),
-              ),
+                    )
+                  : Container(
+                      alignment: provider.isMsgUploading ? Alignment.center : Alignment.topCenter,
+                      padding: EdgeInsets.only(left: 15, top: 10, right: 15, bottom: 75),
+                      child: provider.isMsgUploading
+                          ? CPIndicator()
+                          : SingleChildScrollView(
+                              reverse: true,
+                              dragStartBehavior: DragStartBehavior.start,
+                              controller: ScrollController(
+                                initialScrollOffset: -1000000,
+                              ),
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: provider.messages.entries
+                                    .toList()
+                                    .map(
+                                      (e) => _buildMsgColumn(e.key, e.value),
+                                    )
+                                    .toList(),
+                              ),
+                            ),
+                    ),
             );
           });
         });
   }
 
-  List<Widget> _buildMsgCard(Message msg, ChatProvider provider) {
+  Widget _buildMsgColumn(String date, List<Message> msgList) {
+    return Column(
+      children: [
+        _dateWidget(date),
+        SizedBox(height: 10),
+        ...msgList.map((e) => _buildMsgCard(e)),
+      ],
+    );
+  }
+
+  Widget _buildMsgCard(Message msg) {
     Admin? admin = msg.admin;
     DateTime msgDate = msg.createdAt!;
     String msgTime = "${msg.createdAt!.hour}:${msg.createdAt!.minute}";
 
-    print("All msg date sets: ${provider.dateSets}");
-    print("Sets: ${provider.currentDate}");
-
-    if (4 > 2) {
-      return [
-        Align(
-          alignment: msg.isAdmin == 1 ? Alignment.topLeft : Alignment.topRight,
-          child: Row(
+    return Align(
+      alignment: msg.isAdmin == 1 ? Alignment.topLeft : Alignment.topRight,
+      child: Row(
+        mainAxisSize: MainAxisSize.min,
+        children: [
+          if (admin != null)
+            Container(
+              width: 40,
+              height: 40,
+              margin: EdgeInsets.only(right: 10, bottom: 10),
+              decoration: BoxDecoration(
+                shape: BoxShape.circle,
+                border: Border.all(color: HexToColor.fontBorderColor, width: 2),
+              ),
+              child: ClipRRect(
+                borderRadius: BorderRadius.circular(50),
+                child: admin.image != null
+                    ? Image.network(HttpService.image + "/" + admin.image!,
+                        fit: BoxFit.cover,
+                        frameBuilder: (context, child, frame, wasSynchronouslyLoaded) => child,
+                        loadingBuilder: (context, child, loadingProgress) => loadingProgress == null
+                            ? child
+                            : Center(
+                                child: CPIndicator(),
+                              ))
+                    : Image.asset(
+                        "assets/images/image_person.png",
+                        fit: BoxFit.cover,
+                      ),
+              ),
+            ),
+          Column(
             mainAxisSize: MainAxisSize.min,
+            crossAxisAlignment: admin != null ? CrossAxisAlignment.start : CrossAxisAlignment.end,
             children: [
-              if (admin != null)
-                Container(
-                  width: 40,
-                  height: 40,
-                  margin: EdgeInsets.only(right: 10, bottom: 10),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: HexToColor.fontBorderColor, width: 2),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: admin.image != null
-                        ? Image.network(HttpService.image + "/" + admin.image!,
-                            fit: BoxFit.cover,
-                            frameBuilder: (context, child, frame, wasSynchronouslyLoaded) => child,
-                            loadingBuilder: (context, child, loadingProgress) => loadingProgress == null
-                                ? child
-                                : Center(
-                                    child: CPIndicator(),
-                                  ))
-                        : Image.asset(
-                            "assets/images/image_person.png",
-                            fit: BoxFit.cover,
-                          ),
+              Container(
+                constraints: BoxConstraints(maxWidth: Get.width * .8),
+                decoration: BoxDecoration(
+                  color: msg.isAdmin == 1 ? Colors.blue : HexToColor.fontBorderColor,
+                  borderRadius: BorderRadius.only(
+                    topLeft: Radius.circular(10),
+                    topRight: Radius.circular(10),
+                    bottomLeft: Radius.circular(msg.isAdmin == 1 ? 0 : 10),
+                    bottomRight: Radius.circular(msg.isAdmin == 1 ? 10 : 0),
                   ),
                 ),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: admin != null ? CrossAxisAlignment.start : CrossAxisAlignment.end,
-                children: [
-                  Container(
-                    constraints: BoxConstraints(maxWidth: Get.width * .8),
-                    decoration: BoxDecoration(
-                      color: msg.isAdmin == 1 ? Colors.blue : HexToColor.fontBorderColor,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10),
-                        bottomLeft: Radius.circular(msg.isAdmin == 1 ? 0 : 10),
-                        bottomRight: Radius.circular(msg.isAdmin == 1 ? 10 : 0),
-                      ),
-                    ),
-                    padding: EdgeInsets.all(7),
-                    child: Text(
-                      "${msg.text.trim()}",
-                      textAlign: msg.isAdmin == 1 ? TextAlign.start : TextAlign.end,
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                  ),
-                  Text(
-                    "$msgTime",
-                    style: TextStyle(color: Colors.black.withOpacity(.5), fontSize: 12),
-                  ),
-                  SizedBox(height: 7),
-                ],
-              ),
-            ],
-          ),
-        ),
-      ];
-    } else {
-      return [
-        _dateWidget(msgDate),
-        Align(
-          alignment: msg.isAdmin == 1 ? Alignment.topLeft : Alignment.topRight,
-          child: Row(
-            mainAxisSize: MainAxisSize.min,
-            children: [
-              if (admin != null)
-                Container(
-                  width: 40,
-                  height: 40,
-                  margin: EdgeInsets.only(right: 10, bottom: 10),
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: HexToColor.fontBorderColor, width: 2),
-                  ),
-                  child: ClipRRect(
-                    borderRadius: BorderRadius.circular(50),
-                    child: admin.image != null
-                        ? Image.network(HttpService.image + "/" + admin.image!,
-                            fit: BoxFit.cover,
-                            frameBuilder: (context, child, frame, wasSynchronouslyLoaded) => child,
-                            loadingBuilder: (context, child, loadingProgress) => loadingProgress == null
-                                ? child
-                                : Center(
-                                    child: CPIndicator(),
-                                  ))
-                        : Image.asset(
-                            "assets/images/image_person.png",
-                            fit: BoxFit.cover,
-                          ),
-                  ),
+                padding: EdgeInsets.all(7),
+                child: Text(
+                  "${msg.text.trim()}",
+                  textAlign: msg.isAdmin == 1 ? TextAlign.start : TextAlign.end,
+                  style: TextStyle(color: Colors.white, fontSize: 16),
                 ),
-              Column(
-                mainAxisSize: MainAxisSize.min,
-                crossAxisAlignment: admin != null ? CrossAxisAlignment.start : CrossAxisAlignment.end,
-                children: [
-                  Container(
-                    constraints: BoxConstraints(maxWidth: Get.width * .8),
-                    decoration: BoxDecoration(
-                      color: msg.isAdmin == 1 ? Colors.blue : HexToColor.fontBorderColor,
-                      borderRadius: BorderRadius.only(
-                        topLeft: Radius.circular(10),
-                        topRight: Radius.circular(10),
-                        bottomLeft: Radius.circular(msg.isAdmin == 1 ? 0 : 10),
-                        bottomRight: Radius.circular(msg.isAdmin == 1 ? 10 : 0),
-                      ),
-                    ),
-                    padding: EdgeInsets.all(7),
-                    child: Text(
-                      "${msg.text.trim()}",
-                      textAlign: msg.isAdmin == 1 ? TextAlign.start : TextAlign.end,
-                      style: TextStyle(color: Colors.white, fontSize: 16),
-                    ),
-                  ),
-                  Text(
-                    "$msgTime",
-                    style: TextStyle(color: Colors.black.withOpacity(.5), fontSize: 12),
-                  ),
-                  SizedBox(height: 7),
-                ],
               ),
+              Text(
+                "$msgTime",
+                style: TextStyle(color: Colors.black.withOpacity(.5), fontSize: 12),
+              ),
+              SizedBox(height: 7),
             ],
           ),
-        ),
-      ];
-    }
+        ],
+      ),
+    );
   }
 
-  Widget _dateWidget(DateTime time) {
-    return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
-      children: [
-        Text(
-          "${time.day}.${time.month}.${time.year}",
-          style: TextStyle(color: Colors.black.withOpacity(.5), fontSize: 12),
-        ),
-      ],
+  Widget _dateWidget(String date) {
+    return Container(
+      padding: EdgeInsets.symmetric(vertical: 5),
+      decoration: BoxDecoration(
+        color: HexToColor.fontBorderColor.withOpacity(0.07),
+      ),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          Text(
+            "$date",
+            style: TextStyle(color: Colors.black.withOpacity(.5), fontSize: 14),
+          ),
+        ],
+      ),
     );
   }
 

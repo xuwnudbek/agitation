@@ -1,6 +1,7 @@
 import 'package:agitation/models/task/task.dart';
 import 'package:agitation/pages/finished_order_info/finished_order_info.dart';
 import 'package:agitation/pages/home/view/order/provider/order_provider.dart';
+import 'package:agitation/pages/notification/notification_page.dart';
 import 'package:agitation/utils/hex_to_color.dart';
 import 'package:agitation/utils/widget/circlar_progress_indicator.dart';
 import 'package:agitation/utils/widget/main_card_to_title.dart';
@@ -42,7 +43,7 @@ class FinishedOrderPage extends StatelessWidget {
                                 const SizedBox(width: 20),
                                 Text(
                                   // "${provider.countTotal}",
-                                  "s",
+                                  "${orderProvider.finTasks.length}",
                                   style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: HexToColor.fontBorderColor),
                                 ),
                               ],
@@ -58,7 +59,7 @@ class FinishedOrderPage extends StatelessWidget {
                                   left: 10,
                                   child: InkWell(
                                     onTap: () {
-                                      // Get.to(const NotificationPage());
+                                      Get.to(() => NotificationPage());
                                     },
                                     child: CircleAvatar(
                                       backgroundColor: HexToColor.detailsColor,
@@ -70,7 +71,7 @@ class FinishedOrderPage extends StatelessWidget {
                                   ),
                                 ),
                                 Visibility(
-                                  visible: true,
+                                  visible: orderProvider.lengthActiveNotification != 0,
                                   // context
                                   //         .watch<CenterProvider>()
                                   //         .sum !=
@@ -101,7 +102,7 @@ class FinishedOrderPage extends StatelessWidget {
                       Padding(
                         padding: const EdgeInsets.all(8.0),
                         child: Text(
-                          "Готовые задачи",
+                          "finished_tasks".tr,
                           style: TextStyle(
                             fontSize: 17,
                             fontWeight: FontWeight.w600,
@@ -120,7 +121,10 @@ class FinishedOrderPage extends StatelessWidget {
                                 child: orderProvider.finTasks.isEmpty
                                     ? Padding(
                                         padding: EdgeInsets.only(top: 20),
-                                        child: Text("Нет готовых задач"),
+                                        child: Text(
+                                          "no_finished_tasks".tr,
+                                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: HexToColor.fontBorderColor),
+                                        ),
                                       )
                                     : ListView.builder(
                                         itemCount: orderProvider.finTasks.length,

@@ -3,7 +3,6 @@ import 'package:agitation/pages/about_order/about_order_page.dart';
 import 'package:agitation/pages/chat/chat_page.dart';
 import 'package:agitation/pages/home/provider/home_provider.dart';
 import 'package:agitation/pages/home/view/order/provider/order_provider.dart';
-import 'package:agitation/pages/moderation/provider/moderation_provider.dart';
 import 'package:agitation/utils/hex_to_color.dart';
 import 'package:agitation/utils/widget/circlar_progress_indicator.dart';
 import 'package:agitation/utils/widget/main_card_to_title.dart';
@@ -80,11 +79,7 @@ class OrderPage extends StatelessWidget {
                                       ),
                                     ),
                                     Visibility(
-                                      visible: true,
-                                      // context
-                                      //         .watch<CenterProvider>()
-                                      //         .sum !=
-                                      //     0,
+                                      visible: false,
                                       child: Positioned(
                                           top: 12,
                                           bottom: 11,
@@ -93,14 +88,11 @@ class OrderPage extends StatelessWidget {
                                             // height: 10,
                                             decoration: BoxDecoration(color: HexToColor.fontBorderColor, borderRadius: BorderRadius.circular(40), border: Border.all(width: 1.5, color: Colors.white)),
                                             child: Center(
-                                                child: Text(
-                                              // context
-                                              //     .watch<CenterProvider>()
-                                              //     .sum
-                                              //     .toString(),
-                                              "",
-                                              style: TextStyle(fontSize: 8, fontWeight: FontWeight.bold, color: Colors.white),
-                                            )),
+                                              child: Text(
+                                                "1",
+                                                style: TextStyle(fontSize: 8, fontWeight: FontWeight.bold, color: Colors.white),
+                                              ),
+                                            ),
                                           )),
                                     )
                                   ],
@@ -108,17 +100,28 @@ class OrderPage extends StatelessWidget {
                               ],
                             ),
                           ),
+                          orderProvider.groupName == null
+                              ? SizedBox.shrink()
+                              : Text(
+                                  "${orderProvider.groupName}",
+                                  style: TextStyle(
+                                    fontSize: 22,
+                                    fontWeight: FontWeight.bold,
+                                    color: HexToColor.fontBorderColor,
+                                  ),
+                                ),
+                          SizedBox(height: 10),
                           Text(
-                            "Командные показатели:",
+                            "${"command_statistic".tr}:",
                             style: TextStyle(
-                              fontSize: 17,
-                              fontWeight: FontWeight.w600,
+                              fontSize: 15,
+                              fontWeight: FontWeight.w500,
                               // color: HexToColor.fontBorderColor,
                             ),
                           ),
                           Container(
                             height: 120,
-                            margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                            margin: const EdgeInsets.only(left: 10, top: 5, right: 10, bottom: 16),
                             decoration: BoxDecoration(color: HexToColor.backgroundColor, borderRadius: BorderRadius.circular(100)),
                             child: Row(
                               children: [
@@ -153,7 +156,9 @@ class OrderPage extends StatelessWidget {
                                                     ? []
                                                     : orderProvider.allTasks.length == orderProvider.finTasks.length
                                                         ? orderProvider.allTasks.length == 0
-                                                            ? []
+                                                            ? [
+                                                                _PieData("aa", 1, "0%", Colors.red),
+                                                              ]
                                                             : [
                                                                 _PieData("aa", 1, "100%", HexToColor.greenColor),
                                                               ]
@@ -244,7 +249,8 @@ class OrderPage extends StatelessWidget {
                               textFirstTab: "new".tr,
                               textSecondTab: "performed".tr,
                               selectItem: homeProvider.indexItem,
-                              count: orderProvider.newTasks.length,
+                              count1: orderProvider.newTasks.length,
+                              count2: orderProvider.allTasks.length - orderProvider.finTasks.length,
                             ),
                           ),
                           orderProvider.isLoading
@@ -255,11 +261,24 @@ class OrderPage extends StatelessWidget {
                               : homeProvider.indexItem == 0
                                   ? Expanded(
                                       child: orderProvider.newTasks.isEmpty
-                                          ? Padding(
-                                              padding: EdgeInsets.symmetric(vertical: 20),
-                                              child: Text(
-                                                "no_tasks".tr,
-                                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: HexToColor.fontBorderColor),
+                                          ? RefreshIndicator(
+                                              onRefresh: () => orderProvider.refresh(),
+                                              child: ListView.builder(
+                                                itemCount: 1,
+                                                itemBuilder: (BuildContext context, int index) {
+                                                  return Row(
+                                                    mainAxisAlignment: MainAxisAlignment.center,
+                                                    children: [
+                                                      Padding(
+                                                        padding: EdgeInsets.symmetric(vertical: 20.0),
+                                                        child: Text(
+                                                          "no_tasks".tr,
+                                                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: HexToColor.fontBorderColor),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  );
+                                                },
                                               ),
                                             )
                                           : RefreshIndicator(
@@ -284,11 +303,24 @@ class OrderPage extends StatelessWidget {
                                     )
                                   : Expanded(
                                       child: orderProvider.progTasks.isEmpty
-                                          ? Padding(
-                                              padding: EdgeInsets.symmetric(vertical: 20),
-                                              child: Text(
-                                                "No perform tasks",
-                                                style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: HexToColor.fontBorderColor),
+                                          ? RefreshIndicator(
+                                              onRefresh: () => orderProvider.refresh(),
+                                              child: ListView.builder(
+                                                itemCount: 1,
+                                                itemBuilder: (BuildContext context, int index) {
+                                                  return Padding(
+                                                    padding: EdgeInsets.symmetric(vertical: 20),
+                                                    child: Row(
+                                                      mainAxisAlignment: MainAxisAlignment.center,
+                                                      children: [
+                                                        Text(
+                                                          "no_tasks".tr,
+                                                          style: TextStyle(fontSize: 16, fontWeight: FontWeight.w500, color: HexToColor.fontBorderColor),
+                                                        ),
+                                                      ],
+                                                    ),
+                                                  );
+                                                },
                                               ),
                                             )
                                           : RefreshIndicator(
@@ -299,8 +331,11 @@ class OrderPage extends StatelessWidget {
                                                   Task task = Task.fromJson(orderProvider.progTasks[index]);
                                                   return MainCardToTitle(
                                                     task: task,
-                                                    onPressed: () {
-                                                      Get.to(() => AboutOrderPage(id: task.id));
+                                                    onPressed: () async {
+                                                      var res = await Get.to(() => AboutOrderPage(id: task.id));
+                                                      if (res ?? true) {
+                                                        orderProvider.refresh();
+                                                      }
                                                     },
                                                   );
                                                 },

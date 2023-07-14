@@ -1,7 +1,4 @@
-import 'dart:typed_data';
-
-import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:flutter/material.dart';
+import 'package:agitation/utils/hex_to_color.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 import 'package:permission_handler/permission_handler.dart';
@@ -39,11 +36,15 @@ class NotificationService {
       "channel_Id_${DateTime.now().millisecond}",
       "channel_Name_${DateTime.now().millisecond}",
       importance: Importance.max,
+      icon: "@drawable/notification",
       priority: Priority.high,
       playSound: true,
       enableVibration: true,
       enableLights: true,
-      color: Colors.blue,
+      color: HexToColor.fontBorderColor,
+      ledColor: HexToColor.fontBorderColor,
+      ledOffMs: 5,
+      ledOnMs: 5,
       timeoutAfter: 1000 * 3600,
       showWhen: true,
     );

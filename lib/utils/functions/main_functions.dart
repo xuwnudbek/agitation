@@ -1,16 +1,20 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:agitation/utils/hex_to_color.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:image/image.dart' as img;
 
 class MainFunctions {
   static Future<String> base64Encoder(XFile xFile) async {
-    File file = File(xFile.path);
-    var imageBytes = await file.readAsBytes();
-    return base64.encode(imageBytes);
+    var image = await img.readFile(xFile.path);
+
+    var size = image!.elementSizeInBytes / 1024 / 1024;
+
+    print(size);
+
+    return base64.encode(image);
   }
 
   static customDialog({
@@ -97,5 +101,11 @@ class MainFunctions {
     DateTime taskDate = DateTime.parse(date);
 
     return now == taskDate ? true : false;
+  }
+
+  static int checkType(data) {
+    if (data is String) return int.parse(data);
+    if (data is int) return data;
+    return 0;
   }
 }

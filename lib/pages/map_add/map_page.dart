@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'package:agitation/utils/widget/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:geocoding/geocoding.dart';
 import 'package:geolocator/geolocator.dart';
@@ -22,6 +23,7 @@ class MapPage extends StatelessWidget {
             bottomNavigationBar: Padding(
               padding: const EdgeInsets.symmetric(vertical: 5, horizontal: 16),
               child: MainMaterialButton(
+                  enabled: !provider.isLoading,
                   color: HexToColor.fontBorderColor,
                   onPressed: () {
                     Map<String, dynamic> data = {
@@ -54,15 +56,6 @@ class MapPage extends StatelessWidget {
                       myLocationButtonEnabled: false,
                     ),
                     pin(),
-                    // Positioned(
-                    //   right: 20,
-                    //   bottom: 100,
-                    //   child: FloatingActionButton(
-                    //       child: Icon(Icons.my_location),
-                    //       onPressed: () {
-                    //         provider._getCurrentPosition();
-                    //       }),
-                    // ),
                     Positioned(
                       bottom: 5,
                       left: 10,
@@ -91,7 +84,9 @@ class MapPage extends StatelessWidget {
                                 children: [
                                   provider.isLoading
                                       ? Center(
-                                          child: CircularProgressIndicator(),
+                                          child: LoadingIndicator(
+                                            color: Colors.white,
+                                          ),
                                         )
                                       : Text(
                                           "${provider.textAddress}",
@@ -101,6 +96,7 @@ class MapPage extends StatelessWidget {
                               ),
                             ),
                             FloatingActionButton(
+                              heroTag: "btn1",
                               backgroundColor: HexToColor.detailsColor,
                               onPressed: () {
                                 provider.getCurrentPosition();
@@ -112,13 +108,19 @@ class MapPage extends StatelessWidget {
                       ),
                     ),
                     Positioned(
-                        left: 15,
-                        top: 15,
-                        child: IconButton(
-                            onPressed: () {
-                              Get.back();
-                            },
-                            icon: Icon(Icons.arrow_back)))
+                      left: 15,
+                      top: 15,
+                      child: FloatingActionButton(
+                        heroTag: "btn2",
+                        backgroundColor: HexToColor.detailsColor,
+                        onPressed: () {
+                          if (!provider.isLoading) {
+                            Get.back();
+                          }
+                        },
+                        child: Icon(Icons.arrow_back_rounded),
+                      ),
+                    ),
                   ],
                 ),
               ),
@@ -133,7 +135,7 @@ class MapPage extends StatelessWidget {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: <Widget>[
-            const Icon(Icons.place, size: 56),
+            const Icon(Icons.place_rounded, size: 56),
             Container(
               decoration: const ShapeDecoration(
                 shadows: [

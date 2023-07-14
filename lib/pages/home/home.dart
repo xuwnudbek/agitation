@@ -4,7 +4,6 @@ import 'package:agitation/pages/home/view/order/order_page.dart';
 import 'package:agitation/pages/home/view/profile/profile_page.dart';
 import 'package:agitation/pages/moderation/moderation_page.dart';
 import 'package:agitation/pages/moderation/provider/moderation_provider.dart';
-import 'package:agitation/utils/widget/loading_page.dart';
 import 'package:flutter/material.dart';
 import 'package:agitation/pages/home/provider/home_provider.dart';
 
@@ -33,7 +32,7 @@ class Home extends StatelessWidget {
       builder: (context, child) {
         return Consumer<HomeProvider>(builder: (context, provider, child) {
           return Consumer<ModerationProvider>(builder: (ctx, moderationProvider, _) {
-            print(moderationProvider.isModerated);
+            print("isModerated: ${moderationProvider.isModerated}");
             return moderationProvider.isModerated ?? false
                 ? WillPopScope(
                     onWillPop: () async {

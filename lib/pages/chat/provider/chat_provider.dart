@@ -13,12 +13,10 @@ class ChatProvider extends ChangeNotifier {
   bool isLoading = false;
   bool isMsgUploading = false;
 
-  List<Message> messages = [];
   var user;
   Admin? admin;
 
-  Set<DateTime> dateSets = {};
-  DateTime currentDate = DateTime.parse(DateTime.now().toString().split(" ")[0]);
+  Map<String, List<Message>> messages = {};
 
   ChatProvider() {
     onInit();
@@ -27,8 +25,6 @@ class ChatProvider extends ChangeNotifier {
   }
 
   addToDateSets(DateTime date) {
-    date = DateTime.parse(date.toString().split(" ")[0]);
-    dateSets.add(date);
     notifyListeners();
   }
 
@@ -64,24 +60,31 @@ class ChatProvider extends ChangeNotifier {
   }
 
   getAllMessages() async {
+    isLoading = true;
+    notifyListeners();
+
     var result = await HttpService.GET(HttpService.message);
 
     if (result['status'] == HttpConnection.data) {
       messages.clear();
 
-      for (var msg in result['data']['data']) {
-        Message message = Message.fromJson(msg);
-        addToDateSets(message.createdAt!);
-        messages.add(message);
-        if (message.admin != null) {
-          admin = message.admin;
+      Map<String, dynamic> data = result['data']['data'] as Map<String, dynamic>;
+      List<String> dataKeys = data.keys.toList();
+      if (dataKeys.isEmpty) return;
+
+      for (var dateString in dataKeys) {
+        List<Message> messagesList = [];
+        for (var message in data[dateString] ?? []) {
+          Message msg = Message.fromJson(message);
+          messagesList.add(msg);
+          msg.admin != null ? admin = msg.admin : null;
         }
-        notifyListeners();
+        messages[dateString] = messagesList;
       }
     }
 
-    print(messages.length);
-
+    // print(messages.length);
+    isLoading = false;
     notifyListeners();
   }
 

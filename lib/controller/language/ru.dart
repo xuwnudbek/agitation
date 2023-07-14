@@ -13,7 +13,7 @@ const Map<String, String> ru = {
   "last_name": "Фамилия",
   "your_last_name": "Ваша Фамилия",
   "phone": "Номер телефона",
-  "username": "Username", //xushnudbek
+  "username": "Имя пользователя", //xushnudbek
   "city": "Город",
   "address": "Адрес",
   "password": "Пароль",
@@ -88,6 +88,23 @@ const Map<String, String> ru = {
 
   "select_image": "Выберите изображение для\nаватара",
   "image_updated": "Изображение успешно обновлено",
+
+  "no_message": "Нет сообщений",
+
+  "notifications": "Уведомления",
+  "command_statistic": "Командные показатели",
+  "finished_tasks": "Готовые задачи",
+  "no_finished_tasks": "Нет готовых задач",
+  "more": "Подробнее",
+  "add_new_org": "Добавить новую организацию",
+  "fill_all_fields": "Заполните все поля",
+  "reference": "Справка",
+  "org_name": "Название организации",
+  "photo_added": "Фото добавлено",
+  "photo_not_added": "Фото не добавлено",
+  "no_photo": "Нет фото",
+  "no_tasks": "Нет задач",
+  "delete_msg": "Вы действительно хотите удалить?",
 
   // "client": "Клиент",
   // "date_create": "Дата создания договора",

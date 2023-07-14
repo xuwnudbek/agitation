@@ -3,7 +3,6 @@ import 'package:agitation/models/client.dart';
 import 'package:agitation/models/task/status.dart';
 import 'package:agitation/models/task/task.dart';
 import 'package:agitation/models/task/image.dart' as image;
-import 'package:agitation/models/workman.dart';
 import 'package:agitation/utils/snack_bar/main_snack_bar.dart';
 import 'package:flutter/material.dart';
 

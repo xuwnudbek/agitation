@@ -1,7 +1,10 @@
 import 'dart:convert';
 import 'package:agitation/controller/notification/notification_service.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
+
+import 'package:collection/collection.dart';
 
 class PusherService {
   int count = 0;
@@ -47,6 +50,7 @@ class PusherService {
           body: "${jsonDecode(event.data)['data']['text']}",
           isMsg: false,
         );
+        writeNotiToDB(jsonDecode(event.data)['data']);
         break;
 
       case "message":
@@ -81,6 +85,42 @@ class PusherService {
     );
     pusher.connect();
   }
+}
+
+writeNotiToDB(data) {
+  Map types = {
+    "l": "Leaders",
+    "w": "Workers",
+    "g": "Group",
+  };
+
+  var notificationsDB = Hive.box("db").get("notifications");
+  List notifications = jsonDecode(notificationsDB ?? "[]");
+
+  notifications.add({
+    "text": data["text"],
+    "date": data["date"],
+    "type": types[data["type"]] ?? "Unknown",
+  });
+
+  //check List is Set Collection or not
+  //if is not Set Collection then make it Set Collection
+  checkSetOrNot(notifications);
+
+  Hive.box("db").put("notifications", jsonEncode(notifications));
+}
+
+List checkSetOrNot(List list) {
+  for (var i = 0; i < list.length; i++) {
+    for (int j = i + 1; j < list.length; j++) {
+      var isEqual = DeepCollectionEquality().equals(list[i], list[j]);
+      if (isEqual) {
+        list.removeAt(j);
+      }
+    }
+  }
+
+  return list;
 }
 
 

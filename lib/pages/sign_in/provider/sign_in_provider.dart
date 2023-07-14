@@ -2,8 +2,6 @@ import 'dart:convert';
 
 import 'package:agitation/models/user.dart';
 import 'package:agitation/pages/home/home.dart';
-import 'package:agitation/pages/moderation/moderation_page.dart';
-import 'package:agitation/pages/verification/verification_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:get/get.dart';
@@ -67,6 +65,9 @@ class SignInProvider extends ChangeNotifier {
 
       if (result['status'] == HttpConnection.data) {
         var userData = result['data']['data']['user'];
+        print(userData);
+        print(userData.runtimeType);
+
         var user = User(
           id: userData['id'],
           fullName: userData['name'] + " " + userData['surname'],
@@ -84,40 +85,10 @@ class SignInProvider extends ChangeNotifier {
         MainSnackBar.successful("success".tr);
         await Future.delayed(const Duration(milliseconds: 100));
 
-        user.status == 1
-            ? Get.offAll(() => Home(), transition: Transition.fadeIn)
-            : Get.offAll(
-                () => ModerationPage(),
-                transition: Transition.fadeIn,
-              );
+        Get.offAll(() => Home(), transition: Transition.fadeIn);
       } else {
         MainSnackBar.error(result['data']['data']);
       }
-      // print(result['status']);
-      // if (result['status'] == HttpConnection.data) {
-      //   if (result['data']['type'] == 2) {
-      //     var user = {
-      //       "username": username.text,
-      //       "token": result['data']['token'],
-      //       "password": password.text,
-      //     };
-      //     await box.put('user', jsonEncode(user));
-      //     MainSnackBar.successful(result['data']["message"]);
-      //     await Future.delayed(const Duration(milliseconds: 100));
-      //     Get.offAll(Home());
-      //   } else if (result['data']['type'] == 3) {
-      //     var user = {
-      //       "username": username.text,
-      //       "token": result['data']['token'],
-      //       "password": password.text,
-      //     };
-      //     await box.put('user', jsonEncode(user));
-      //     MainSnackBar.warning(result['data']["message"]);
-      //     Get.offAll(const VerificationPage());
-      //   }
-      // } else {
-      //   MainSnackBar.error(result['data']['message']);
-      // }
     } else {
       MainSnackBar.error("data_empty".tr);
     }

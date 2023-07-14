@@ -1,12 +1,12 @@
 import 'dart:convert';
 
 import 'package:agitation/controller/https/https.dart';
-import 'package:agitation/models/company.dart';
 import 'package:agitation/models/task/task.dart';
 import 'package:agitation/utils/functions/main_functions.dart';
 import 'package:agitation/utils/snack_bar/main_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:image_picker/image_picker.dart';
 
 class OrganizationProvider extends ChangeNotifier {
@@ -16,10 +16,33 @@ class OrganizationProvider extends ChangeNotifier {
   String longitude = "";
   String address = "";
 
+  bool hasGroup = false;
+
   List<Task> tasks = [];
 
   OrganizationProvider() {
     onInit();
+    checkGroup();
+  }
+
+  checkGroup() async {
+    var user = jsonDecode(Hive.box("db").get("user"));
+
+    var res = await HttpService.GET(HttpService.profile);
+
+    if (res['status'] == HttpConnection.data) {
+      user['status'] = res['data']['data']['status'] ?? 0;
+      user['group_id'] = res['data']['data']['group_id'] ?? 0;
+      user['job_title'] = res['data']['data']['job_title'];
+      await Hive.box("db").put("user", jsonEncode(user));
+
+      if (user["group_id"] > 0) {
+        hasGroup = true;
+      } else {
+        hasGroup = false;
+      }
+    }
+    notifyListeners();
   }
 
   onInit() async {
@@ -60,6 +83,8 @@ class OrganizationProvider extends ChangeNotifier {
       MainSnackBar.error(result['data']['message'] ?? "internet_error".tr);
       print(result['data']);
     }
+    print("resultresultresultresult");
+
     isLoading = false;
 
     notifyListeners();
@@ -76,7 +101,9 @@ class OrganizationProvider extends ChangeNotifier {
     if (result['status'] == HttpConnection.data) {
       var data = result['data']['data'];
       for (var task in data) {
-        tasks.add(Task.fromJson(task));
+        print(task);
+        Task taskObject = Task.fromJson(task);
+        tasks.add(taskObject);
       }
     } else {
       MainSnackBar.error(result['data']['message'] ?? "internet_error".tr);

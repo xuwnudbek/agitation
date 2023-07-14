@@ -93,8 +93,22 @@ const Map<String, String> uz = {
 
   "select_image": "Avatar uchun rasm\ntanlang",
   "image_updated": "Rasm muvoffaqyatli yangilandi",
-  
 
+  "no_message": "Xabarlar yo'q",
+  "notifications": "Bildirishnomalar",
+  "command_statistic": "Jamoa ko'rsatkichlari",
+  "finished_tasks": "Bajarilgan topshiriqlar",
+  "no_finished_tasks": "Bajarilgan topshiriqlar yo'q",
+  "more": "Batafsil",
+  "add_new_org": "Yangi tashkilot qo'shish",
+  "fill_all_fields": "Barcha maydonlarni to'ldiring",
+  "reference": "Ma'lumot",
+  //Название организации
+  "org_name": "Tashkilot nomi",
+  "photo_added": "Rasm qo'shildi",
+  "photo_not_added": "Rasm qo'shilmadi",
+  "no_photo": "Rasm yo'q",
+  "delete_msg": "Haqiqatdan ham o'chirmoqchimisiz?",
   // "date_create":"Shartnoma tuzilgan sana",
   // "accepted":"Qabul qildim",
 

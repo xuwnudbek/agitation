@@ -30,7 +30,7 @@ class CreateOrganization extends StatelessWidget {
                     if (provider.isValid) {
                       provider.createCompany();
                     } else {
-                      MainSnackBar.error("Заполните все поля");
+                      MainSnackBar.error("fill_all_fields".tr);
                     }
                   },
                   color: HexToColor.fontBorderColor,
@@ -85,7 +85,7 @@ class CreateOrganization extends StatelessWidget {
                                             width: double.infinity,
                                             decoration: BoxDecoration(color: HexToColor.fontBorderColor, borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))),
                                             child: Text(
-                                              "Справка",
+                                              "reference".tr,
                                               style: TextStyle(
                                                 fontSize: 18,
                                                 fontWeight: FontWeight.bold,
@@ -97,7 +97,7 @@ class CreateOrganization extends StatelessWidget {
                                             padding: const EdgeInsets.symmetric(vertical: 16, horizontal: 10),
                                             child: MaterialTextField(
                                               hintText: "",
-                                              title: "Название организации:",
+                                              title: "${"org_name".tr}:",
                                               controller: provider.title,
                                             ),
                                           ),
@@ -147,9 +147,9 @@ class CreateOrganization extends StatelessWidget {
                                               onPressed: () async {
                                                 await provider.pickImage().then((value) {
                                                   if (value) {
-                                                    MainSnackBar.successful("Фото добавлено");
+                                                    MainSnackBar.successful("photo_added".tr);
                                                   } else {
-                                                    MainSnackBar.error("Фото не добавлено");
+                                                    MainSnackBar.error("photo_not_added".tr);
                                                   }
                                                 });
                                               },
@@ -173,10 +173,7 @@ class CreateOrganization extends StatelessWidget {
                                       height: 100,
                                       // color: Colors.red,
                                       child: provider.images.isEmpty
-                                          ? Padding(
-                                              padding: EdgeInsets.only(top: 20.0),
-                                              child: Text("Нет фото"),
-                                            )
+                                          ? Padding(padding: EdgeInsets.only(top: 20.0), child: Text("no_photo".tr))
                                           : ListView.builder(
                                               itemCount: provider.images.length > 0 ? provider.images.length : 1,
                                               padding: EdgeInsets.symmetric(horizontal: 16),

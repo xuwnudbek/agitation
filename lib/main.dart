@@ -7,6 +7,7 @@ import 'package:agitation/pages/connection/provider/connection_provider.dart';
 import 'package:agitation/pages/home/home.dart';
 import 'package:agitation/pages/lock_page/lock_page.dart';
 import 'package:agitation/pages/main_page/main_page.dart';
+import 'package:agitation/pages/moderation/provider/moderation_provider.dart';
 import 'package:agitation/utils/hex_to_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -43,7 +44,6 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    // context.read<CenterProvider>().onInit();
     return GetMaterialApp(
       routes: {
         "/Home": (context) => Home(),
@@ -61,7 +61,7 @@ class MyApp extends StatelessWidget {
         const Locale('uz', 'UZ'),
         const Locale('ru'),
       ],
-      locale: const Locale('uz'),
+      locale: Locale("${Hive.box("db").get("language") ?? "uz"}"),
       translations: Language(),
       // supportedLocales: const [Locale('ru',"RU")],   0--
       theme: ThemeData(
@@ -74,6 +74,7 @@ class MyApp extends StatelessWidget {
       home: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => ConnectionProvider()),
+          ChangeNotifierProvider(create: (_) => ModerationProvider()),
         ],
         builder: (context, child) {
           return Consumer<ConnectionProvider>(

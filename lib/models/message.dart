@@ -16,7 +16,7 @@ class Message {
   });
 
   factory Message.fromJson(Map<String, dynamic> data) {
-    print(data);
+    // print(data);
 
     checkIsAdmin() => data['user'] != null ? 1 : 0;
 
