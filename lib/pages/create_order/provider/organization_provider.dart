@@ -2,7 +2,7 @@ import 'dart:convert';
 
 import 'package:agitation/controller/https/https.dart';
 import 'package:agitation/models/task/task.dart';
-import 'package:agitation/utils/functions/main_functions.dart';
+import 'package:agitation/pages/camera/camera_page.dart';
 import 'package:agitation/utils/snack_bar/main_snack_bar.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
@@ -11,6 +11,7 @@ import 'package:image_picker/image_picker.dart';
 
 class OrganizationProvider extends ChangeNotifier {
   TextEditingController title = TextEditingController();
+
   List<XFile> images = [];
   String latitude = "";
   String longitude = "";
@@ -58,22 +59,28 @@ class OrganizationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  String? _date = null;
+  get date => _date;
+  set setDate(String date) {
+    this._date = date;
+    notifyListeners();
+  }
+
   bool get isValid => title.text.isNotEmpty && images.isNotEmpty && latitude.isNotEmpty && longitude.isNotEmpty ? true : false;
 
   createCompany() async {
     isLoading = true;
     notifyListeners();
 
-    List<String> base64Images = await Future.wait(images.map((e) => MainFunctions.base64Encoder(e)));
-
-    Map<String, dynamic> data = {
+    Map<String, String> data = {
       "title": title.text,
       "latitude": latitude,
       "longitude": longitude,
       "address": address,
-      "images": base64Images,
+      // "date": date,
     };
-    var result = await HttpService.POST(HttpService.createCompany, data);
+
+    var result = await HttpService.postWithFile(HttpService.createCompany, data, images);
 
     if (result['status'] == HttpConnection.data) {
       MainSnackBar.successful("company_added".tr);
@@ -114,15 +121,24 @@ class OrganizationProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> pickImage() async {
-    return await ImagePicker().pickMultiImage().then((value) {
-      if (value.isNotEmpty) {
-        images.addAll(value);
-        notifyListeners();
-        return true;
-      }
-      return false;
-    });
+  Future<bool> pickImage({bool isCamera = false}) async {
+    if (isCamera) {
+      var path = await Get.to(() => CameraPage());
+      if (path == null) return false;
+
+      images.add(XFile(path));
+      notifyListeners();
+      return true;
+    } else {
+      return await ImagePicker().pickMultiImage().then((value) {
+        if (value.isNotEmpty) {
+          images.addAll(value);
+          notifyListeners();
+          return true;
+        }
+        return false;
+      });
+    }
   }
 
   removeImage(int index) {

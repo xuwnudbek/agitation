@@ -23,17 +23,30 @@ class Task {
     this.company,
   });
 
-  factory Task.fromJson(Map<String, dynamic> json) => Task(
-        id: json["id"],
-        companyId: json["company_id"],
-        groupId: json["group_id"],
-        date: json["date"],
-        time: json["time"],
-        status: json["status"],
-        createdAt: json["created_at"],
-        updatedAt: json["updated_at"],
-        company: Company.fromJson(json["company"]),
-      );
+  factory Task.fromJson(Map<String, dynamic> json) {
+    String checkIsToday(String date) {
+      DateTime dateTime = DateTime.parse(date);
+      var res = dateTime.difference(DateTime.now()).inDays == 0 ? true : false;
+      if (res) {
+        dateTime.add(Duration(days: 1));
+        return dateTime.toString().split(" ")[0];
+      } else {
+        return dateTime.toString().split(" ")[0];
+      }
+    }
+
+    return Task(
+      id: json["id"],
+      companyId: json["company_id"],
+      groupId: json["group_id"],
+      date: checkIsToday(json["date"] ?? DateTime.now().toString()),
+      time: json["time"],
+      status: json["status"] == true || json["status"] == 1 || json["status"] == "1" ? 1 : 0,
+      createdAt: json["created_at"],
+      updatedAt: json["updated_at"],
+      company: Company.fromJson(json["company"]),
+    );
+  }
 }
 
 /*

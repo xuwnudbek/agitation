@@ -22,22 +22,24 @@ class NotificationPage extends StatelessWidget {
                     // Icon(Icons.notifications_rounded),
                     // SizedBox(width: 10),
                     Text(
-                      "notification".tr,
+                      "notifications".tr,
                       style: TextStyle(color: Colors.white),
                     ),
                   ],
                 ),
                 actions: [
-                  IconButton(
-                    onPressed: () async {
+                  GestureDetector(
+                    onTap: () async {
                       await _buildDialog(context).then((value) {
                         if (value) provider.deleteAllNotification();
                       });
                     },
-                    icon: Icon(
-                      Icons.delete_rounded,
-                      color: Colors.red,
-                      size: 28,
+                    child: Padding(
+                      padding: EdgeInsets.only(right: 8.0),
+                      child: SvgPicture.asset(
+                        "assets/images/delete.svg",
+                        width: 30,
+                      ),
                     ),
                   ),
                 ],
@@ -47,9 +49,27 @@ class NotificationPage extends StatelessWidget {
                   await provider.getNotifications();
                 },
                 child: ListView(
-                  children: provider.notifications.map((e) {
-                    return _notificationTile(e, provider.isTodayRecieved(e["date"]));
-                  }).toList(),
+                  children: [
+                    if (provider.notifications.isEmpty)
+                      Container(
+                        height: Get.height * 0.8,
+                        alignment: Alignment.center,
+                        child: Text(
+                          "no_notification".tr,
+                          style: TextStyle(
+                            color: Colors.grey[600],
+                            fontSize: 18,
+                            fontWeight: FontWeight.w600,
+                          ),
+                        ),
+                      ),
+                    Column(
+                      verticalDirection: VerticalDirection.up,
+                      children: provider.notifications.map((e) {
+                        return _notificationTile(e, provider.isTodayRecieved(e["date"]));
+                      }).toList(),
+                    ),
+                  ],
                 ),
               ),
             );

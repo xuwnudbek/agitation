@@ -36,11 +36,6 @@ class ModerationPage extends StatelessWidget {
                   borderRadius: BorderRadius.circular(50),
                   onTap: () async {
                     await moderationProvider.checkModerationStatus();
-                    // await Hive.box("db").clear();
-                    // await Hive.box("language").clear();
-                    // await Hive.box("fcmToken").clear();
-
-                    // Get.offAll(() => MainPage());
                   },
                   child: ClipRRect(
                     borderRadius: BorderRadius.circular(50),

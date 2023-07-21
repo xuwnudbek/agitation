@@ -25,8 +25,9 @@ class HomeProvider extends ChangeNotifier {
     if (user['job_title'] == 1) PusherService.init("notification_l");
 
     PusherService.init("chat_$user_id");
-    PusherService.init("notification_w");
+    PusherService.init("channel_$group_id");
     PusherService.init("notification_$group_id");
+    PusherService.init("notification_w");
   }
 
   DateTime? currentBackPressTime;

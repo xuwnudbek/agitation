@@ -1,6 +1,7 @@
 import 'package:agitation/models/admin.dart';
 
 class Message {
+  int id;
   int isAdmin;
   String text;
   int chatId;
@@ -8,6 +9,7 @@ class Message {
   DateTime? createdAt;
 
   Message({
+    required this.id,
     required this.isAdmin,
     required this.text,
     required this.chatId,
@@ -24,6 +26,7 @@ class Message {
     DateTime _timePretty({required String time}) => DateTime.parse(time).toLocal();
 
     return Message(
+      id: data['id'],
       isAdmin: checkIsAdmin(),
       text: data['text'],
       chatId: data['chat_id'].runtimeType != int ? int.parse(data['chat_id']) : data['chat_id'],

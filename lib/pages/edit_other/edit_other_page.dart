@@ -3,6 +3,7 @@ import 'dart:ui';
 import 'package:agitation/controller/https/https.dart';
 import 'package:agitation/models/workman.dart';
 import 'package:agitation/pages/home/view/profile/provider/profile_provider.dart';
+import 'package:agitation/utils/widget/circlar_progress_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get/get_utils/get_utils.dart';
@@ -83,20 +84,28 @@ class EditOtherPage extends StatelessWidget {
                                   },
                                   child: Stack(
                                     children: [
-                                      ClipRRect(
-                                        borderRadius: BorderRadius.circular(50.0),
-                                        child: workman.image == null
-                                            ? Image.asset(
-                                                "assets/images/image_person.png",
-                                                height: 100,
-                                                width: 100,
-                                                fit: BoxFit.cover,
-                                              )
-                                            : Image.network(
-                                                "${HttpService.image}/${workman.image!}",
-                                                height: 100.0,
-                                                width: 100.0,
-                                              ),
+                                      CircleAvatar(
+                                        maxRadius: 50,
+                                        backgroundColor: HexToColor.mainColor,
+                                        child: Padding(
+                                          padding: EdgeInsets.all(5.0),
+                                          child: ClipRRect(
+                                            borderRadius: BorderRadius.circular(50.0),
+                                            child: workman.image == null
+                                                ? Image.asset(
+                                                    "assets/images/image_person.png",
+                                                    height: 100,
+                                                    width: 100,
+                                                    fit: BoxFit.cover,
+                                                  )
+                                                : Image.network(
+                                                    "${HttpService.image}/${workman.image!}",
+                                                    height: 100.0,
+                                                    width: 100.0,
+                                                    fit: BoxFit.cover,
+                                                  ),
+                                          ),
+                                        ),
                                       ),
                                       Positioned(
                                         bottom: 0,
@@ -165,124 +174,126 @@ class EditOtherPage extends StatelessWidget {
                           ),
                         ),
                         Expanded(
-                          child: SingleChildScrollView(
-                            child: Column(
-                              children: [
-                                //Edit Name
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                                  child: TextField(
-                                    controller: provider.name,
-                                    decoration: InputDecoration(
-                                      label: Text(
-                                        "${"name".tr}:",
-                                      ),
-                                      labelStyle: TextStyle(color: HexToColor.mainColor),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          style: BorderStyle.solid,
-                                          color: HexToColor.mainColor,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                //Edit Surname
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                                  child: TextField(
-                                    controller: provider.surname,
-                                    decoration: InputDecoration(
-                                      label: Text(
-                                        "${"surname".tr}:",
-                                      ),
-                                      labelStyle: TextStyle(color: HexToColor.mainColor),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          style: BorderStyle.solid,
-                                          color: HexToColor.mainColor,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                //Edit Username
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                                  child: TextField(
-                                    controller: provider.username,
-                                    decoration: InputDecoration(
-                                      label: Text(
-                                        "${"username".tr}:",
-                                      ),
-                                      labelStyle: TextStyle(color: HexToColor.mainColor),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          style: BorderStyle.solid,
-                                          color: HexToColor.mainColor,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                //Edit Address
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                                  child: TextField(
-                                    controller: provider.address,
-                                    decoration: InputDecoration(
-                                      label: Text(
-                                        "${"address".tr}:",
-                                      ),
-                                      labelStyle: TextStyle(color: HexToColor.mainColor),
-                                      focusedBorder: UnderlineInputBorder(
-                                        borderSide: BorderSide(
-                                          style: BorderStyle.solid,
-                                          color: HexToColor.mainColor,
-                                        ),
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                //Edit City
-                                Padding(
-                                  padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                          child: provider.isLoading
+                              ? Center(child: CPIndicator())
+                              : SingleChildScrollView(
                                   child: Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
                                     children: [
-                                      Text(
-                                        "${"city".tr}:",
-                                        style: TextStyle(
-                                          color: HexToColor.mainColor,
-                                          fontSize: 12,
-                                        ),
-                                      ),
-                                      DropdownButtonFormField(
-                                        decoration: InputDecoration(
-                                          focusedBorder: UnderlineInputBorder(
-                                            borderSide: BorderSide(
-                                              style: BorderStyle.solid,
-                                              color: HexToColor.mainColor,
+                                      //Edit Name
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                                        child: TextField(
+                                          controller: provider.name,
+                                          decoration: InputDecoration(
+                                            label: Text(
+                                              "${"name".tr}:",
+                                            ),
+                                            labelStyle: TextStyle(color: HexToColor.mainColor),
+                                            focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                style: BorderStyle.solid,
+                                                color: HexToColor.mainColor,
+                                              ),
                                             ),
                                           ),
                                         ),
-                                        value: provider.city_id,
-                                        items: provider.regions.map((e) {
-                                          return DropdownMenuItem(
-                                            child: Text("${e.name}"),
-                                            value: e.id,
-                                          );
-                                        }).toList(),
-                                        onChanged: (e) {
-                                          provider.city_id = e as int;
-                                        },
+                                      ),
+                                      //Edit Surname
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                                        child: TextField(
+                                          controller: provider.surname,
+                                          decoration: InputDecoration(
+                                            label: Text(
+                                              "${"surname".tr}:",
+                                            ),
+                                            labelStyle: TextStyle(color: HexToColor.mainColor),
+                                            focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                style: BorderStyle.solid,
+                                                color: HexToColor.mainColor,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      //Edit Username
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                                        child: TextField(
+                                          controller: provider.username,
+                                          decoration: InputDecoration(
+                                            label: Text(
+                                              "${"username".tr}:",
+                                            ),
+                                            labelStyle: TextStyle(color: HexToColor.mainColor),
+                                            focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                style: BorderStyle.solid,
+                                                color: HexToColor.mainColor,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      //Edit Address
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                                        child: TextField(
+                                          controller: provider.address,
+                                          decoration: InputDecoration(
+                                            label: Text(
+                                              "${"address".tr}:",
+                                            ),
+                                            labelStyle: TextStyle(color: HexToColor.mainColor),
+                                            focusedBorder: UnderlineInputBorder(
+                                              borderSide: BorderSide(
+                                                style: BorderStyle.solid,
+                                                color: HexToColor.mainColor,
+                                              ),
+                                            ),
+                                          ),
+                                        ),
+                                      ),
+                                      //Edit City
+                                      Padding(
+                                        padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                                        child: Column(
+                                          crossAxisAlignment: CrossAxisAlignment.start,
+                                          children: [
+                                            Text(
+                                              "${"city".tr}:",
+                                              style: TextStyle(
+                                                color: HexToColor.mainColor,
+                                                fontSize: 12,
+                                              ),
+                                            ),
+                                            DropdownButtonFormField(
+                                              decoration: InputDecoration(
+                                                focusedBorder: UnderlineInputBorder(
+                                                  borderSide: BorderSide(
+                                                    style: BorderStyle.solid,
+                                                    color: HexToColor.mainColor,
+                                                  ),
+                                                ),
+                                              ),
+                                              value: provider.city_id ?? 0,
+                                              items: provider.regions.map((e) {
+                                                return DropdownMenuItem(
+                                                  child: Text("${e.name}"),
+                                                  value: e.id,
+                                                );
+                                              }).toList(),
+                                              onChanged: (e) {
+                                                provider.city_id = e as int;
+                                              },
+                                            ),
+                                          ],
+                                        ),
                                       ),
                                     ],
                                   ),
                                 ),
-                              ],
-                            ),
-                          ),
                         ),
                       ],
                     );

@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:agitation/pages/chat/chat_page.dart';
 import 'package:agitation/pages/create_order/provider/organization_provider.dart';
 import 'package:agitation/pages/map_add/map_page.dart';
 import 'package:agitation/utils/hex_to_color.dart';
@@ -55,9 +56,12 @@ class CreateOrganization extends StatelessWidget {
                                         Get.back();
                                       },
                                       icon: Icon(Icons.arrow_back)),
-                                  CircleAvatar(
-                                    backgroundColor: HexToColor.detailsColor,
-                                    child: SvgPicture.asset("assets/images/icon_comment.svg"),
+                                  GestureDetector(
+                                    onTap: () => Get.to(() => ChatPage()),
+                                    child: CircleAvatar(
+                                      backgroundColor: HexToColor.detailsColor,
+                                      child: SvgPicture.asset("assets/images/icon_comment.svg"),
+                                    ),
                                   ),
                                 ],
                               ),
@@ -110,14 +114,15 @@ class CreateOrganization extends StatelessWidget {
                                         children: [
                                           Expanded(
                                             child: MainMaterialButton(
-                                                onPressed: () async {
-                                                  var result = await Get.to(() => MapPage());
-                                                  if (result != null) {
-                                                    provider.setLocAdd = result;
-                                                  }
-                                                },
-                                                color: HexToColor.fontBorderColor,
-                                                text: "add_location".tr),
+                                              onPressed: () async {
+                                                var result = await Get.to(() => MapPage());
+                                                if (result != null) {
+                                                  provider.setLocAdd = result;
+                                                }
+                                              },
+                                              color: HexToColor.fontBorderColor,
+                                              text: "add_location".tr,
+                                            ),
                                           ),
                                           const SizedBox(width: 17),
                                           CircleAvatar(
@@ -131,6 +136,7 @@ class CreateOrganization extends StatelessWidget {
                                         ],
                                       ),
                                     ),
+                                    //Add location
                                     Padding(
                                       padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 3),
                                       child: Text(
@@ -138,6 +144,42 @@ class CreateOrganization extends StatelessWidget {
                                         style: TextStyle(fontSize: 13),
                                       ),
                                     ),
+                                    //Calendar and dedline
+                                    // Padding(
+                                    //   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
+                                    //   child: Row(
+                                    //     children: [
+                                    //       Expanded(
+                                    //         child: MainMaterialButton(
+                                    //           onPressed: () async {
+                                    //             var res = await showDatePicker(
+                                    //               context: context,
+                                    //               initialDate: provider.date != null ? DateTime.parse(provider.date!) : DateTime.now(),
+                                    //               firstDate: DateTime.now(),
+                                    //               lastDate: DateTime(2025),
+                                    //             );
+                                    //             if (res != null) {
+                                    //               provider.setDate = res.toString().split(" ")[0];
+                                    //             }
+                                    //           },
+                                    //           color: HexToColor.fontBorderColor,
+                                    //           text: provider.date != null ? provider.date : "completing_time".tr,
+                                    //         ),
+                                    //       ),
+                                    //       SizedBox(width: 17),
+                                    //       CircleAvatar(
+                                    //         backgroundColor: HexToColor.fontBorderColor,
+                                    //         radius: 18,
+                                    //         child: Padding(
+                                    //           padding: EdgeInsets.all(7),
+                                    //           child: SvgPicture.asset(
+                                    //             "assets/images/calendar.svg",
+                                    //           ),
+                                    //         ),
+                                    //       )
+                                    //     ],
+                                    //   ),
+                                    // ),
                                     Padding(
                                       padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                                       child: Row(
@@ -155,6 +197,26 @@ class CreateOrganization extends StatelessWidget {
                                               },
                                               color: HexToColor.fontBorderColor,
                                               text: "add_photo".tr,
+                                            ),
+                                          ),
+                                          const SizedBox(width: 17),
+                                          GestureDetector(
+                                            onTap: () async {
+                                              await provider.pickImage(isCamera: true).then((value) {
+                                                if (value) {
+                                                  MainSnackBar.successful("photo_added".tr);
+                                                } else {
+                                                  MainSnackBar.error("photo_not_added".tr);
+                                                }
+                                              });
+                                            },
+                                            child: CircleAvatar(
+                                              backgroundColor: HexToColor.fontBorderColor,
+                                              radius: 18,
+                                              child: SvgPicture.asset(
+                                                "assets/images/camera.svg",
+                                                // color: Colors.white,
+                                              ),
                                             ),
                                           ),
                                           const SizedBox(width: 17),

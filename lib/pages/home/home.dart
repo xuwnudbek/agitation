@@ -32,12 +32,10 @@ class Home extends StatelessWidget {
       builder: (context, child) {
         return Consumer<HomeProvider>(builder: (context, provider, child) {
           return Consumer<ModerationProvider>(builder: (ctx, moderationProvider, _) {
-            print("isModerated: ${moderationProvider.isModerated}");
             return moderationProvider.isModerated ?? false
                 ? WillPopScope(
                     onWillPop: () async {
                       await MoveToBackground.moveTaskToBack();
-                      print("Back Pressed");
                       return provider.onWillPop();
                     },
                     child: Scaffold(

@@ -42,6 +42,10 @@ class PusherService {
     if (event.eventName == "pusher:subscription_succeeded") return;
     var notiService = NotificationService();
 
+    print(event.data);
+    print(event.eventName);
+    print(event.channelName);
+
     // var eventData = event.data;
     switch (event.eventName) {
       case "workers":
@@ -51,6 +55,14 @@ class PusherService {
           isMsg: false,
         );
         writeNotiToDB(jsonDecode(event.data)['data']);
+        break;
+
+      case "alert":
+        notiService.showNotification(
+          title: "super_admin".tr,
+          body: "${jsonDecode(event.data)['data']['company']['title']} ${"added".tr}",
+          isMsg: false,
+        );
         break;
 
       case "message":
@@ -89,9 +101,9 @@ class PusherService {
 
 writeNotiToDB(data) {
   Map types = {
-    "l": "Leaders",
-    "w": "Workers",
-    "g": "Group",
+    "l": "leaders".tr,
+    "w": "workers".tr,
+    "g": "group".tr,
   };
 
   var notificationsDB = Hive.box("db").get("notifications");

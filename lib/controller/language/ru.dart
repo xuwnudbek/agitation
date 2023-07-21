@@ -1,8 +1,8 @@
 const Map<String, String> ru = {
   "internet_error": "Ошибка подключения",
   "title_access": "Добро пожаловать",
-  "subtitle_access": "Уважаемый сотрудник службы доставки мы оптимизировали работу через систему управления и создали для вас удобное и легкое в пользование приложение здесь вы будете получать заявки на доставку товаров клиентам и выполнять свои задачи.",
-  "bottom_access": "Удачи Вам и успехов в работе !!!",
+  "subtitle_access": "Уважаемый сотрудник Отдела агитации Мы создали это приложение, чтобы упростить и упростить задачу. Здесь вы получаете ежедневные задания",
+  "bottom_access": "Удачи вам и успехов в работе !!!",
   "sign_in_button_access": "ЗАРЕГЕСТРИРОВАТЬСЯ",
   "sign_up_button_access": "ВОЙТИ",
   "or": "или",
@@ -40,11 +40,15 @@ const Map<String, String> ru = {
   //Xushnudbek added
   "fin_orders": "Выполненные Заявки",
   "refresh": "Обновить",
-
   "client_added": "Клиент добавлен",
   "add_location": "Добавить локацию",
   "location_added": "Локация добавлена",
   "no_location": "Нет локации добавленной",
+  "day": "день",
+  "left_time": " Осталось времени:\n (dd:hh:mm:ss)",
+  "workers": "Рабочие",
+  "leaders": "Лидеры",
+  "group": "Группа",
 
   //connection
   "no_connection": "Нет подключения к интернету",
@@ -60,11 +64,14 @@ const Map<String, String> ru = {
   "add_photo": "Добавить фото",
   "no_image": "Нет фото",
   "company_added": "Компания добавлена",
+  "completing_time": "Время выполнения",
+  "exit": "Chiqish",
+  "exit_text": "Вы действительно\nхотите выйти?",
 
   //tasks
   "finish_task": "Завершить задачу",
   "task_finished": " задача завершена",
-  "really_want": "Вы действительно хотите завершить задачу?",
+  "really_want": "Вы действительно хотите\nзавершить задачу?",
   "task_dont_finished": "Задача не завершена",
   "yes": "Да",
   "no": "Нет",
@@ -86,12 +93,13 @@ const Map<String, String> ru = {
   "super_admin": "Супер Админ",
   "reply": "Ответить на сообщение",
 
-  "select_image": "Выберите изображение для\nаватара",
+  "select_image": "Выберите изображение\nдля аватара",
   "image_updated": "Изображение успешно обновлено",
 
   "no_message": "Нет сообщений",
 
   "notifications": "Уведомления",
+  "no_notifications": "Нет уведомлений",
   "command_statistic": "Командные показатели",
   "finished_tasks": "Готовые задачи",
   "no_finished_tasks": "Нет готовых задач",
@@ -105,6 +113,9 @@ const Map<String, String> ru = {
   "no_photo": "Нет фото",
   "no_tasks": "Нет задач",
   "delete_msg": "Вы действительно хотите удалить?",
+  "select_map": "Выберите карту",
+  "delete_message": "Удалить сообщение",
+  "delete_message_content": "Вы действительно хотите\nудалить сообщение?",
 
   // "client": "Клиент",
   // "date_create": "Дата создания договора",

@@ -84,20 +84,28 @@ class EditPasswordPage extends StatelessWidget {
                                 },
                                 child: Stack(
                                   children: [
-                                    ClipRRect(
-                                      borderRadius: BorderRadius.circular(50.0),
-                                      child: profileProvider.workman?.image == null
-                                          ? Image.asset(
-                                              "assets/images/image_person.png",
-                                              height: 100,
-                                              width: 100,
-                                              fit: BoxFit.cover,
-                                            )
-                                          : Image.network(
-                                              "${HttpService.image}/${profileProvider.workman?.image}",
-                                              height: 100.0,
-                                              width: 100.0,
-                                            ),
+                                    CircleAvatar(
+                                      maxRadius: 50,
+                                      backgroundColor: HexToColor.fontBorderColor,
+                                      child: Padding(
+                                        padding: EdgeInsets.all(5.0),
+                                        child: ClipRRect(
+                                          borderRadius: BorderRadius.circular(50.0),
+                                          child: profileProvider.workman?.image == null
+                                              ? Image.asset(
+                                                  "assets/images/image_person.png",
+                                                  height: 100,
+                                                  width: 100,
+                                                  fit: BoxFit.cover,
+                                                )
+                                              : Image.network(
+                                                  "${HttpService.image}/${profileProvider.workman?.image}",
+                                                  height: 100.0,
+                                                  width: 100.0,
+                                                  fit: BoxFit.cover,
+                                                ),
+                                        ),
+                                      ),
                                     ),
                                     Positioned(
                                       bottom: 0,

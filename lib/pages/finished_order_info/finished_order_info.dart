@@ -1,7 +1,7 @@
-
 import 'package:agitation/controller/https/https.dart';
 import 'package:agitation/pages/finished_order_info/provider/finished_order_provider.dart';
 import 'package:agitation/utils/hex_to_color.dart';
+import 'package:agitation/utils/widget/image_viewer.dart';
 import 'package:agitation/utils/widget/loading_page.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -148,24 +148,6 @@ class FinishedOrderInfo extends StatelessWidget {
                                       ],
                                     ),
                                   ),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
-                                  //   child: Row(
-                                  //     children: [
-                                  //       Text(
-                                  //         "Локацию",
-                                  //         style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: HexToColor.fontBorderColor),
-                                  //       ),
-                                  //     ],
-                                  //   ),
-                                  // ),
-                                  // Padding(
-                                  //   padding: const EdgeInsets.symmetric(horizontal: 18, vertical: 3),
-                                  //   child: Text(
-                                  //     "${provider.task.company!.address}",
-                                  //     style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
-                                  //   ),
-                                  // ),
                                   Padding(
                                     padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 16),
                                     child: Row(
@@ -194,19 +176,35 @@ class FinishedOrderInfo extends StatelessWidget {
                                             padding: EdgeInsets.symmetric(horizontal: 16),
                                             scrollDirection: Axis.horizontal,
                                             itemBuilder: (BuildContext context, int index) {
-                                              return Container(
-                                                height: 80,
-                                                width: 80,
-                                                margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
-                                                decoration: BoxDecoration(
-                                                  color: HexToColor.disableColor,
-                                                  borderRadius: BorderRadius.circular(10),
-                                                ),
-                                                child: ClipRRect(
-                                                  borderRadius: BorderRadius.circular(10),
-                                                  child: Image.network(
-                                                    "${HttpService.image}/${provider.images[index].image}",
-                                                    fit: BoxFit.cover,
+                                              return GestureDetector(
+                                                onTap: () {
+                                                  showModalBottomSheet(
+                                                    context: context,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+                                                    ),
+                                                    isScrollControlled: true,
+                                                    builder: (ctx) {
+                                                      return ImageViewer(
+                                                        path: "${HttpService.image}/${provider.images[index].image}",
+                                                      );
+                                                    },
+                                                  );
+                                                },
+                                                child: Container(
+                                                  height: 80,
+                                                  width: 80,
+                                                  margin: const EdgeInsets.symmetric(vertical: 10, horizontal: 6),
+                                                  decoration: BoxDecoration(
+                                                    color: HexToColor.disableColor,
+                                                    borderRadius: BorderRadius.circular(10),
+                                                  ),
+                                                  child: ClipRRect(
+                                                    borderRadius: BorderRadius.circular(10),
+                                                    child: Image.network(
+                                                      "${HttpService.image}/${provider.images[index].image}",
+                                                      fit: BoxFit.cover,
+                                                    ),
                                                   ),
                                                 ),
                                               );

@@ -38,13 +38,16 @@ class EditOtherProvider extends ChangeNotifier {
   }
 
   getRegions() async {
+    isLoading = true;
+    notifyListeners();
+
     var result = await HttpService.GET(HttpService.regions);
     if (result['status'] == HttpConnection.data) {
       for (var region in result['data']['data']) {
-        print(region['id']);
         regions.add(Region(id: region['id'], name: region['name']));
       }
       // regions = result['data']['data'].map((e) => Region(id: e['id'], name: e['name'])).toList();
+      isLoading = false;
       notifyListeners();
     }
   }

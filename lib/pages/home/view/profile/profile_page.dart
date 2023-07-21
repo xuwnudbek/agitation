@@ -2,6 +2,7 @@
 
 import 'package:agitation/controller/https/https.dart';
 import 'package:agitation/utils/widget/circlar_progress_indicator.dart';
+import 'package:agitation/utils/widget/image_viewer.dart';
 import 'package:agitation/utils/widget/loading_indicator.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
@@ -74,6 +75,20 @@ class ProfilePage extends StatelessWidget {
                                           borderRadius: BorderRadius.circular(50),
                                           onTap: () {
                                             _selectCameraOrGallery(context, provider);
+                                          },
+                                          onLongPress: () {
+                                            showModalBottomSheet(
+                                              context: Get.context!,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.vertical(top: Radius.circular(25)),
+                                              ),
+                                              isScrollControlled: true,
+                                              builder: (ctx) {
+                                                return ImageViewer(
+                                                  path: provider.workman!.image == null ? "assets/images/image_person.png" : "${HttpService.image}/${provider.workman!.image!}",
+                                                );
+                                              },
+                                            );
                                           },
                                           child: Stack(
                                             children: [

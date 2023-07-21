@@ -59,16 +59,31 @@ class ChatProvider extends ChangeNotifier {
     notifyListeners();
   }
 
+  deleteMsg(int id) async {
+    var result = await HttpService.POST(
+      HttpService.message + "/$id",
+      {"_method": "DELETE"},
+    );
+
+    getAllMessages();
+  }
+
   getAllMessages() async {
+    print("get msgs");
     isLoading = true;
     notifyListeners();
 
     var result = await HttpService.GET(HttpService.message);
 
+    print(1111111111111);
+    print(result['data']);
+    print(1111111111111);
+
     if (result['status'] == HttpConnection.data) {
       messages.clear();
 
       Map<String, dynamic> data = result['data']['data'] as Map<String, dynamic>;
+
       List<String> dataKeys = data.keys.toList();
       if (dataKeys.isEmpty) return;
 

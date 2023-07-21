@@ -1,3 +1,4 @@
+import 'package:agitation/controller/notification/notification_service.dart';
 import 'package:agitation/models/task/task.dart';
 import 'package:agitation/pages/finished_order_info/finished_order_info.dart';
 import 'package:agitation/pages/home/view/order/provider/order_provider.dart';
@@ -71,7 +72,7 @@ class FinishedOrderPage extends StatelessWidget {
                                   ),
                                 ),
                                 Visibility(
-                                  visible: orderProvider.lengthActiveNotification != 0,
+                                  visible: false,
                                   // context
                                   //         .watch<CenterProvider>()
                                   //         .sum !=

@@ -108,4 +108,29 @@ class MainFunctions {
     if (data is int) return data;
     return 0;
   }
+
+  String checkLeftTime(String date1, String date2, {bool isFinished = false}) {
+    DateTime d1 = DateTime.parse(date1);
+    DateTime d2 = DateTime.parse(date2);
+
+    Duration diff = d1.difference(d2);
+
+    var days = diff.inDays;
+    var hours = diff.inHours.remainder(24);
+    var minutes = diff.inMinutes.remainder(60);
+    var seconds = diff.inSeconds.remainder(60);
+
+    if ((days <= 0 && hours <= 0 && minutes <= 0) || isFinished) {
+      return " 00:00:00:00";
+    }
+    //check length if length is 1 then add 0 before
+    String checkLength(int data) {
+      if (data.toString().length == 1) {
+        return "0$data";
+      }
+      return data.toString();
+    }
+
+    return " ${checkLength(days)}:${checkLength(hours)}:${checkLength(minutes)}:${checkLength(seconds)}";
+  }
 }

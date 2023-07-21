@@ -13,6 +13,9 @@
         android:icon="@mipmap/ic_launcher">
         <meta-data android:name="com.google.android.geo.API_KEY"
              android:value="AIzaSyDB9d1YYJ1LacV1JLyJwohy3LTxzokxTJE"/>
+
+        <!-- Sirojiddin:: AIzaSyDB9d1YYJ1LacV1JLyJwohy3LTxzokxTJE -->
+        <!-- Xushnudbek:: AIzaSyAQOegaKYwQDZjm_VShBgmNsr373pOvT -->
         <activity
             android:name=".MainActivity"
             android:exported="true"
@@ -22,7 +25,7 @@
             android:hardwareAccelerated="true"
             android:windowSoftInputMode="adjustResize"
             android:enableOnBackInvokedCallback="true"
-            android:showWhenLocked="true"
+            android:showWhenLocked="true"   
             android:turnScreenOn="true">
             
             <!-- Specifies an Android theme to apply to this Activity as soon as

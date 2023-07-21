@@ -1,19 +1,54 @@
+import 'dart:async';
+
 import 'package:agitation/models/task/task.dart';
+import 'package:agitation/utils/functions/main_functions.dart';
 import 'package:agitation/utils/hex_to_color.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 
-class MainCardToTitle extends StatelessWidget {
+class MainCardToTitle extends StatefulWidget {
   MainCardToTitle({super.key, this.task, required this.onPressed});
 
   Task? task;
   Function onPressed;
 
+  @override
+  State<MainCardToTitle> createState() => _MainCardToTitleState();
+}
+
+class _MainCardToTitleState extends State<MainCardToTitle> {
   String unknown = "Unknown";
+
+  String leftTime = "";
+  late Timer timer;
+
+  startTimer() {
+    Timer.periodic(Duration(seconds: 1), (timer) {
+      if (widget.task != null) {
+        if (widget.task!.date != null) {
+          setState(() {
+            //if task date is null then it will show unknown
+            leftTime = MainFunctions().checkLeftTime(
+              widget.task!.date!,
+              DateTime.now().toString(),
+              isFinished: widget.task!.status == 1 ? true : false,
+            );
+          });
+        }
+      }
+    });
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    startTimer();
+  }
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: () => onPressed(),
+      onTap: () => widget.onPressed(),
       child: Container(
         margin: const EdgeInsets.symmetric(horizontal: 16, vertical: 5),
         decoration: BoxDecoration(color: HexToColor.backgroundColor.withOpacity(0.2), borderRadius: BorderRadius.circular(15)),
@@ -27,7 +62,7 @@ class MainCardToTitle extends StatelessWidget {
               width: double.infinity,
               decoration: BoxDecoration(color: HexToColor.fontBorderColor, borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))),
               child: Text(
-                "${task != null ? task!.company!.title : unknown}",
+                "${widget.task != null ? widget.task!.company!.title : unknown}",
                 style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
               ),
             ),
@@ -46,7 +81,7 @@ class MainCardToTitle extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "${task != null ? task!.company!.address : unknown}",
+                    "${widget.task != null ? widget.task!.company!.address : unknown}",
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       // color: HexToColor.greenColor,
@@ -58,8 +93,6 @@ class MainCardToTitle extends StatelessWidget {
             Padding(
               padding: const EdgeInsets.only(left: 15, top: 12),
               child: Wrap(
-                // alignment: WrapAlignment.start,
-                // crossAxisAlignment: WrapCrossAlignment.start,
                 direction: Axis.horizontal,
                 children: [
                   Text(
@@ -70,7 +103,7 @@ class MainCardToTitle extends StatelessWidget {
                     ),
                   ),
                   Text(
-                    "${task != null ? task!.date : unknown}",
+                    "${widget.task != null ? widget.task!.date : unknown}",
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       // color: HexToColor.greenColor,
@@ -84,19 +117,34 @@ class MainCardToTitle extends StatelessWidget {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Row(
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
-                      Icon(
-                        Icons.timer_outlined,
-                        size: 20,
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.start,
+                        children: [
+                          Text(
+                            "left_time".tr,
+                            style: TextStyle(
+                              fontWeight: FontWeight.w600,
+                              color: HexToColor.fontBorderColor,
+                            ),
+                          ),
+                        ],
                       ),
-                      Text(
-                        "${task != null ? task!.date : unknown}",
-                        style: TextStyle(
-                          fontWeight: FontWeight.w600,
-                          // color: HexToColor.greenColor,
-                        ),
-                      )
+                      SizedBox(height: 2),
+                      Row(
+                        children: [
+                          Text(
+                            "$leftTime",
+                            style: TextStyle(
+                              letterSpacing: 1.5,
+                              fontWeight: FontWeight.w600,
+                              // color: HexToColor.greenColor,
+                            ),
+                          )
+                        ],
+                      ),
                     ],
                   ),
                   Container(

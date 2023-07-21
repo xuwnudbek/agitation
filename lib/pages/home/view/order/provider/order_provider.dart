@@ -14,7 +14,6 @@ class OrderProvider extends ChangeNotifier {
 
   String? groupName;
 
-  var lengthActiveNotification = 0;
 
   bool isLoading = false;
 
@@ -24,13 +23,6 @@ class OrderProvider extends ChangeNotifier {
   }
 
   void onInit() async {
-    Stream stream = await NotificationService().notiPlugin.getActiveNotifications().asStream();
-
-    stream.listen((event) {
-      lengthActiveNotification = event.length;
-      notifyListeners();
-    });
-
     getOrders();
   }
 
@@ -56,7 +48,7 @@ class OrderProvider extends ChangeNotifier {
       //notifyListener
       notifyListeners();
     }
-    countTotal = newTasks.length + progTasks.length;
+    countTotal = progTasks.length;
     isLoading = false;
     notifyListeners();
   }
@@ -73,11 +65,12 @@ class OrderProvider extends ChangeNotifier {
     // newTasks = [];
 
     for (var task in data ?? []) {
-      if (task["status"] == 1) {
+      if (task["status"] == true || task["status"] == 1) {
         finTasks.add(task);
       } else {
         //check if task is today
-        isDateToday(task["created_at"]) ? newTasks.add(task) : progTasks.add(task);
+        isDateToday(task["created_at"]) ? newTasks.add(task) : null;
+        progTasks.add(task);
       }
     }
     // notifyListeners();

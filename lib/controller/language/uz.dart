@@ -1,7 +1,7 @@
 const Map<String, String> uz = {
   "internet_error": "Ulanishda xatolik",
   "title_access": "Xush kelibsiz",
-  "subtitle_access": "Hurmatli yetkazib berish xizmati xodimi, biz boshqaruv tizimi orqali ishni tizimlashtirib, siz uchun qulay va foydalanishga qulay dastur yaratdik. Bu yerda siz xaridorlarga tovarlar yetkazib berish bo‘yicha so‘rovlarni qabul qilasiz va o‘z vazifalaringizni bajarasiz.",
+  "subtitle_access": "Hurmatli Agetatsiya bo'limi xodimi Biz ishlarni qulaylashtirish va yengillashtirish maqsadida ushbu ilovani yaratdik. Bu yerda siz kunlik topshiriqlarni qabul qilasiz",
   "bottom_access": "Ishlaringizga omad va muvaffaqiyat!!!",
   "sign_in_button_access": "RO‘YXATDAN O‘TISH",
   "sign_up_button_access": "KIRISH",
@@ -50,6 +50,11 @@ const Map<String, String> uz = {
   "add_location": "Joylashuv qo'shish",
   "location_added": "Joylashuv qo'shildi",
   "no_location": "Joylashuv qo'shilmadi",
+  "day": "kun",
+  "left_time": " Qolgan vaqt:\n (dd:hh:mm:ss)",
+  "workers": "Ishchilar",
+  "leaders": "Yetakchilar",
+  "group": "Guruh",
 
   //connection
   "no_connection": "Internetga ulanish yo'q",
@@ -64,6 +69,9 @@ const Map<String, String> uz = {
   "add_photo": "Rasm qo'shish",
   "no_image": "Rasm mavjud emas",
   "company_added": "Kompaniya qo'shildi",
+  "completing_time": "Tugallash vaqti",
+  "exit": "Chiqish",
+  "exit_text": "Haqiqatdan ham tizimdan\nchiqmoqchimisiz?",
 
   //tasks
   "finish_task": "Vazifani tugatish",
@@ -96,6 +104,7 @@ const Map<String, String> uz = {
 
   "no_message": "Xabarlar yo'q",
   "notifications": "Bildirishnomalar",
+  "no_notification": "Bildirishnomalar yo'q",
   "command_statistic": "Jamoa ko'rsatkichlari",
   "finished_tasks": "Bajarilgan topshiriqlar",
   "no_finished_tasks": "Bajarilgan topshiriqlar yo'q",
@@ -109,6 +118,9 @@ const Map<String, String> uz = {
   "photo_not_added": "Rasm qo'shilmadi",
   "no_photo": "Rasm yo'q",
   "delete_msg": "Haqiqatdan ham o'chirmoqchimisiz?",
+  "select_map": "Xaritani tanlang",
+  "delete_message": "Xabarni o'chirish",
+  "delete_message_content": "Xabarni o'chirishni\nxohlaysizmi?",
   // "date_create":"Shartnoma tuzilgan sana",
   // "accepted":"Qabul qildim",
 
@@ -146,7 +158,7 @@ const Map<String, String> uz = {
   "month_finished": "Hozirgacha\n bajarilgan",
 
   "job": "Mansabi",
-  "notification": "Notification",
+  "notification": "Notifications",
   "finger": "Barmoq izi bilan kirish",
   "use_finger": "Tizimga kirish uchun barmoq izidan foydalaning",
 

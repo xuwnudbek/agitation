@@ -84,7 +84,7 @@ class ProfileProvider extends ChangeNotifier {
     if (result['status'] == HttpConnection.data) {
       var data = result['data']['data'];
       workman = Workman.fromJson(data);
-      var finishedTasks = data['tasks'].where((element) => element["status"] == 1).toList();
+      var finishedTasks = data['tasks'].where((element) => element["status"] == 1 || element["status"] == true).toList();
 
       workman?.setAllFinishedTasks = finishedTasks.length;
       workman?.setTodayFinishedTasks = finishedTasks.where((element) => MainFunctions().isTodayFinished(element["date"])).toList().length;
@@ -108,6 +108,14 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   void onFingerPrintChange(value) async {
+    Box box = await Hive.openBox("db");
+    String? dataPhone = await box.get("phone");
+    var phone = {};
+    if (dataPhone != null) {
+      phone = jsonDecode(dataPhone);
+    }
+    // phone['fingerprint'] = value;
+    print("fingerprintV: $value");
     if (value) {
       var lock = jsonDecode(Hive.box("db").get("lock") ?? "null");
 
@@ -118,26 +126,13 @@ class ProfileProvider extends ChangeNotifier {
 
       var isBla = await authenticate();
       if (isBla != true) return;
-      print(await isBla);
 
-      Box box = await Hive.openBox("db");
-      String? dataPhone = await box.get("phone");
-      var phone = {};
-      if (dataPhone != null) {
-        phone = jsonDecode(dataPhone);
-      }
       phone['fingerprint'] = value;
       fingerprint = value;
       await box.put("phone", jsonEncode(phone));
       notifyListeners();
       print("fingerprint: $value");
     } else {
-      Box box = await Hive.openBox("db");
-      String? dataPhone = await box.get("phone");
-      var phone = {};
-      if (dataPhone != null) {
-        phone = jsonDecode(dataPhone);
-      }
       phone['fingerprint'] = value;
       fingerprint = value;
       await box.put("phone", jsonEncode(phone));
@@ -147,9 +142,11 @@ class ProfileProvider extends ChangeNotifier {
   }
 
   Future<bool> authenticate() async {
+    print("authenticate");
     try {
       final LocalAuthentication auth = LocalAuthentication();
       var res = await auth.canCheckBiometrics;
+      print(res);
       if (res) {
         return await auth.authenticate(
           options: AuthenticationOptions(biometricOnly: true),
@@ -186,22 +183,30 @@ class ProfileProvider extends ChangeNotifier {
         onPin(check);
       }
     } else {
-      onPin(value);
+      onPin(false);
       onFingerPrintChange(false);
+
+      Box box = await Hive.openBox("db");
+      print(box.get("phone"));
     }
   }
 
   void onPin(value) async {
     Box box = await Hive.openBox("db");
-    String? dataPhone = await box.get("phone");
-    var phone = {};
-    if (dataPhone != null) {
-      phone = jsonDecode(dataPhone);
+
+    if (!value) {
+      Hive.box("db").delete("lock");
     }
-    phone['pin'] = value;
+
+    var dataPhone = box.get("phone");
+    dataPhone = jsonDecode(dataPhone);
     pin = value ?? true;
-    await box.put("phone", jsonEncode(phone));
+    dataPhone['pin'] = pin;
+
+    await box.put("phone", jsonEncode(dataPhone));
     notifyListeners();
+
+    print("pin: $value");
   }
 
   void onSaveImage(path) async {

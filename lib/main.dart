@@ -34,9 +34,6 @@ Future init() async {
   await Hive.openBox("language");
   await Hive.openBox("db");
   await Hive.openBox("fcmToken");
-
-  // Box box = await Hive.openBox("db");
-  // box.clear();
 }
 
 class MyApp extends StatelessWidget {
@@ -71,6 +68,7 @@ class MyApp extends StatelessWidget {
           bodyMedium: TextStyle(fontSize: 14.0, color: HexToColor.blackColor),
         ),
       ),
+      
       home: MultiProvider(
         providers: [
           ChangeNotifierProvider(create: (_) => ConnectionProvider()),
@@ -88,7 +86,6 @@ class MyApp extends StatelessWidget {
                         var userHive = Hive.box("db").get("user");
                         var userChange = userHive != null ? jsonDecode(snapshot.data?.value ?? userHive) : {};
                         var pin = jsonDecode(Hive.box("db").get("phone") ?? "{}")["pin"] ?? false;
-
                         if (pin ?? false) {
                           return LockPage(indicator: LockIndicator.ON);
                         }
@@ -100,8 +97,6 @@ class MyApp extends StatelessWidget {
           );
         },
       ),
-
-      // home: Home(),
     );
   }
 }
