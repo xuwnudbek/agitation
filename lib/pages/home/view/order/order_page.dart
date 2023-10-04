@@ -14,6 +14,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
 import 'package:provider/provider.dart';
 import 'package:syncfusion_flutter_charts/charts.dart';
+import 'package:badges/badges.dart' as badge;
 
 class OrderPage extends StatelessWidget {
   const OrderPage({super.key});
@@ -63,82 +64,64 @@ class OrderPage extends StatelessWidget {
                                 ),
                                 Row(
                                   children: [
-                                    Stack(
-                                      children: [
-                                        Container(
-                                          // color: Colors.red,
-                                          width: 50,
-                                          height: 40,
+                                    InkWell(
+                                      onTap: () {
+                                        Get.to(() => NotificationPage());
+                                      },
+                                      child: badge.Badge(
+                                        showBadge: context.watch<HomeProvider>().alertCount > 0,
+                                        badgeStyle: badge.BadgeStyle(
+                                          badgeColor: Colors.transparent,
                                         ),
-                                        Positioned(
-                                          left: 10,
-                                          child: InkWell(
-                                            onTap: () {
-                                              Get.to(() => NotificationPage());
-                                            },
-                                            child: CircleAvatar(
-                                              backgroundColor: HexToColor.detailsColor,
-                                              child: Icon(
-                                                Icons.notifications_none_outlined,
-                                                color: Colors.white,
-                                              ),
-                                            ),
+                                        badgeContent: DecoratedBox(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(50),
+                                            color: Colors.red,
+                                          ),
+                                          child: SizedBox(
+                                            width: 7,
+                                            height: 7,
+                                          ).marginOnly(right: 10, top: 10),
+                                        ),
+                                        child: CircleAvatar(
+                                          backgroundColor: HexToColor.detailsColor,
+                                          child: Icon(
+                                            Icons.notifications_none_outlined,
+                                            color: Colors.white,
                                           ),
                                         ),
-                                        Visibility(
-                                          visible: false,
-                                          child: Positioned(
-                                              top: 12,
-                                              bottom: 11,
-                                              child: Container(
-                                                width: 17,
-                                                decoration: BoxDecoration(color: HexToColor.fontBorderColor, borderRadius: BorderRadius.circular(40), border: Border.all(width: 1.5, color: Colors.white)),
-                                                child: Center(
-                                                    child: Text(
-                                                  "",
-                                                  style: TextStyle(fontSize: 8, fontWeight: FontWeight.bold, color: Colors.white),
-                                                )),
-                                              )),
-                                        )
-                                      ],
+                                      ),
                                     ),
-                                    Stack(
-                                      children: [
-                                        Container(
-                                          // color: Colors.red,
-                                          width: 50,
-                                          height: 40,
+                                    SizedBox(
+                                      width: 10,
+                                    ),
+                                    InkWell(
+                                      onTap: () {
+                                        Get.to(() => ChatPage());
+                                      },
+                                      child: badge.Badge(
+                                        showBadge: context.watch<HomeProvider>().msgCount > 0,
+                                        badgeStyle: badge.BadgeStyle(
+                                          badgeColor: Colors.transparent,
                                         ),
-                                        Positioned(
-                                          left: 10,
-                                          child: InkWell(
-                                            onTap: () {
-                                              Get.to(() => ChatPage());
-                                            },
-                                            child: CircleAvatar(
-                                              backgroundColor: HexToColor.detailsColor,
-                                              child: SvgPicture.asset("assets/images/icon_comment.svg", color: Colors.white),
-                                            ),
+                                        badgeContent: DecoratedBox(
+                                          decoration: BoxDecoration(
+                                            borderRadius: BorderRadius.circular(50),
+                                            color: Colors.red,
+                                          ),
+                                          child: SizedBox(
+                                            width: 7,
+                                            height: 7,
+                                          ).marginOnly(right: 10, top: 10),
+                                        ),
+                                        child: CircleAvatar(
+                                          backgroundColor: HexToColor.detailsColor,
+                                          child: SvgPicture.asset(
+                                            "assets/images/icon_comment.svg",
+                                            color: Colors.white,
                                           ),
                                         ),
-                                        Visibility(
-                                          visible: false,
-                                          child: Positioned(
-                                              top: 12,
-                                              bottom: 11,
-                                              child: Container(
-                                                width: 17,
-                                                // height: 10,
-                                                decoration: BoxDecoration(color: HexToColor.fontBorderColor, borderRadius: BorderRadius.circular(40), border: Border.all(width: 1.5, color: Colors.white)),
-                                                child: Center(
-                                                  child: Text(
-                                                    "1",
-                                                    style: TextStyle(fontSize: 8, fontWeight: FontWeight.bold, color: Colors.white),
-                                                  ),
-                                                ),
-                                              )),
-                                        )
-                                      ],
+                                      ),
                                     ),
                                   ],
                                 ),

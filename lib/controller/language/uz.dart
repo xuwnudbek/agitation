@@ -186,10 +186,6 @@ const Map<String, String> uz = {
   "pass_not_changed": "Parol o'zgartirilmadi",
   "must_pin": "PIN kodni o'rnatishingiz kerak",
 
-  //  "new_version_title":"Yangilanish mavjud",
-  //  "new_version_loading":"Dastur yangilanmoqda",
-  //  "have_version":"yangi versia mavjud",
-  //  "version_about":"O`zgarishlar",
   "loading": "Yuklash",
   "forgot_password": "Parolni unutdingizmi",
   "reset": "Parolni qayta o'rnatish",
@@ -197,4 +193,7 @@ const Map<String, String> uz = {
   "alert_body": "PIN-kodni unutdingizmi va uni qayta tiklamoqchimisiz?",
   //      "unread":"O'qilmagan",
   // "read":"O'qilgan",
+
+  // date: 04.10.2023
+  
 };

@@ -6,21 +6,22 @@ import 'package:hive_flutter/adapters.dart';
 // import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class HomeProvider extends ChangeNotifier {
+  DateTime? currentBackPressTime;
   var user;
+  int alertCount = 0;
+  int msgCount = 0;
 
   HomeProvider() {
+    if (Hive.box("db").get("onChanged") == null) {
+      Hive.box("db").put("onChanged", DateTime.now());
+    }
+    
     user = Hive.box("db").get("user");
     if (user == null) return;
+
     user = jsonDecode(user);
     var group_id = user["group_id"];
     var user_id = user["id"];
-
-    print(user);
-
-    print("__________________________user_id: $user_id");
-    print("__________________________group_id: $group_id");
-
-    //initialize pushers
 
     if (user['job_title'] == 1) PusherService.init("notification_l");
 
@@ -28,9 +29,24 @@ class HomeProvider extends ChangeNotifier {
     PusherService.init("channel_$group_id");
     PusherService.init("notification_$group_id");
     PusherService.init("notification_w");
+
+    checkNotificaionsCount();
   }
 
-  DateTime? currentBackPressTime;
+  checkNotificaionsCount() {
+    var box = Hive.box("db");
+    box.watch(key: "alertCount").listen((event) {
+      alertCount = event.value;
+      notifyListeners();
+    });
+    box.watch(key: "msgCount").listen((event) {
+      msgCount = event.value;
+      notifyListeners();
+    });
+
+    alertCount = Hive.box("db").get("alertCount") ?? 0;
+    notifyListeners();
+  }
 
   int indexItem = 0;
   void onTab(value) {
@@ -48,6 +64,3 @@ class HomeProvider extends ChangeNotifier {
     return Future.value(true);
   }
 }
-                                                                                                                                                                                                                                                                                                                                                                          
-//I/flutter ( 5872): __________________________user_id: 5
-//I/flutter ( 5872): __________________________group_id: 3

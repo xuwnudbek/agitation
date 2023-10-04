@@ -37,6 +37,7 @@ class PusherService {
   }
 
   onEvent(PusherEvent event) {
+    var box = Hive.box("db");
     print("PusherCount {${event.channelName}->${event.eventName}}: ${++count}");
 
     if (event.eventName == "pusher:subscription_succeeded") return;
@@ -47,8 +48,12 @@ class PusherService {
     print(event.channelName);
 
     // var eventData = event.data;
+    var now = DateTime.now();
+    print(now);
     switch (event.eventName) {
       case "workers":
+        int alertCount = box.get("alertCount") ?? 0;
+        box.put("alertCount", ++alertCount);
         notiService.showNotification(
           title: "super_admin".tr,
           body: "${jsonDecode(event.data)['data']['text']}",
@@ -58,6 +63,10 @@ class PusherService {
         break;
 
       case "alert":
+        int alertCount = box.get("alertCount") ?? 0;
+        box.put("alertCount", ++alertCount);
+        box.put("onChanged", DateTime.now());
+
         notiService.showNotification(
           title: "super_admin".tr,
           body: "${jsonDecode(event.data)['data']['company']['title']} ${"added".tr}",
@@ -66,6 +75,10 @@ class PusherService {
         break;
 
       case "message":
+        int msgCount = box.get("msgCount") ?? 0;
+        box.put("msgCount", ++msgCount);
+        box.put("onChanged", DateTime.now());
+
         Get.currentRoute == "/ChatPage"
             ? null
             : notiService.showNotification(
@@ -77,6 +90,7 @@ class PusherService {
         break;
 
       default:
+        print("__________________________________${event.channelName}");
         break;
     }
   }
@@ -134,16 +148,3 @@ List checkSetOrNot(List list) {
 
   return list;
 }
-
-
-//{
-//     "id": "1",
-//     "title": "Super Admin",
-//     "body": "How can i help you?"
-// }
-
-// {
-//     "id": "1",
-//     "title": "Yangi organizatsiya",
-//     "body": "17-MAKTAB - qo'shildi"
-// }

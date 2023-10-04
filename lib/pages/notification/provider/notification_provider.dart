@@ -9,6 +9,7 @@ class NotificationProvider extends ChangeNotifier {
   bool isLoading = false;
 
   NotificationProvider() {
+    Hive.box("db").put("alertCount", 0);
     onInit();
   }
 

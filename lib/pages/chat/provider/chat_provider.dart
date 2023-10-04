@@ -19,6 +19,8 @@ class ChatProvider extends ChangeNotifier {
   Map<String, List<Message>> messages = {};
 
   ChatProvider() {
+    Hive.box("db").put("msgCount", 0);
+
     onInit();
     getAllMessages();
     onMsg();
