@@ -74,7 +74,8 @@ class AddClientPage extends StatelessWidget {
                             decoration: BoxDecoration(color: HexToColor.fontBorderColor, borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))),
                             child: Center(
                               child: Text(
-                                "Заполните форму",
+                                "fill_form".tr,
+                                
                                 style: TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -86,17 +87,18 @@ class AddClientPage extends StatelessWidget {
                           Padding(
                             padding: EdgeInsets.symmetric(vertical: 10, horizontal: 10),
                             child: Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
                               children: [
                                 const SizedBox(height: 9),
                                 MaterialTextField(
                                   hintText: "F.I.O",
-                                  title: "Фамилия Имя Отчество:",
+                                  title: "fio".tr + ": ",
                                   controller: provider.fioController,
                                 ),
                                 SizedBox(height: 9),
                                 MainMaterialTextFieldNumber(
                                   hintText: "+998 (xx) xxx xx xx",
-                                  title: "Номер телефона:",
+                                  title: "phone".tr + ":",
                                   keyboardType: TextInputType.phone,
                                   controller: provider.phoneController,
                                   inputFormatters: [
@@ -107,7 +109,7 @@ class AddClientPage extends StatelessWidget {
                                 Padding(
                                   padding: const EdgeInsets.symmetric(vertical: 1, horizontal: 10),
                                   child: Text(
-                                    "Статус:",
+                                    "status".tr + ":",
                                     style: TextStyle(fontWeight: FontWeight.w600, color: HexToColor.fontBorderColor),
                                   ),
                                 ),
@@ -172,7 +174,7 @@ class AddClientPage extends StatelessWidget {
                                 const SizedBox(height: 9),
                                 MaterialTextFieldComment(
                                   hintText: "",
-                                  title: "Комментарий:",
+                                  title: "comment".tr + ":",
                                   controller: provider.commentController,
                                   maxLines: 5,
                                 ),

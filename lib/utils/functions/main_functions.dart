@@ -114,7 +114,9 @@ class MainFunctions {
 
   String checkLeftTime(String date1, String date2, {bool isFinished = false}) {
     DateTime d1 = DateTime.parse(date1);
-    d1 = d1.add(Duration(hours: 23, minutes: 59, seconds: 59));
+    d1 = d1.subtract(Duration(hours: d1.hour));
+    d1 = d1.add(Duration(hours: 24));
+    // d1 = d1.add();
     DateTime d2 = DateTime.parse(date2);
 
     Duration diff = d1.difference(d2);

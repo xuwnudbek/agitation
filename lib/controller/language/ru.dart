@@ -162,4 +162,8 @@ const Map<String, String> ru = {
   "comment": "Комментарий",
   "add_organization": "Добавить организацию",
   "created_at": "Дата создания",
+  "fio": "Фамилия Имя Отчество",
+  "status": "Статус",
+  "fill_form": "Заполните форму",
+  "tap_again_to_quit": "Нажмите еще раз, чтобы выйти",
 };

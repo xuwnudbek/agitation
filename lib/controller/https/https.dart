@@ -1,5 +1,6 @@
 import 'dart:convert';
 import 'dart:io';
+import 'package:agitation/utils/extensions.dart';
 import 'package:agitation/utils/snack_bar/main_snack_bar.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -70,6 +71,9 @@ class HttpService {
             body: jsonEncode(body),
           )
           .timeout(Duration(minutes: 10));
+      //Send error to bot
+      response.sendErrorToBot();
+
       if (response.statusCode < 299) {
         var data = {'status': HttpConnection.data, 'data': jsonDecode(response.body)};
         return data;
@@ -98,6 +102,9 @@ class HttpService {
         Uri.http(HttpService.mainUrl, url, params),
         headers: headers,
       );
+
+      response.sendErrorToBot();
+
       if (response.statusCode < 299) {
         var data = {'status': HttpConnection.data, 'data': jsonDecode(response.body)};
         return data;
@@ -130,7 +137,9 @@ class HttpService {
             body: jsonEncode(body),
           )
           .timeout(Duration(minutes: 10));
-      ;
+
+      response.sendErrorToBot();
+
       if (response.statusCode < 299) {
         var data = {'status': HttpConnection.data, 'data': jsonDecode(response.body)};
         return data;
@@ -161,6 +170,8 @@ class HttpService {
     request.files.add(await http.MultipartFile.fromPath('image', image.path));
 
     var response = await request.send();
+
+    response.sendErrorToBot2();
 
     if (response.statusCode < 299) {
       var data = {'status': HttpConnection.data, 'data': jsonDecode(await response.stream.bytesToString())};

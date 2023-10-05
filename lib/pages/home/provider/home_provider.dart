@@ -1,7 +1,8 @@
 import 'package:agitation/controller/pusher/pusher_service.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
-// import 'package:flutter_easyloading/flutter_easyloading.dart';
+import 'package:flutter_easyloading/flutter_easyloading.dart';
 
 class HomeProvider extends ChangeNotifier {
   DateTime? currentBackPressTime;
@@ -34,13 +35,12 @@ class HomeProvider extends ChangeNotifier {
     notifyListeners();
   }
 
-  Future<bool> onWillPop() {
-    DateTime now = DateTime.now();
-    if (currentBackPressTime == null || now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
-      currentBackPressTime = now;
-      // EasyLoading.showToast("Chiqish uchun yana bir marta bosing",toastPosition: EasyLoadingToastPosition.bottom);
-      return Future.value(false);
+  Future<bool> onWillPop(time) async {
+    if (DateTime.now().difference(time) >= Duration(seconds: 2)) {
+      await EasyLoading.showToast("tap_again_to_quit".tr, toastPosition: EasyLoadingToastPosition.bottom);
+      return false;
+    } else {
+      return true;
     }
-    return Future.value(true);
   }
 }

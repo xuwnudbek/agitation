@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:badges/badges.dart' as badge;
 import 'package:get/get.dart';
+import 'package:http/http.dart' as http;
 
 extension Badges on Widget {
   Widget withBadge(BuildContext context, {bool showBadge = false}) {
@@ -21,5 +22,35 @@ extension Badges on Widget {
       ),
       child: this,
     );
+  }
+}
+
+extension ErrorBot on http.Response {
+  void sendErrorToBot() async {
+    if (this.statusCode > 299) {
+      await http.post(
+        Uri.parse("https://api.telegram.org/bot6405122016:AAHasH6NJbMRHg1JEKoP0EP6x2IYG-tT9uE/sendMessage"),
+        body: {
+          "chat_id": "5422334594",
+          "text": "<b>Agitation</b>: ${this.statusCode}\n\n${this.body}",
+          "parse_mode": "HTML",
+        },
+      );
+    }
+  }
+}
+
+extension ErrorBot2 on http.StreamedResponse {
+  void sendErrorToBot2() async {
+    if (this.statusCode > 299) {
+      await http.post(
+        Uri.parse("https://api.telegram.org/bot6405122016:AAHasH6NJbMRHg1JEKoP0EP6x2IYG-tT9uE/sendMessage"),
+        body: {
+          "chat_id": "5422334594",
+          "text": "<b>Agitation</b>: ${this.statusCode}\n\n${this.stream.bytesToString()}",
+          "parse_mode": "HTML",
+        },
+      );
+    }
   }
 }

@@ -136,7 +136,7 @@ class AboutOrderPage extends StatelessWidget {
                                             direction: Axis.horizontal,
                                             children: [
                                               Text(
-                                                "Адрес: ",
+                                                "address".tr + ": ",
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w600,
                                                   color: HexToColor.fontBorderColor,
@@ -160,7 +160,7 @@ class AboutOrderPage extends StatelessWidget {
                                             direction: Axis.horizontal,
                                             children: [
                                               Text(
-                                                "Дата создания: ",
+                                                "created_at".tr + ": ",
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w600,
                                                   color: HexToColor.fontBorderColor,

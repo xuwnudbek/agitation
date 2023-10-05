@@ -32,11 +32,12 @@ class Home extends StatelessWidget {
       builder: (context, child) {
         return Consumer<HomeProvider>(builder: (context, provider, child) {
           return Consumer<ModerationProvider>(builder: (ctx, moderationProvider, _) {
+            DateTime lastTimeBackbuttonWasClicked = DateTime.now();
             return moderationProvider.isModerated ?? false
                 ? WillPopScope(
                     onWillPop: () async {
                       await MoveToBackground.moveTaskToBack();
-                      return provider.onWillPop();
+                      return await provider.onWillPop(lastTimeBackbuttonWasClicked);
                     },
                     child: Scaffold(
                       body: selectedPage[provider.indexItem],

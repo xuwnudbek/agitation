@@ -186,4 +186,8 @@ const Map<String, String> uz = {
   "comment": "Izoh",
   "add_organization": "Tashkilot qo'shish",
   "created_at": "Yaratilgan sana", //translate to uzb =>
+  "fio": "Familiya Ism Sharif",
+  "status": "Status",
+  "fill_form": "Ma'lumotlarni to'ldiring",
+  "tap_again_to_quit": "Chiqish uchun yana bir marta bosing",
 };
