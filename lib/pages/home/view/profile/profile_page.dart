@@ -42,14 +42,13 @@ class ProfilePage extends StatelessWidget {
                         Expanded(
                           child: SingleChildScrollView(
                             child: Column(
-                              mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Padding(
                                   padding: EdgeInsets.symmetric(vertical: 20),
                                   child: Row(
-                                    // crossAxisAlignment: CrossAxisAlignment.center,
                                     mainAxisAlignment: MainAxisAlignment.center,
                                     children: [
+                                      //Today finished
                                       Column(
                                         children: [
                                           CircleAvatar(
@@ -69,6 +68,7 @@ class ProfilePage extends StatelessWidget {
                                           )
                                         ],
                                       ),
+                                      //Profile image
                                       Padding(
                                         padding: const EdgeInsets.symmetric(horizontal: 20),
                                         child: InkWell(
@@ -150,6 +150,8 @@ class ProfilePage extends StatelessWidget {
                                           ),
                                         ),
                                       ),
+
+                                      // All finished
                                       Column(
                                         children: [
                                           CircleAvatar(
@@ -185,7 +187,7 @@ class ProfilePage extends StatelessWidget {
                                 ),
                                 Container(
                                   constraints: BoxConstraints.expand(
-                                    width: Get.size.width * 0.2,
+                                    width: Get.size.width * 0.25,
                                     height: 25,
                                   ),
                                   alignment: Alignment.center,
@@ -324,7 +326,7 @@ class ProfilePage extends StatelessWidget {
                                 ),
                                 ListTile(
                                   title: Text(
-                                    "Version",
+                                    "version".tr,
                                     style: TextStyle(
                                       fontSize: 16,
                                       fontWeight: FontWeight.w600,

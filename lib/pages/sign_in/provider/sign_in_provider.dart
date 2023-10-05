@@ -87,7 +87,7 @@ class SignInProvider extends ChangeNotifier {
 
         Get.offAll(() => Home(), transition: Transition.fadeIn);
       } else {
-        MainSnackBar.error(result['data']['data']);
+        MainSnackBar.error(result['data']['data'].toString().capitalizeFirst);
       }
     } else {
       MainSnackBar.error("data_empty".tr);

@@ -7,10 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 class MainCardToTitle extends StatefulWidget {
-  MainCardToTitle({super.key, this.task, required this.onPressed});
+  MainCardToTitle({super.key, this.task, required this.onPressed, this.isFinished = false});
 
   Task? task;
   Function onPressed;
+  bool isFinished;
 
   @override
   State<MainCardToTitle> createState() => _MainCardToTitleState();
@@ -74,7 +75,7 @@ class _MainCardToTitleState extends State<MainCardToTitle> {
                 direction: Axis.horizontal,
                 children: [
                   Text(
-                    "Адрес: ",
+                    "address".tr + ": ",
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: HexToColor.fontBorderColor,
@@ -96,14 +97,14 @@ class _MainCardToTitleState extends State<MainCardToTitle> {
                 direction: Axis.horizontal,
                 children: [
                   Text(
-                    "Дата создания: ",
+                    "created_at".tr + ": ",
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       color: HexToColor.fontBorderColor,
                     ),
                   ),
                   Text(
-                    "${widget.task != null ? widget.task!.date : unknown}",
+                    "${widget.task != null ? widget.task!.createdAt?.split("T").first : unknown}",
                     style: TextStyle(
                       fontWeight: FontWeight.w600,
                       // color: HexToColor.greenColor,
@@ -117,36 +118,56 @@ class _MainCardToTitleState extends State<MainCardToTitle> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          Text(
-                            "left_time".tr,
-                            style: TextStyle(
-                              fontWeight: FontWeight.w600,
-                              color: HexToColor.fontBorderColor,
-                            ),
+                  widget.isFinished
+                      ? DecoratedBox(
+                          decoration: BoxDecoration(
+                            borderRadius: BorderRadius.circular(5),
+                            color: HexToColor.greenColor.withOpacity(.5),
                           ),
-                        ],
-                      ),
-                      SizedBox(height: 2),
-                      Row(
-                        children: [
-                          Text(
-                            "$leftTime",
-                            style: TextStyle(
-                              letterSpacing: 1.5,
-                              fontWeight: FontWeight.w600,
-                              // color: HexToColor.greenColor,
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                "finished".tr,
+                                style: TextStyle(
+                                  fontWeight: FontWeight.w600,
+                                  color: HexToColor.blueWhiteBackgroundColor,
+                                ),
+                              ),
+                            ],
+                          ).paddingSymmetric(horizontal: 10, vertical: 5),
+                        ).marginOnly(left: 7)
+                      : Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.start,
+                              children: [
+                                Text(
+                                  "left_time".tr,
+                                  style: TextStyle(
+                                    fontWeight: FontWeight.w600,
+                                    color: HexToColor.fontBorderColor,
+                                  ),
+                                ),
+                              ],
                             ),
-                          )
-                        ],
-                      ),
-                    ],
-                  ),
+                            SizedBox(height: 2),
+                            Row(
+                              children: [
+                                Text(
+                                  "$leftTime",
+                                  style: TextStyle(
+                                    color: leftTime.contains("00:00:00:00") ? Colors.red : HexToColor.fontBorderColor,
+                                    letterSpacing: 1.5,
+                                    fontWeight: FontWeight.w600,
+                                    // color: HexToColor.greenColor,
+                                  ),
+                                )
+                              ],
+                            ),
+                          ],
+                        ),
                   Container(
                     height: 30,
                     // width: 100,
@@ -159,7 +180,7 @@ class _MainCardToTitleState extends State<MainCardToTitle> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          "Подробнее",
+                          "more".tr,
                           style: TextStyle(fontWeight: FontWeight.w600, color: Colors.white
                               // color: HexToColor.greenColor,
                               ),

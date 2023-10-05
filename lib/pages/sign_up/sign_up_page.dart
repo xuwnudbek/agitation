@@ -142,45 +142,6 @@ class SignUpPage extends StatelessWidget {
                                   ),
                                 ),
                               ),
-                              // DropdownButtonFormField(
-                              //   icon:
-                              //       const Icon(Icons.keyboard_arrow_down_sharp),
-                              //   decoration: InputDecoration(
-                              //     contentPadding: const EdgeInsets.symmetric(
-                              //         vertical: 0, horizontal: 20),
-                              //     enabledBorder: OutlineInputBorder(
-                              //       borderSide: BorderSide(
-                              //           color: Colors.grey, width: 1),
-                              //       borderRadius: BorderRadius.circular(50),
-                              //     ),
-                              //     focusedBorder: OutlineInputBorder(
-                              //       borderSide: const BorderSide(
-                              //           color: Colors.red, width: 1),
-                              //       borderRadius: BorderRadius.circular(50),
-                              //     ),
-                              //     filled: true,
-                              //     fillColor: HexToColor.greyTextFieldColor,
-                              //   ),
-                              //   // dropdownColor: HexToColor.greyTextFieldColor,
-
-                              //   onChanged: (newValue) {
-                              //     provider.selectBranch =
-                              //         provider.listBranch.indexOf(newValue);
-                              //   },
-                              //   items: provider.listBranch
-                              //       .map<DropdownMenuItem<Map>>((value) {
-                              //     return DropdownMenuItem<Map>(
-
-                              //       value: value,
-                              //       child: Text(
-                              //         value['name'],
-                              //         style: TextStyle(
-                              //             fontSize: 14,
-                              //             fontWeight: FontWeight.w600),
-                              //       ),
-                              //     );
-                              //   }).toList(),
-                              // ),
                             ],
                           ),
                         ),

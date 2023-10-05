@@ -121,23 +121,6 @@ const Map<String, String> uz = {
   "select_map": "Xaritani tanlang",
   "delete_message": "Xabarni o'chirish",
   "delete_message_content": "Xabarni o'chirishni\nxohlaysizmi?",
-  // "date_create":"Shartnoma tuzilgan sana",
-  // "accepted":"Qabul qildim",
-
-  //  "accepted_car":"Yo`lda",
-  //   "product":"Tovar",
-  //    "one_order":"Buyurtma",
-  //  "treaty":"Shartnoma",
-  //  "comment_client":"Mijoz izohi",
-  //  "address_supp":"Yetkazish manzili",
-  //  "other_phone":"Qo'shimcha telefon",
-  //  "delivered":"Yetkazib berildi",
-
-  //    "add_photo":"Mijoz bilan selfi qo'shing",
-  //  "add":"Qo'shish",
-  //  "delete":"O'chirish",
-  //  "add_location":"Joylashuv qo'shish",
-  //  "comment":"Izoh",
 
   "today": "Bugun",
   "finished_order": "Bajarilgan buyurtmalar",
@@ -154,7 +137,7 @@ const Map<String, String> uz = {
   "task": "Vazifa",
   "task_date": "Yaratilgan sana",
 
-  "today_finished": "Bugun \n bajarilgan \n",
+  "today_finished": "Bugun \n bajarilgan",
   "month_finished": "Hozirgacha\n bajarilgan",
 
   "job": "Mansabi",
@@ -163,7 +146,7 @@ const Map<String, String> uz = {
   "use_finger": "Tizimga kirish uchun barmoq izidan foydalaning",
 
   "edit_data": "Ma'lumotlarni o'zgartirish",
-  "edit_password": "Parloni o'zgartirish uchun",
+  "edit_password": "Parolni o'zgartirish uchun",
 
   "old_password": "Eski parol",
   "new_password": "Yangi parol",
@@ -195,5 +178,12 @@ const Map<String, String> uz = {
   // "read":"O'qilgan",
 
   // date: 04.10.2023
-  
+  "passwords_not_match": "Parollar mos emas",
+  "user_created": "Akkaunt yaratildi",
+  "version": "Versiya",
+  "photo": "Rasm",
+  "clients": "Mijozlar",
+  "comment": "Izoh",
+  "add_organization": "Tashkilot qo'shish",
+  "created_at": "Yaratilgan sana", //translate to uzb =>
 };

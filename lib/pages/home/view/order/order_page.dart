@@ -1,10 +1,10 @@
-import 'package:agitation/controller/notification/notification_service.dart';
 import 'package:agitation/models/task/task.dart';
 import 'package:agitation/pages/about_order/about_order_page.dart';
 import 'package:agitation/pages/chat/chat_page.dart';
 import 'package:agitation/pages/home/provider/home_provider.dart';
 import 'package:agitation/pages/home/view/order/provider/order_provider.dart';
 import 'package:agitation/pages/notification/notification_page.dart';
+import 'package:agitation/utils/extensions.dart';
 import 'package:agitation/utils/hex_to_color.dart';
 import 'package:agitation/utils/widget/circlar_progress_indicator.dart';
 import 'package:agitation/utils/widget/main_card_to_title.dart';
@@ -31,7 +31,6 @@ class OrderPage extends StatelessWidget {
           return Consumer<HomeProvider>(
             builder: (context, homeProvider, _) {
               //OrderProvider
-
               return Scaffold(
                 body: SafeArea(
                   //HomeProvider
@@ -68,28 +67,15 @@ class OrderPage extends StatelessWidget {
                                       onTap: () {
                                         Get.to(() => NotificationPage());
                                       },
-                                      child: badge.Badge(
+                                      child: CircleAvatar(
+                                        backgroundColor: HexToColor.detailsColor,
+                                        child: Icon(
+                                          Icons.notifications_none_outlined,
+                                          color: Colors.white,
+                                        ),
+                                      ).withBadge(
+                                        context,
                                         showBadge: context.watch<HomeProvider>().alertCount > 0,
-                                        badgeStyle: badge.BadgeStyle(
-                                          badgeColor: Colors.transparent,
-                                        ),
-                                        badgeContent: DecoratedBox(
-                                          decoration: BoxDecoration(
-                                            borderRadius: BorderRadius.circular(50),
-                                            color: Colors.red,
-                                          ),
-                                          child: SizedBox(
-                                            width: 7,
-                                            height: 7,
-                                          ).marginOnly(right: 10, top: 10),
-                                        ),
-                                        child: CircleAvatar(
-                                          backgroundColor: HexToColor.detailsColor,
-                                          child: Icon(
-                                            Icons.notifications_none_outlined,
-                                            color: Colors.white,
-                                          ),
-                                        ),
                                       ),
                                     ),
                                     SizedBox(
@@ -120,6 +106,9 @@ class OrderPage extends StatelessWidget {
                                             "assets/images/icon_comment.svg",
                                             color: Colors.white,
                                           ),
+                                        ).withBadge(
+                                          context,
+                                          showBadge: context.watch<HomeProvider>().msgCount > 0,
                                         ),
                                       ),
                                     ),

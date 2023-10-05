@@ -1,5 +1,3 @@
-import 'dart:convert';
-
 import 'package:agitation/controller/pusher/pusher_service.dart';
 import 'package:flutter/material.dart';
 import 'package:hive_flutter/adapters.dart';
@@ -7,29 +5,11 @@ import 'package:hive_flutter/adapters.dart';
 
 class HomeProvider extends ChangeNotifier {
   DateTime? currentBackPressTime;
-  var user;
   int alertCount = 0;
   int msgCount = 0;
 
   HomeProvider() {
-    if (Hive.box("db").get("onChanged") == null) {
-      Hive.box("db").put("onChanged", DateTime.now());
-    }
-    
-    user = Hive.box("db").get("user");
-    if (user == null) return;
-
-    user = jsonDecode(user);
-    var group_id = user["group_id"];
-    var user_id = user["id"];
-
-    if (user['job_title'] == 1) PusherService.init("notification_l");
-
-    PusherService.init("chat_$user_id");
-    PusherService.init("channel_$group_id");
-    PusherService.init("notification_$group_id");
-    PusherService.init("notification_w");
-
+    PusherService().initialize();
     checkNotificaionsCount();
   }
 

@@ -67,7 +67,7 @@ class CreateOrganization extends StatelessWidget {
                               ),
                             ),
                             Text(
-                              "Добавить организацию",
+                              "add_organization".tr,
                               style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                             ),
                             SizedBox(height: 10),

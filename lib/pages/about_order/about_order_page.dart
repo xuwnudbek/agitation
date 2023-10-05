@@ -120,7 +120,7 @@ class AboutOrderPage extends StatelessWidget {
                                           width: double.infinity,
                                           decoration: BoxDecoration(color: HexToColor.fontBorderColor, borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))),
                                           child: Text(
-                                            "Справка",
+                                            "reference".tr,
                                             style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,

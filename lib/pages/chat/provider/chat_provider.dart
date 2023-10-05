@@ -1,12 +1,13 @@
 import 'dart:convert';
 
 import 'package:agitation/controller/https/https.dart';
+import 'package:agitation/controller/notification/notification_service.dart';
 import 'package:agitation/controller/pusher/pusher_service.dart';
 import 'package:agitation/models/admin.dart';
 import 'package:agitation/models/message.dart';
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
-import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 
 class ChatProvider extends ChangeNotifier {
   TextEditingController msgController = TextEditingController();
@@ -16,18 +17,52 @@ class ChatProvider extends ChangeNotifier {
   var user;
   Admin? admin;
 
+  get getAllMsg => getAllMessages();
+
   Map<String, List<Message>> messages = {};
 
   ChatProvider() {
     Hive.box("db").put("msgCount", 0);
-
     onInit();
     getAllMessages();
-    onMsg();
-  }
 
-  addToDateSets(DateTime date) {
-    notifyListeners();
+    PusherService().pusher.onEvent = (event) {
+      var box = Hive.box("db");
+
+      if (event.channelName == "chat_${user['id']}" && event.eventName == "message") {
+        if (Get.currentRoute == "/ChatPage")
+          getAllMessages();
+        else {
+          NotificationService().showNotification(
+            id: 1,
+            title: "super_admin".tr,
+            body: "${jsonDecode(event.data)['data']['text'] ?? "Unknown Body"}",
+            isMsg: true,
+          );
+          int alertCount = box.get("msgCount") ?? 0;
+          box.put("msgCount", ++alertCount);
+        }
+      } else {
+        if (event.eventName == "workers") {
+          int alertCount = box.get("alertCount") ?? 0;
+          box.put("alertCount", ++alertCount);
+          NotificationService().showNotification(
+            title: "super_admin".tr,
+            body: "${jsonDecode(event.data)['data']['text']}",
+            isMsg: false,
+          );
+          writeNotiToDB(jsonDecode(event.data)['data']);
+        } else if (event.eventName == "alert") {
+          int alertCount = box.get("alertCount") ?? 0;
+          box.put("alertCount", ++alertCount);
+          NotificationService().showNotification(
+            title: "super_admin".tr,
+            body: "${jsonDecode(event.data)['data']['company']['title']} ${"added".tr}",
+            isMsg: false,
+          );
+        }
+      }
+    };
   }
 
   onInit() async {
@@ -50,7 +85,7 @@ class ChatProvider extends ChangeNotifier {
       return;
     }
 
-    var result = await HttpService.POST(HttpService.message, {"text": msg});
+    await HttpService.POST(HttpService.message, {"text": msg});
 
     msgController.clear();
     notifyListeners();
@@ -62,7 +97,7 @@ class ChatProvider extends ChangeNotifier {
   }
 
   deleteMsg(int id) async {
-    var result = await HttpService.POST(
+    await HttpService.POST(
       HttpService.message + "/$id",
       {"_method": "DELETE"},
     );
@@ -76,10 +111,6 @@ class ChatProvider extends ChangeNotifier {
     notifyListeners();
 
     var result = await HttpService.GET(HttpService.message);
-
-    print(1111111111111);
-    print(result['data']);
-    print(1111111111111);
 
     if (result['status'] == HttpConnection.data) {
       messages.clear();
@@ -103,21 +134,5 @@ class ChatProvider extends ChangeNotifier {
     // print(messages.length);
     isLoading = false;
     notifyListeners();
-  }
-
-  onMsg() async {
-    user = jsonDecode(Hive.box("db").get("user"));
-    notifyListeners();
-
-    PusherService.listen("chat_${user['id']}", onEvent: (event) async {
-      event = event as PusherEvent;
-      if (event.eventName == "pusher:subscription_succeeded") return;
-      if (event.eventName != "message") return;
-      /////////////////////////////////////////
-
-      getAllMessages();
-      /////////////////////////////////////////
-      notifyListeners();
-    });
   }
 }

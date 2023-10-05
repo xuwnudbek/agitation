@@ -2,7 +2,9 @@ import 'package:agitation/models/task/task.dart';
 import 'package:agitation/pages/create_order/create_organization.dart';
 import 'package:agitation/pages/create_order/provider/organization_provider.dart';
 import 'package:agitation/pages/finished_order_info/finished_order_info.dart';
+import 'package:agitation/pages/home/provider/home_provider.dart';
 import 'package:agitation/pages/notification/notification_page.dart';
+import 'package:agitation/utils/extensions.dart';
 import 'package:agitation/utils/hex_to_color.dart';
 import 'package:agitation/utils/widget/circlar_progress_indicator.dart';
 import 'package:agitation/utils/widget/main_card_to_title.dart';
@@ -67,7 +69,7 @@ class CreateOrderPage extends StatelessWidget {
                                     Icons.notifications_none_outlined,
                                     color: Colors.white,
                                   ),
-                                ),
+                                ).withBadge(context, showBadge: context.watch<HomeProvider>().alertCount > 0),
                               ),
                             ),
                             Visibility(

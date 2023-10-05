@@ -47,12 +47,18 @@ class SignUpProvider extends ChangeNotifier {
   }
 
   void onPressedRegistration() async {
-    print('registration');
     FocusScope.of(context).unfocus();
     phone.text.toString().replaceAll(RegExp(r'[() ]'), '');
     isLoading = true;
     notifyListeners();
-    if (name.text.isNotEmpty && lastName.text.isNotEmpty && phone.text.isNotEmpty && username.text.isNotEmpty && selectBranch != null && address.text.isNotEmpty && password.text.length > 3 && password.text == password1.text) {
+    if (name.text.isNotEmpty && lastName.text.isNotEmpty && phone.text.isNotEmpty && username.text.isNotEmpty && selectBranch != null && address.text.isNotEmpty && password.text.length > 3) {
+      if (password.text != password1.text) {
+        MainSnackBar.error("passwords_not_match".tr);
+        isLoading = false;
+        notifyListeners();
+        return;
+      }
+
       var data = {
         "name": name.text,
         "surname": lastName.text,
@@ -68,7 +74,8 @@ class SignUpProvider extends ChangeNotifier {
       var result = await HttpService.POST(HttpService.register, data);
       print(result);
       if (result['status'] == HttpConnection.data) {
-        MainSnackBar.successful(result['data']['message']);
+        MainSnackBar.successful("user_created".tr); //edited by xuwnudbek
+
         Box box = await Hive.openBox("db");
         var user = {
           "username": username.text,
@@ -81,7 +88,7 @@ class SignUpProvider extends ChangeNotifier {
         // Get.off(VerificationPage());
         Get.offAll(() => SignInPage());
       } else {
-        MainSnackBar.error(result['data']['message']);
+        MainSnackBar.error(result['data']['message'].toString().capitalizeFirst);
       }
     } else {
       MainSnackBar.error("data_empty".tr);

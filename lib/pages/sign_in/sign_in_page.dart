@@ -1,4 +1,5 @@
 import 'package:agitation/pages/sign_in/provider/sign_in_provider.dart';
+import 'package:agitation/pages/sign_up/sign_up_page.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:agitation/utils/hex_to_color.dart';
@@ -66,6 +67,22 @@ class SignInPage extends StatelessWidget {
                             },
                             color: HexToColor.greenColor,
                             text: "sign_up_button_access".tr),
+                      ),
+                      Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          TextButton(
+                            style: ButtonStyle(
+                              foregroundColor: MaterialStateProperty.all<Color>(HexToColor.mainColor),
+                              overlayColor: MaterialStatePropertyAll<Color>(Colors.transparent),
+                            ),
+                            onPressed: () {
+                              Get.back();
+                              Get.to(() => SignUpPage());
+                            },
+                            child: Text("sign_up_button".tr.toLowerCase().capitalizeFirst ?? ""),
+                          ),
+                        ],
                       ),
                     ],
                   ),

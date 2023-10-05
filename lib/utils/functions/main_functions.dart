@@ -100,7 +100,10 @@ class MainFunctions {
     DateTime now = DateTime.now();
     DateTime taskDate = DateTime.parse(date);
 
-    return now == taskDate ? true : false;
+    // if ((now.difference(taskDate).inDays == 0) && taskDate.hour >= 0 && taskDate.hour <= 23) {
+    //   return true;
+    // }
+    return now.month == taskDate.month && now.day == taskDate.day;
   }
 
   static int checkType(data) {
@@ -111,6 +114,7 @@ class MainFunctions {
 
   String checkLeftTime(String date1, String date2, {bool isFinished = false}) {
     DateTime d1 = DateTime.parse(date1);
+    d1 = d1.add(Duration(hours: 23, minutes: 59, seconds: 59));
     DateTime d2 = DateTime.parse(date2);
 
     Duration diff = d1.difference(d2);

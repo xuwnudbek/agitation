@@ -66,7 +66,7 @@ class FinishedOrderInfo extends StatelessWidget {
                                           width: double.infinity,
                                           decoration: BoxDecoration(color: HexToColor.fontBorderColor, borderRadius: BorderRadius.only(topLeft: Radius.circular(15), topRight: Radius.circular(15))),
                                           child: Text(
-                                            "Справка",
+                                            "reference".tr,
                                             style: TextStyle(
                                               fontSize: 18,
                                               fontWeight: FontWeight.bold,
@@ -82,7 +82,7 @@ class FinishedOrderInfo extends StatelessWidget {
                                             direction: Axis.horizontal,
                                             children: [
                                               Text(
-                                                "Адрес: ",
+                                                "address".tr + ": ",
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w600,
                                                   color: HexToColor.fontBorderColor,
@@ -106,7 +106,7 @@ class FinishedOrderInfo extends StatelessWidget {
                                             direction: Axis.horizontal,
                                             children: [
                                               Text(
-                                                "Дата создания: ",
+                                                "created_at".tr + ": ",
                                                 style: TextStyle(
                                                   fontWeight: FontWeight.w600,
                                                   color: HexToColor.fontBorderColor,
@@ -153,7 +153,7 @@ class FinishedOrderInfo extends StatelessWidget {
                                     child: Row(
                                       children: [
                                         Text(
-                                          "Фото",
+                                          "photo".tr,
                                           style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: HexToColor.fontBorderColor),
                                         ),
                                       ],
@@ -164,7 +164,7 @@ class FinishedOrderInfo extends StatelessWidget {
                                           height: 50,
                                           alignment: Alignment.center,
                                           child: Text(
-                                            "Фото отсутствует",
+                                            "no_photo".tr,
                                             style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
                                           ),
                                         )
@@ -216,7 +216,7 @@ class FinishedOrderInfo extends StatelessWidget {
                                     child: Row(
                                       children: [
                                         Text(
-                                          "Клиент",
+                                          "clients".tr,
                                           style: TextStyle(fontWeight: FontWeight.bold, color: HexToColor.fontBorderColor, fontSize: 18),
                                         ),
                                       ],
@@ -227,7 +227,7 @@ class FinishedOrderInfo extends StatelessWidget {
                                           height: 50,
                                           alignment: Alignment.center,
                                           child: Text(
-                                            "Клиент отсутствует",
+                                            "no_client".tr,
                                             style: TextStyle(fontSize: 13, fontWeight: FontWeight.bold),
                                           ),
                                         )
@@ -250,6 +250,7 @@ class FinishedOrderInfo extends StatelessWidget {
                                                           Padding(
                                                             padding: const EdgeInsets.symmetric(vertical: 10, horizontal: 30),
                                                             child: Column(
+                                                              crossAxisAlignment: CrossAxisAlignment.start,
                                                               children: [
                                                                 Row(
                                                                   children: [
@@ -276,7 +277,7 @@ class FinishedOrderInfo extends StatelessWidget {
                                                                 RichText(
                                                                     textDirection: TextDirection.ltr,
                                                                     text: TextSpan(
-                                                                      text: "Комментарий: ",
+                                                                      text: "comment".tr + ": ",
                                                                       style: TextStyle(fontSize: 13, fontWeight: FontWeight.w500, color: HexToColor.fontBorderColor),
                                                                       children: <TextSpan>[
                                                                         TextSpan(text: " ${e.comment} ", style: TextStyle(fontSize: 13, fontWeight: FontWeight.w400, color: HexToColor.blackColor)),
@@ -302,10 +303,16 @@ class FinishedOrderInfo extends StatelessWidget {
                                                                     width: 6,
                                                                   ),
                                                                   Expanded(
-                                                                      child: Text(
-                                                                    "${provider.listStatus.firstWhere((element) => element.id == e.statusId).title}",
-                                                                    style: TextStyle(fontSize: 8, fontWeight: FontWeight.w600, color: Colors.white),
-                                                                  ))
+                                                                    child: Text(
+                                                                      "${provider.listStatus.firstWhere((element) => element.id == e.statusId).title}",
+                                                                      maxLines: 2,
+                                                                      style: TextStyle(
+                                                                        fontSize: 8,
+                                                                        fontWeight: FontWeight.w600,
+                                                                        color: Colors.white,
+                                                                      ),
+                                                                    ),
+                                                                  ),
                                                                 ],
                                                               ),
                                                             ),
@@ -323,7 +330,7 @@ class FinishedOrderInfo extends StatelessWidget {
                                                       backgroundColor: HexToColor.detailsColor,
                                                       radius: 10,
                                                       child: Text(
-                                                        "${e.id}",
+                                                        "${provider.clients.indexWhere((element) => element.id == e.id) + 1}",
                                                         style: const TextStyle(fontSize: 12, color: Colors.white, fontWeight: FontWeight.w600),
                                                       ),
                                                     ))

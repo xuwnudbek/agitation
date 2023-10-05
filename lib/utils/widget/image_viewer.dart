@@ -8,7 +8,7 @@ class ImageViewer extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 0),
+      padding: EdgeInsets.only(left: 20, top: 10, right: 20, bottom: 20),
       decoration: BoxDecoration(
         borderRadius: BorderRadius.vertical(top: Radius.circular(20)),
       ),
@@ -30,7 +30,7 @@ class ImageViewer extends StatelessWidget {
           ),
           SizedBox(height: 10),
           ClipRRect(
-            borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
+            borderRadius: BorderRadius.vertical(top: Radius.circular(10), bottom: Radius.circular(10)),
             child: path.contains("assets/images")
                 ? Image.asset(
                     path,

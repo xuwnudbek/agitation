@@ -1,8 +1,6 @@
-import 'package:agitation/controller/notification/notification_service.dart';
 import 'package:agitation/models/task/task.dart';
 import 'package:agitation/pages/finished_order_info/finished_order_info.dart';
 import 'package:agitation/pages/home/view/order/provider/order_provider.dart';
-import 'package:agitation/pages/notification/notification_page.dart';
 import 'package:agitation/utils/hex_to_color.dart';
 import 'package:agitation/utils/widget/circlar_progress_indicator.dart';
 import 'package:agitation/utils/widget/main_card_to_title.dart';
@@ -56,45 +54,6 @@ class FinishedOrderPage extends StatelessWidget {
                                   width: 50,
                                   height: 40,
                                 ),
-                                Positioned(
-                                  left: 10,
-                                  child: InkWell(
-                                    onTap: () {
-                                      Get.to(() => NotificationPage());
-                                    },
-                                    child: CircleAvatar(
-                                      backgroundColor: HexToColor.detailsColor,
-                                      child: Icon(
-                                        Icons.notifications_none_outlined,
-                                        color: Colors.white,
-                                      ),
-                                    ),
-                                  ),
-                                ),
-                                Visibility(
-                                  visible: false,
-                                  // context
-                                  //         .watch<CenterProvider>()
-                                  //         .sum !=
-                                  //     0,
-                                  child: Positioned(
-                                      top: 12,
-                                      bottom: 11,
-                                      child: Container(
-                                        width: 17,
-                                        // height: 10,
-                                        decoration: BoxDecoration(color: HexToColor.fontBorderColor, borderRadius: BorderRadius.circular(40), border: Border.all(width: 1.5, color: Colors.white)),
-                                        child: Center(
-                                            child: Text(
-                                          // context
-                                          //     .watch<CenterProvider>()
-                                          //     .sum
-                                          //     .toString(),
-                                          "",
-                                          style: TextStyle(fontSize: 8, fontWeight: FontWeight.bold, color: Colors.white),
-                                        )),
-                                      )),
-                                )
                               ],
                             )
                           ],
@@ -133,6 +92,7 @@ class FinishedOrderPage extends StatelessWidget {
                                           Task task = Task.fromJson(orderProvider.finTasks[index]);
                                           return MainCardToTitle(
                                             task: task,
+                                            isFinished: true,
                                             onPressed: () {
                                               Get.to(() => FinishedOrderInfo(id: task.id));
                                             },

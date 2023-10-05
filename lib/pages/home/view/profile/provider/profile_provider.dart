@@ -83,7 +83,9 @@ class ProfileProvider extends ChangeNotifier {
 
     if (result['status'] == HttpConnection.data) {
       var data = result['data']['data'];
+      print("workman: ${jsonEncode(data['tasks'])}");
       workman = Workman.fromJson(data);
+
       var finishedTasks = data['tasks'].where((element) => element["status"] == 1 || element["status"] == true).toList();
 
       workman?.setAllFinishedTasks = finishedTasks.length;

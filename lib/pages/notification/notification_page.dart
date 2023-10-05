@@ -1,8 +1,10 @@
+import 'package:agitation/pages/home/provider/home_provider.dart';
 import 'package:agitation/pages/notification/provider/notification_provider.dart';
 import 'package:agitation/utils/hex_to_color.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:get/get.dart';
+import 'package:hive_flutter/adapters.dart';
 import 'package:provider/provider.dart';
 
 class NotificationPage extends StatelessWidget {
@@ -28,17 +30,20 @@ class NotificationPage extends StatelessWidget {
                   ],
                 ),
                 actions: [
-                  GestureDetector(
-                    onTap: () async {
-                      await _buildDialog(context).then((value) {
-                        if (value) provider.deleteAllNotification();
-                      });
-                    },
-                    child: Padding(
-                      padding: EdgeInsets.only(right: 8.0),
-                      child: SvgPicture.asset(
-                        "assets/images/delete.svg",
-                        width: 30,
+                  Visibility(
+                    visible: provider.notifications.length > 0,
+                    child: GestureDetector(
+                      onTap: () async {
+                        await _buildDialog(context).then((value) {
+                          if (value) provider.deleteAllNotification();
+                        });
+                      },
+                      child: Padding(
+                        padding: EdgeInsets.only(right: 8.0),
+                        child: SvgPicture.asset(
+                          "assets/images/delete.svg",
+                          width: 30,
+                        ),
                       ),
                     ),
                   ),

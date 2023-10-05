@@ -1,55 +1,75 @@
 import 'dart:convert';
 import 'package:agitation/controller/notification/notification_service.dart';
+import 'package:agitation/pages/chat/provider/chat_provider.dart';
 import 'package:get/get.dart';
 import 'package:hive_flutter/adapters.dart';
+import 'package:provider/provider.dart';
 import 'package:pusher_channels_flutter/pusher_channels_flutter.dart';
 
 import 'package:collection/collection.dart';
 
 class PusherService {
+  final pusher = PusherChannelsFlutter.getInstance();
   int count = 0;
 
-  final pusher = PusherChannelsFlutter.getInstance();
+  var user = jsonDecode(Hive.box("db").get("user") ?? "");
 
-  String channelName;
+  PusherService() {}
 
-  PusherService.init(this.channelName) {
-    if (pusher.connectionState != "CONNECTED") {
-      pusher.init(
-        apiKey: "4fce81fd8f05f8290139",
-        cluster: "ap2",
-        onConnectionStateChange: (currentState, previousState) {
-          print("$channelName __________________________: ${currentState == "CONNECTED" ? "Connected" : "Not Connected"}");
-        },
-        maxReconnectGapInSeconds: 1,
-        maxReconnectionAttempts: 1,
-        onEvent: (event) => onEvent(event),
-        onError: (message, code, error) => print("PusherError: $message"),
-      );
+  var pusher1;
+  var pusher2;
+  var pusher3;
+  var pusher4;
+  var pusher5;
 
-      pusher.subscribe(
-        channelName: channelName,
-        // onEvent: (PusherEvent event) => onEvent(event),
-      );
+  void initialize() async {
+    var group_id = user["group_id"];
+    var user_id = user["id"];
 
-      pusher.connect();
-    }
+    if (user['job_title'] == 1) PusherService.init("notification_l");
+
+    pusher1 = PusherService.init("chat_$user_id");
+    pusher2 = PusherService.init("channel_$group_id");
+    pusher3 = PusherService.init("notification_$group_id");
+    pusher4 = PusherService.init("notification_w");
+    pusher5 = PusherService.init("alert_$group_id");
+  }
+
+  PusherService.init(String channelName) {
+    () async {
+      if (pusher.connectionState != "CONNECTED") {
+        await pusher.init(
+          apiKey: "4fce81fd8f05f8290139",
+          cluster: "ap2",
+          maxReconnectGapInSeconds: 1,
+          maxReconnectionAttempts: 1,
+          onEvent: (event) => onEvent(event),
+          onConnectionStateChange: (currentState, previousState) {
+            if (currentState == "CONNECTED") {
+              print("PusherConnected: $currentState");
+            } else {
+              print("PusherDisconnected: $currentState");
+            }
+          },
+          onError: (message, code, error) => print("PusherError: $message"),
+          onSubscriptionError: (message, error) => print("PusherSubscriptionError: $message"),
+        );
+
+        await pusher.subscribe(
+          channelName: channelName,
+        );
+
+        await pusher.connect();
+      }
+    }.call();
   }
 
   onEvent(PusherEvent event) {
-    var box = Hive.box("db");
-    print("PusherCount {${event.channelName}->${event.eventName}}: ${++count}");
-
     if (event.eventName == "pusher:subscription_succeeded") return;
     var notiService = NotificationService();
 
-    print(event.data);
-    print(event.eventName);
-    print(event.channelName);
-
     // var eventData = event.data;
-    var now = DateTime.now();
-    print(now);
+    var box = Hive.box("db");
     switch (event.eventName) {
       case "workers":
         int alertCount = box.get("alertCount") ?? 0;
@@ -65,8 +85,6 @@ class PusherService {
       case "alert":
         int alertCount = box.get("alertCount") ?? 0;
         box.put("alertCount", ++alertCount);
-        box.put("onChanged", DateTime.now());
-
         notiService.showNotification(
           title: "super_admin".tr,
           body: "${jsonDecode(event.data)['data']['company']['title']} ${"added".tr}",
@@ -75,10 +93,8 @@ class PusherService {
         break;
 
       case "message":
-        int msgCount = box.get("msgCount") ?? 0;
-        box.put("msgCount", ++msgCount);
-        box.put("onChanged", DateTime.now());
-
+        int alertCount = box.get("msgCount") ?? 0;
+        box.put("msgCount", ++alertCount);
         Get.currentRoute == "/ChatPage"
             ? null
             : notiService.showNotification(
@@ -87,29 +103,13 @@ class PusherService {
                 body: "${jsonDecode(event.data)['data']['text'] ?? "Unknown Body"}",
                 isMsg: true,
               );
+
         break;
 
       default:
         print("__________________________________${event.channelName}");
         break;
     }
-  }
-
-  PusherService.listen(this.channelName, {required Function(dynamic event) onEvent}) {
-    pusher.init(
-      apiKey: "4fce81fd8f05f8290139",
-      cluster: "ap2",
-      onConnectionStateChange: (currentState, previousState) {
-        print("$channelName _________________________: $currentState");
-      },
-      onEvent: (event) => onEvent(event),
-    );
-
-    pusher.subscribe(
-      channelName: channelName,
-      onEvent: (event) => onEvent(event),
-    );
-    pusher.connect();
   }
 }
 
