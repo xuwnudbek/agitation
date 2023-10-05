@@ -65,8 +65,8 @@ class SignInProvider extends ChangeNotifier {
 
       if (result['status'] == HttpConnection.data) {
         var userData = result['data']['data']['user'];
-        print(userData);
-        print(userData.runtimeType);
+        (userData);
+        (userData.runtimeType);
 
         var user = User(
           id: userData['id'],
@@ -104,7 +104,7 @@ class SignInProvider extends ChangeNotifier {
         localizedReason: 'Autentifikatsiya qilish uchun barmoq izini skanerlang',
       );
     } on PlatformException catch (e) {
-      print(e);
+      (e);
       return;
     }
     if (authenticated) {
@@ -122,7 +122,7 @@ class SignInProvider extends ChangeNotifier {
       isLoading = true;
       notifyListeners();
       var result = await HttpService.POST(HttpService.login, data);
-      print(1111111111);
+      (1111111111);
       if (result['status'] == HttpConnection.data) {
         Box box = await Hive.openBox("db");
         var user1 = {
@@ -132,13 +132,13 @@ class SignInProvider extends ChangeNotifier {
         };
         await box.put('user', jsonEncode(user1));
 
-        print("<--------------------------------------------------------------------->");
-        print(box.get('user'));
-        print("<--------------------------------------------------------------------->");
+        ("<--------------------------------------------------------------------->");
+        (box.get('user'));
+        ("<--------------------------------------------------------------------->");
 
         MainSnackBar.successful(result['data']["message"]);
         await Future.delayed(const Duration(milliseconds: 100));
-        print("RESULT with offAll:: ${result}");
+        ("RESULT with offAll:: ${result}");
         Get.offAll(() => Home());
       } else {
         MainSnackBar.error(result['data']['errors']);

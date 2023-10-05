@@ -33,7 +33,7 @@ class LockProvider extends ChangeNotifier {
       reset = true;
       notifyListeners();
     }
-    print(indicator);
+    (indicator);
     indicator != LockIndicator.EDIT ? checkFingerprint() : null;
   }
 
@@ -42,7 +42,7 @@ class LockProvider extends ChangeNotifier {
     String? dataPhone = await box.get("phone");
     if (dataPhone != null) {
       var phone = jsonDecode(dataPhone);
-      print(phone['fingerprint']);
+      (phone['fingerprint']);
       if (phone['fingerprint'] ?? false) {
         var res = await authenticate();
         if (res ?? true) Get.offAll(() => Home());
@@ -115,11 +115,11 @@ class LockProvider extends ChangeNotifier {
           await Future.delayed(const Duration(milliseconds: 200));
           if (code == oldPassword) {
             if (indicator == LockIndicator.ON) {
-              print(indicator);
+              (indicator);
               await Get.offAll(() => Home());
               // Get.back(result: true);
             }
-            print(11111111111);
+            (11111111111);
             lockPassword = ['', '', '', ''];
             titleText = "new_pin".tr;
             reset = false;

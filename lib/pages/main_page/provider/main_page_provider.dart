@@ -20,7 +20,7 @@ class MainProvider extends ChangeNotifier {
       Permission.notification,
       // Permission.requestInstallPackages,
     ].request();
-    print(statuses[Permission.location]);
+    (statuses[Permission.location]);
     /*  
     // AwesomeNotifications().isNotificationAllowed().then((isAllowed) {
     //   if (!isAllowed) {
@@ -42,7 +42,7 @@ class MainProvider extends ChangeNotifier {
           Get.offAll(UpdatePage(version: version));
       }*/
     } catch (e) {
-      print("eeeeeeeee ${e}");
+      ("eeeeeeeee ${e}");
     }
     // if (!updatePageActive) {
     Box box = await Hive.openBox('db');
@@ -54,7 +54,7 @@ class MainProvider extends ChangeNotifier {
     if (jsonLanguage != null) {
       Get.updateLocale(Locale(jsonLanguage));
     }
-    // print(jsonPhone);
+    // (jsonPhone);
 
     Get.offAll(() => AccessPage());
     // if (jsonPhone != null) {
@@ -62,12 +62,12 @@ class MainProvider extends ChangeNotifier {
     //   if (phone['pin'] ?? false) {
     //     // Get.offAll(const SecurityPage());
     //   } else {
-    //     print(1111111111);
+    //     (1111111111);
     //     Get.offAll(const AccessPage());
     //     Get.to(AccessPage());
     //   }
     // } else {
-    //   print(2222222222);
+    //   (2222222222);
     //   Get.to(AccessPage());
     //   Get.offAll(() => AccessPage());
     // }

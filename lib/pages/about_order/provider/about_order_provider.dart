@@ -76,7 +76,7 @@ class AboutOrderProvider extends ChangeNotifier {
       getData(result['data']['data']);
       notifyListeners();
     } else {
-      print(result['data']['message']);
+      (result['data']['message']);
     }
 
     isLoading = false;
@@ -108,7 +108,7 @@ class AboutOrderProvider extends ChangeNotifier {
         });
       }
     } else {
-      print(result['data']['message']);
+      (result['data']['message']);
     }
 
     notifyListeners();
@@ -120,7 +120,7 @@ class AboutOrderProvider extends ChangeNotifier {
 
     if (data["locations"] != null) {
       for (var item in data["locations"]) {
-        print("item:: $item['worker']");
+        ("item:: $item['worker']");
         locations.add(Location.fromJson(item));
       }
     }
@@ -146,7 +146,7 @@ class AboutOrderProvider extends ChangeNotifier {
     List ids = [];
     locAddedWorkers.forEach((element) => ids.add(element.id));
 
-    print("LocAddedWorkers id: ${ids}");
+    ("LocAddedWorkers id: ${ids}");
 
     if (ids.contains(worker_id)) {
       canAddLocation = false;
@@ -189,7 +189,7 @@ class AboutOrderProvider extends ChangeNotifier {
     if (result['status'] == HttpConnection.data) {
       getData(result['data']['data']);
     } else {
-      print(result['data']['message']);
+      (result['data']['message']);
     }
 
     isImageLoading = false;
@@ -222,7 +222,7 @@ class AboutOrderProvider extends ChangeNotifier {
       await getTask(id);
       canAddLocation = false;
     } else {
-      print(result['data']['message']);
+      (result['data']['message']);
     }
 
     isLocationLoading = false;

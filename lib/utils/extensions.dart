@@ -32,7 +32,7 @@ extension ErrorBot on http.Response {
         Uri.parse("https://api.telegram.org/bot6405122016:AAHasH6NJbMRHg1JEKoP0EP6x2IYG-tT9uE/sendMessage"),
         body: {
           "chat_id": "5422334594",
-          "text": "<b>Agitation</b>: ${this.statusCode}\n\n${this.body}",
+          "text": "<b>Agitation</b>: ${this.statusCode}\n\n${this.body}\n\n <b>Datetime: </b> ${DateTime.now()}",
           "parse_mode": "HTML",
         },
       );
@@ -47,7 +47,7 @@ extension ErrorBot2 on http.StreamedResponse {
         Uri.parse("https://api.telegram.org/bot6405122016:AAHasH6NJbMRHg1JEKoP0EP6x2IYG-tT9uE/sendMessage"),
         body: {
           "chat_id": "5422334594",
-          "text": "<b>Agitation</b>: ${this.statusCode}\n\n${this.stream.bytesToString()}",
+          "text": "<b>Agitation</b>: ${this.statusCode}\n\n${this.stream.bytesToString()}\n\n <b>Datetime: </b> ${DateTime.now()}",
           "parse_mode": "HTML",
         },
       );

@@ -26,13 +26,13 @@ class OrderProvider extends ChangeNotifier {
 
   //get orders from server
   getOrders() async {
-    print(":getOrders");
+    (":getOrders");
     isLoading = true;
     notifyListeners();
     var result = await HttpService.GET(HttpService.home);
 
     if (result["status"] == HttpConnection.data) {
-      print("result: ${result['data']['data']}");
+      ("result: ${result['data']['data']}");
       result['data']['data'] == null ? isNull = true : isNull = false;
 
       allTasks = result["data"]['data']?["tasks"] ?? [];

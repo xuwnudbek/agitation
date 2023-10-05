@@ -88,9 +88,9 @@ class OrganizationProvider extends ChangeNotifier {
       // Get.back();
     } else {
       MainSnackBar.error(result['data']['message'] ?? "internet_error".tr);
-      print(result['data']);
+      (result['data']);
     }
-    print("resultresultresultresult");
+    ("resultresultresultresult");
 
     isLoading = false;
 
@@ -108,13 +108,13 @@ class OrganizationProvider extends ChangeNotifier {
     if (result['status'] == HttpConnection.data) {
       var data = result['data']['data'];
       for (var task in data) {
-        print(task);
+        (task);
         Task taskObject = Task.fromJson(task);
         tasks.add(taskObject);
       }
     } else {
       MainSnackBar.error(result['data']['message'] ?? "internet_error".tr);
-      print(result['data']);
+      (result['data']);
     }
 
     isLoading = false;

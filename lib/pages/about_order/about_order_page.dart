@@ -425,7 +425,7 @@ class AboutOrderPage extends StatelessWidget {
                                                 if (status != null) {
                                                   provider.onInit();
                                                 } else {
-                                                  print(12312312);
+                                                  (12312312);
                                                 }
                                               },
                                               color: HexToColor.fontBorderColor,

@@ -42,7 +42,7 @@ class AddClientProvider extends ChangeNotifier {
         status = listStatus[0];
       }
     } else {
-      print(result['data']['message']);
+      (result['data']['message']);
     }
 
     notifyListeners();
@@ -75,7 +75,7 @@ class AddClientProvider extends ChangeNotifier {
     if (result['status'] == HttpConnection.data) {
       MainSnackBar.successful("client_added".tr);
     } else {
-      print(result['data']['message']);
+      (result['data']['message']);
     }
 
     isClientLoading = false;

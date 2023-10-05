@@ -72,7 +72,7 @@ class SignUpProvider extends ChangeNotifier {
       };
 
       var result = await HttpService.POST(HttpService.register, data);
-      print(result);
+      (result);
       if (result['status'] == HttpConnection.data) {
         MainSnackBar.successful("user_created".tr); //edited by xuwnudbek
 

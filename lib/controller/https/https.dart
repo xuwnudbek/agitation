@@ -78,12 +78,12 @@ class HttpService {
         var data = {'status': HttpConnection.data, 'data': jsonDecode(response.body)};
         return data;
       } else {
-        print("ERROR:: ${response.body}");
+        ("ERROR:: ${response.body}");
         var data = {'status': HttpConnection.error, 'data': jsonDecode(response.body)};
         return data;
       }
     } on HttpException catch (e) {
-      print("ERROR:: {$e}");
+      ("ERROR:: {$e}");
       var data = {
         'status': HttpConnection.none,
         'data': {'message': "internet_error".tr}
@@ -113,7 +113,7 @@ class HttpService {
         return data;
       }
     } catch (e) {
-      print(e);
+      (e);
       var data = {
         'status': HttpConnection.none,
         'data': {'message': "internet_error".tr}
@@ -175,11 +175,11 @@ class HttpService {
 
     if (response.statusCode < 299) {
       var data = {'status': HttpConnection.data, 'data': jsonDecode(await response.stream.bytesToString())};
-      print("status: ${response.statusCode} => ${data}");
+      ("status: ${response.statusCode} => ${data}");
       return data;
     } else {
       var data = {'status': HttpConnection.error, 'data': jsonDecode(await response.stream.bytesToString())};
-      print("status: ${response.statusCode} => ${data}");
+      ("status: ${response.statusCode} => ${data}");
 
       return data;
     }
@@ -206,7 +206,7 @@ class HttpService {
 
       if (response.statusCode < 299) {
         var data = {'status': HttpConnection.data, 'data': jsonDecode(await response.stream.bytesToString())};
-        print(data["data"]["data"]);
+        (data["data"]["data"]);
         return data;
       } else {
         var data = {'status': HttpConnection.error, 'data': jsonDecode(await response.stream.bytesToString())};

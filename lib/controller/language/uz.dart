@@ -140,8 +140,8 @@ const Map<String, String> uz = {
   "today_finished": "Bugun \n bajarilgan",
   "month_finished": "Hozirgacha\n bajarilgan",
 
-  "job": "Mansabi",
-  "notification": "Notifications",
+  "job": "Lavozim",
+  "notification": "Bildirishnoma",
   "finger": "Barmoq izi bilan kirish",
   "use_finger": "Tizimga kirish uchun barmoq izidan foydalaning",
 

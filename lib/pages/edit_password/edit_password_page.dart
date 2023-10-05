@@ -18,7 +18,7 @@ class EditPasswordPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    print(workman.name);
+    (workman.name);
 
     return MultiProvider(
       providers: [

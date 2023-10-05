@@ -12,7 +12,7 @@ class MainFunctions {
 
     var size = image!.elementSizeInBytes / 1024 / 1024;
 
-    print(size);
+    (size);
 
     return base64.encode(image);
   }

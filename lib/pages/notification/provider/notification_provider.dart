@@ -36,7 +36,6 @@ class NotificationProvider extends ChangeNotifier {
     notifyListeners();
 
     var notificationDB = Hive.box("db").get("notifications");
-    print("Notifications all: $notificationDB");
     if (notificationDB != null) {
       notifications = checkSetOrNot(jsonDecode(notificationDB));
       Hive.box("db").put("notification", jsonEncode(notifications));

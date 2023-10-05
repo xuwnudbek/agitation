@@ -36,8 +36,9 @@ class HomeProvider extends ChangeNotifier {
   }
 
   Future<bool> onWillPop(time) async {
+    print(" I am working as well");
     if (DateTime.now().difference(time) >= Duration(seconds: 2)) {
-      await EasyLoading.showToast("tap_again_to_quit".tr, toastPosition: EasyLoadingToastPosition.bottom);
+      EasyLoading.showToast("tap_again_to_quit".tr, toastPosition: EasyLoadingToastPosition.bottom);
       return false;
     } else {
       return true;

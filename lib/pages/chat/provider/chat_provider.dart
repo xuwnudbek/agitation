@@ -106,7 +106,7 @@ class ChatProvider extends ChangeNotifier {
   }
 
   getAllMessages() async {
-    print("get msgs");
+    ("get msgs");
     isLoading = true;
     notifyListeners();
 
@@ -131,7 +131,7 @@ class ChatProvider extends ChangeNotifier {
       }
     }
 
-    // print(messages.length);
+    // (messages.length);
     isLoading = false;
     notifyListeners();
   }

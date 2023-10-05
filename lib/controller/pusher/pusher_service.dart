@@ -46,13 +46,13 @@ class PusherService {
           onEvent: (event) => onEvent(event),
           onConnectionStateChange: (currentState, previousState) {
             if (currentState == "CONNECTED") {
-              print("PusherConnected: $currentState");
+              ("PusherConnected: $currentState");
             } else {
-              print("PusherDisconnected: $currentState");
+              ("PusherDisconnected: $currentState");
             }
           },
-          onError: (message, code, error) => print("PusherError: $message"),
-          onSubscriptionError: (message, error) => print("PusherSubscriptionError: $message"),
+          onError: (message, code, error) => ("PusherError: $message"),
+          onSubscriptionError: (message, error) => ("PusherSubscriptionError: $message"),
         );
 
         await pusher.subscribe(
@@ -107,7 +107,7 @@ class PusherService {
         break;
 
       default:
-        print("__________________________________${event.channelName}");
+        ("__________________________________${event.channelName}");
         break;
     }
   }
