@@ -39,7 +39,7 @@ class PusherService {
     () async {
       if (pusher.connectionState != "CONNECTED") {
         await pusher.init(
-          apiKey: "4fce81fd8f05f8290139",
+          apiKey: "56e87de87cc7b692f74a", //old: 4fce81fd8f05f8290139
           cluster: "ap2",
           maxReconnectGapInSeconds: 1,
           maxReconnectionAttempts: 1,

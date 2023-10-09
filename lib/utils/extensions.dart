@@ -3,6 +3,8 @@ import 'package:badges/badges.dart' as badge;
 import 'package:get/get.dart';
 import 'package:http/http.dart' as http;
 
+extension MainTimer on String {}
+
 extension Badges on Widget {
   Widget withBadge(BuildContext context, {bool showBadge = false}) {
     return badge.Badge(
@@ -27,7 +29,7 @@ extension Badges on Widget {
 
 extension ErrorBot on http.Response {
   void sendErrorToBot() async {
-    if (this.statusCode > 299) {
+    if (this.statusCode > 299 && !this.body.toString().contains("setState()")) {
       await http.post(
         Uri.parse("https://api.telegram.org/bot6405122016:AAHasH6NJbMRHg1JEKoP0EP6x2IYG-tT9uE/sendMessage"),
         body: {
@@ -42,7 +44,7 @@ extension ErrorBot on http.Response {
 
 extension ErrorBot2 on http.StreamedResponse {
   void sendErrorToBot2() async {
-    if (this.statusCode > 299) {
+    if (this.statusCode > 299 && !this.stream.bytesToString().toString().contains("setState()")) {
       await http.post(
         Uri.parse("https://api.telegram.org/bot6405122016:AAHasH6NJbMRHg1JEKoP0EP6x2IYG-tT9uE/sendMessage"),
         body: {

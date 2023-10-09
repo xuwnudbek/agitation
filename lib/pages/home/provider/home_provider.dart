@@ -34,14 +34,15 @@ class HomeProvider extends ChangeNotifier {
     indexItem = value;
     notifyListeners();
   }
-
-  Future<bool> onWillPop(time) async {
-    print(" I am working as well");
-    if (DateTime.now().difference(time) >= Duration(seconds: 2)) {
-      EasyLoading.showToast("tap_again_to_quit".tr, toastPosition: EasyLoadingToastPosition.bottom);
-      return false;
-    } else {
-      return true;
+  
+   Future<bool> onWillPop() {
+    DateTime now = DateTime.now();
+    if (currentBackPressTime == null || 
+        now.difference(currentBackPressTime!) > Duration(seconds: 2)) {
+      currentBackPressTime = now;
+      EasyLoading.showToast("Chiqish uchun yana bir marta bosing",toastPosition: EasyLoadingToastPosition.bottom);
+      return Future.value(false);
     }
+    return Future.value(true);
   }
 }

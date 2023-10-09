@@ -122,22 +122,19 @@ class FinishedOrderInfo extends StatelessWidget {
                                             ],
                                           ),
                                         ),
+                                        // SizedBox(height: 15),
                                         Padding(
-                                          padding: const EdgeInsets.only(left: 12, top: 12, bottom: 16, right: 12),
+                                          padding: const EdgeInsets.only(left: 12, top: 12, bottom: 10, right: 12),
                                           child: Row(
                                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                                             children: [
                                               Row(
                                                 children: [
-                                                  Icon(
-                                                    Icons.timer_outlined,
-                                                    size: 20,
-                                                  ),
                                                   Text(
-                                                    "  ${provider.task!.time ?? "00:00:00"}",
+                                                    "left_time".tr,
                                                     style: TextStyle(
                                                       fontWeight: FontWeight.w600,
-                                                      // color: HexToColor.greenColor,
+                                                      color: HexToColor.fontBorderColor,
                                                     ),
                                                   )
                                                 ],

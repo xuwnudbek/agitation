@@ -87,7 +87,7 @@ class MyApp extends StatelessWidget {
           return WillPopScope(
             onWillPop: () async {
               await MoveToBackground.moveTaskToBack();
-              return await context.watch<HomeProvider>().onWillPop(lastTimeBackbuttonWasClicked);
+              return await context.watch<HomeProvider>().onWillPop();
             },
             child: Consumer<ConnectionProvider>(
               builder: (context, provider, _) {
